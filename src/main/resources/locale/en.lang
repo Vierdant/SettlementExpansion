@@ -1,0 +1,9 @@
+[object]
+dryingrack=Drying Rack
+
+[itemtooltip]
+dryingracktip=Leather is dried on it, which turns into dried leather that's darker in color.
+
+[settlement]
+personalizedfurniture=Personalized Room
+personalizedfurnituremissing=No
