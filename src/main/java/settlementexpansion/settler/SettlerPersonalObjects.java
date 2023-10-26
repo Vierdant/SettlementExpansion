@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public enum SettlerDesiredObjects {
+public enum SettlerPersonalObjects {
     HUNTER(Arrays.asList("dryingrack", "chair"),
             new GameMessageBuilder().append("remarks", "hunterpersonalizedfurnituremissing").translate()),
     GENERIC(Collections.emptyList(), "")
@@ -15,12 +15,12 @@ public enum SettlerDesiredObjects {
     final List<String> furniture;
     final String remark;
 
-    SettlerDesiredObjects(List<String> furniture, String negative) {
+    SettlerPersonalObjects(List<String> furniture, String negative) {
         this.furniture = furniture;
         this.remark = negative;
     }
 
-    public List<String> getDesiredFurniture() {
+    public List<String> getFurniture() {
         return furniture;
     }
 
@@ -28,7 +28,7 @@ public enum SettlerDesiredObjects {
         return remark;
     }
 
-    public static SettlerDesiredObjects getSettler(String id) {
+    public static SettlerPersonalObjects getSettler(String id) {
         switch (id) {
             case "hunter": return HUNTER;
             default: return GENERIC;

@@ -6,7 +6,7 @@ import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
-import settlementexpansion.settler.SettlerDesiredObjects;
+import settlementexpansion.settler.SettlerPersonalObjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ public class HappinessModifierPatch {
             if (humanMob.levelSettler.getBed() != null) {
                 SettlementRoom room = humanMob.levelSettler.getBed().getRoom();
                 if (room != null) {
-                    SettlerDesiredObjects settler = SettlerDesiredObjects.getSettler(humanMob.settlerStringID);
-                    List<String> desiredFurniture = settler.getDesiredFurniture();
+                    SettlerPersonalObjects settler = SettlerPersonalObjects.getSettler(humanMob.settlerStringID);
+                    List<String> personalFurniture = settler.getFurniture();
                     GameMessageBuilder remarkBuilder = new GameMessageBuilder().append(" ");
                     StringJoiner remarkJoiner = new StringJoiner(", ");
 
                     int specialFurnitureScore = 0;
-                    for (String entry : desiredFurniture) {
+                    for (String entry : personalFurniture) {
                         if (room.getFurnitureTypes(entry) > 0) {
                             specialFurnitureScore++;
                             continue;
@@ -41,7 +41,7 @@ public class HappinessModifierPatch {
                         remarkBuilder.clear();
                     }
                     // in percentage how much of the desired furniture found from total, applied to 10
-                    int specialNeedsHappiness = !desiredFurniture.isEmpty() ? (specialFurnitureScore * 100 / desiredFurniture.size()) * 10 / 100 : 0;
+                    int specialNeedsHappiness = !personalFurniture.isEmpty() ? (specialFurnitureScore * 100 / personalFurniture.size()) * 10 / 100 : 0;
 
                     if (specialNeedsHappiness <= 0) {
                         modifiers.add(new HappinessModifier(-10,
