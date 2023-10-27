@@ -6,7 +6,9 @@ import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.map.settlement.SettlementRoomData;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -58,16 +60,28 @@ public class HappinessModifierPatch {
                             modifiers.add(new HappinessModifier(specialNeedsHappiness, remarkBuilder));
                         }
                     }
+
+                    HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
+                    SettlementRoomData roomData = SettlementRoomData.storage.get(new Point(room.tileX, room.tileY));
+                    if (humanMobData != null && roomData != null) {
+                        if (roomData.getFurnitureMajority() != null) {
+                            if (humanMobData.preferredFurnitureSet.getSet() == roomData.getFurnitureMajority().getSet()) {
+                                modifiers.add(new HappinessModifier(+10, new GameMessageBuilder().append("Furniture Set of Choice")));
+                            } else {
+                                String choice = humanMobData.preferredFurnitureSet.getString();
+                                modifiers.add(new HappinessModifier(0, new GameMessageBuilder().append(
+                                        "I like more " + choice.substring(0,1).toUpperCase() + choice.substring(1) + " Furniture in my room")));
+                            }
+                        } else {
+                            String choice = humanMobData.preferredFurnitureSet.getString();
+                            modifiers.add(new HappinessModifier(0, new GameMessageBuilder().append(
+                                    "I like more " + choice.substring(0,1).toUpperCase() + choice.substring(1) + " Furniture in my room")));
+                        }
+                    }
                 }
             }
         }
         instanceModifiers = modifiers;
-
-        HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
-        System.out.println("Settler ID: " + humanMob.settlerStringID);
-        if (humanMobData != null) {
-            System.out.println("| Preferred: " + humanMobData.preferredFurnitureSet.toString());
-        }
 
     }
 
