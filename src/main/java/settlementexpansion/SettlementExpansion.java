@@ -6,6 +6,7 @@ import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import necesse.level.gameObject.furniture.ChairObject;
 import settlementexpansion.object.DryingRackObject;
 
 @ModEntry

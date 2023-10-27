@@ -1,4 +1,4 @@
-package settlementexpansion.patch;
+package settlementexpansion.mob;
 
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
@@ -6,7 +6,7 @@ import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
-import settlementexpansion.settler.SettlerPersonalObjects;
+import settlementexpansion.util.SharedData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,8 @@ public class HappinessModifierPatch {
 
     @Advice.OnMethodEnter()
     static void onEnter(@Advice.This HumanMob humanMob, @Advice.Local("modifiers") ArrayList<HappinessModifier> modifiers) {
-        System.out.println("Entered HumanMob.getHappinessModifiers(): " + humanMob.settlerStringID);
         modifiers = new ArrayList<>();
+
         if (humanMob.levelSettler != null) {
             if (humanMob.levelSettler.getBed() != null) {
                 SettlementRoom room = humanMob.levelSettler.getBed().getRoom();
@@ -61,6 +61,13 @@ public class HappinessModifierPatch {
             }
         }
         instanceModifiers = modifiers;
+
+        ModHumanMobData modHumanMobData = SharedData.humanMobDataStorage.get(humanMob.idData);
+        System.out.println("Settler ID: " + humanMob.settlerStringID);
+        if (modHumanMobData != null) {
+            System.out.println("| Preferred: " + modHumanMobData.preferredFurnitureSet.toString());
+        }
+
     }
 
     @Advice.OnMethodExit
