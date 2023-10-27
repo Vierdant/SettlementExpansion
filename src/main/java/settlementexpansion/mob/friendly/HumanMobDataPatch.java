@@ -1,11 +1,10 @@
-package settlementexpansion.mob;
+package settlementexpansion.mob.friendly;
 
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import net.bytebuddy.asm.Advice;
-import settlementexpansion.util.InstanceData;
 
 public class HumanMobDataPatch {
 
@@ -13,7 +12,7 @@ public class HumanMobDataPatch {
     public static class HumanMobConstructPatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.This HumanMob humanMob) {
-            InstanceData.humanMobDataStorage.put(humanMob.idData,
+            HumanMobData.storage.put(humanMob.idData,
                     new HumanMobData(humanMob));
         }
     }
@@ -22,7 +21,7 @@ public class HumanMobDataPatch {
     public static class HumanMobSavePatch {
         @Advice.OnMethodEnter
         static void onEnter(@Advice.This HumanMob humanMob, @Advice.Argument(0) SaveData save) {
-            HumanMobData humanMobData = InstanceData.humanMobDataStorage.get(humanMob.idData);
+            HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
             if (humanMobData != null) {
                 save.addSaveData(humanMobData.getSaveData());
             }

@@ -1,4 +1,4 @@
-package settlementexpansion.object;
+package settlementexpansion.object.furniture;
 
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ContainerRegistry;

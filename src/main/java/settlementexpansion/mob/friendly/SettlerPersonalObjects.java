@@ -1,4 +1,4 @@
-package settlementexpansion.mob;
+package settlementexpansion.mob.friendly;
 
 import necesse.engine.localization.message.GameMessageBuilder;
 

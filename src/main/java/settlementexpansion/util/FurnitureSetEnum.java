@@ -1,25 +1,26 @@
 package settlementexpansion.util;
 
 import necesse.level.maps.presets.set.FurnitureSet;
-import settlementexpansion.mob.SettlerPersonalObjects;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public enum FurnitureSetEnum {
-     OAK(FurnitureSet.oak),
-    SPRUCE(FurnitureSet.spruce),
-    PINE(FurnitureSet.pine),
-    PALM(FurnitureSet.palm),
-    DUNGEON(FurnitureSet.dungeon),
-    DEADWOOD(FurnitureSet.deadwood);
+     OAK("oak", FurnitureSet.oak),
+    SPRUCE("spruce", FurnitureSet.spruce),
+    PINE("pine", FurnitureSet.pine),
+    PALM("palm", FurnitureSet.palm),
+    DUNGEON("dungeon", FurnitureSet.dungeon),
+    DEADWOOD("deadwood", FurnitureSet.deadwood);
 
+     public final String string;
     public final FurnitureSet set;
 
 
-    FurnitureSetEnum(FurnitureSet set) {
+    FurnitureSetEnum(String string, FurnitureSet set) {
+        this.string = string;
         this.set = set;
+    }
+
+    public String getString() {
+        return string;
     }
 
     public FurnitureSet getSet() {
@@ -31,16 +32,16 @@ public enum FurnitureSetEnum {
         double[] weights = FurnitureSetChances.getSettler(id).getWeights();
 
         double totalWeight = 0.0;
-        for (double i : weights) {
-            totalWeight += i;
+        for (double entry : weights) {
+            totalWeight += entry;
         }
 
-        int idx = 0;
-        for (double r = Math.random() * totalWeight; idx < weights.length - 1; ++idx) {
-            r -= weights[idx];
-            if (r <= 0.0) break;
+        int bingo = 0;
+        for (double result = Math.random() * totalWeight; bingo < weights.length - 1; ++bingo) {
+            result -= weights[bingo];
+            if (result <= 0.0) break;
         }
-        return sets[idx];
+        return sets[bingo];
     }
 
 
