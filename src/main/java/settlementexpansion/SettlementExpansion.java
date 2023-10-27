@@ -16,6 +16,7 @@ public class SettlementExpansion {
         System.out.println("Settlement Expansion was enabled!");
 
         ObjectRegistry.registerObject("dryingrack", new DryingRackObject(), 50.0F, true);
+
     }
 
     public void initResources() {}

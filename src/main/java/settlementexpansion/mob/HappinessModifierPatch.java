@@ -6,7 +6,7 @@ import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
-import settlementexpansion.util.SharedData;
+import settlementexpansion.util.InstanceData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +62,10 @@ public class HappinessModifierPatch {
         }
         instanceModifiers = modifiers;
 
-        ModHumanMobData modHumanMobData = SharedData.humanMobDataStorage.get(humanMob.idData);
+        HumanMobData humanMobData = InstanceData.humanMobDataStorage.get(humanMob.idData);
         System.out.println("Settler ID: " + humanMob.settlerStringID);
-        if (modHumanMobData != null) {
-            System.out.println("| Preferred: " + modHumanMobData.preferredFurnitureSet.toString());
+        if (humanMobData != null) {
+            System.out.println("| Preferred: " + humanMobData.preferredFurnitureSet.toString());
         }
 
     }
