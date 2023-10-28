@@ -4,7 +4,7 @@ import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.RoomFurniture;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.regionSystem.SemiRegion;
-import settlementexpansion.util.FurnitureSetEnum;
+import settlementexpansion.util.FurnitureType;
 
 import java.awt.*;
 import java.util.*;
@@ -16,8 +16,9 @@ public class SettlementRoomData {
 
     public final int tileX;
     public final int tileY;
-    public final SettlementRoom room;
-    public FurnitureSetEnum furnitureMajority;
+    private final SettlementRoom room;
+    private FurnitureType furnitureMajority;
+    private HashMap<String, Integer> objectTypes = new HashMap<>();
 
     public SettlementRoomData(SettlementRoom room, Point point) {
         this.tileX = point.x;
@@ -30,18 +31,23 @@ public class SettlementRoomData {
     }
 
     public void calculateStats() {
+
         try {
+            this.objectTypes.clear();
+
             HashSet<SemiRegion> semiRegions = (HashSet<SemiRegion>) room.getSemiRegions();
 
             for (SemiRegion roomSr : semiRegions) {
                 HashMap<String, Integer> majorityMap = new HashMap<>();
+
                 for (Point point : roomSr.getLevelTiles()) {
                     GameObject object = room.getLevel().getObject(point.x, point.y);
+                    String id = object.getStringID();
+                    this.addObjectType(id, 1);
 
                     // determine furniture majority type
                     if (object instanceof RoomFurniture) {
-                        String id = object.getStringID();
-                        for (FurnitureSetEnum set : FurnitureSetEnum.values()) {
+                        for (FurnitureType set : FurnitureType.values()) {
                             if (id.contains(set.getString())) {
                                 int addition = 0;
                                 if (majorityMap.containsKey(set.getString())) {
@@ -70,22 +76,34 @@ public class SettlementRoomData {
 
     }
 
-    private FurnitureSetEnum getFurnitureSet(String id) {
-        for (FurnitureSetEnum set : FurnitureSetEnum.values()) {
+    private FurnitureType getFurnitureSet(String id) {
+        for (FurnitureType set : FurnitureType.values()) {
             if (set.getString().equalsIgnoreCase(id)) {
                 return set;
             }
         }
 
-        return FurnitureSetEnum.OAK;
+        return FurnitureType.OAK;
     }
 
-    public FurnitureSetEnum getFurnitureMajority() {
+    public FurnitureType getFurnitureMajority() {
         if (!this.calculatedStats) {
             this.calculateStats();
         }
 
         return this.furnitureMajority;
+    }
+
+    public void addObjectType(String type, int amount) {
+        this.objectTypes.compute(type, (key, i) -> i == null ? amount : i + amount);
+    }
+
+    public int getObjectType(String type) {
+        if (!this.calculatedStats) {
+            this.calculateStats();
+        }
+
+        return this.objectTypes.getOrDefault(type, 0);
     }
 
     public void recalculateStats() {

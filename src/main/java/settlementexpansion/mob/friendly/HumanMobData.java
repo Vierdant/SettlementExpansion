@@ -4,14 +4,14 @@ import necesse.engine.registries.IDData;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
-import settlementexpansion.util.FurnitureSetEnum;
+import settlementexpansion.util.FurnitureType;
 
 import java.util.HashMap;
 
 public class HumanMobData {
 
     public static HashMap<IDData, HumanMobData> storage = new HashMap<>();
-    public FurnitureSetEnum preferredFurnitureSet;
+    public FurnitureType preferredFurnitureType;
     public IDData idData;
     public HumanMob humanMob;
 
@@ -19,34 +19,25 @@ public class HumanMobData {
         this.humanMob = humanMob;
         this.idData = humanMob.idData;
 
-        if (!HumanMobData.storage.containsKey(this.idData)) {
-            HumanMobData.storage.put(this.idData, this);
-        }
-
         setPreferredFurnitureSet();
     }
 
     public void setPreferredFurnitureSet() {
-        this.preferredFurnitureSet = FurnitureSetEnum.weightedSelection(humanMob.settlerStringID);
+        this.preferredFurnitureType = FurnitureType.weightedSelection(humanMob.settlerStringID);
     }
 
 
     public SaveData getSaveData() {
         SaveData save = new SaveData("EXPANDED");
-        save.addEnum("preferredFurnitureSet", this.preferredFurnitureSet);
+        save.addEnum("preferredFurnitureSet", this.preferredFurnitureType);
         return save;
     }
 
-    public static void applyLoadData(HumanMob humanMob, LoadData load) {
-        HumanMobData humanMobData = HumanMobData.storage.put(humanMob.idData,
-                new HumanMobData(humanMob));
+    public void applyLoadData(LoadData load) {
         for (LoadData data : load.getLoadDataByName("EXPANDED")) {
-            FurnitureSetEnum furnitureSetEnum = data.getEnum(FurnitureSetEnum.class, "preferredFurnitureSet");
-
-            if (humanMobData != null) {
-                if (furnitureSetEnum != null) {
-                    humanMobData.preferredFurnitureSet = furnitureSetEnum;
-                }
+            FurnitureType furnitureType = data.getEnum(FurnitureType.class, "preferredFurnitureSet");
+            if (furnitureType != null) {
+                this.preferredFurnitureType = furnitureType;
             }
         }
     }

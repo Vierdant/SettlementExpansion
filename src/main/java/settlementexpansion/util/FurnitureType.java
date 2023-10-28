@@ -2,33 +2,27 @@ package settlementexpansion.util;
 
 import necesse.level.maps.presets.set.FurnitureSet;
 
-public enum FurnitureSetEnum {
-     OAK("oak", FurnitureSet.oak),
-    SPRUCE("spruce", FurnitureSet.spruce),
-    PINE("pine", FurnitureSet.pine),
-    PALM("palm", FurnitureSet.palm),
-    DUNGEON("dungeon", FurnitureSet.dungeon),
-    DEADWOOD("deadwood", FurnitureSet.deadwood);
+public enum FurnitureType {
+     OAK("oak"),
+    SPRUCE("spruce"),
+    PINE("pine"),
+    PALM("palm"),
+    DUNGEON("dungeon"),
+    DEADWOOD("deadwood");
 
      public final String string;
-    public final FurnitureSet set;
 
 
-    FurnitureSetEnum(String string, FurnitureSet set) {
+    FurnitureType(String string) {
         this.string = string;
-        this.set = set;
     }
 
     public String getString() {
         return string;
     }
 
-    public FurnitureSet getSet() {
-        return set;
-    }
-
-    public static FurnitureSetEnum weightedSelection(String id) {
-        FurnitureSetEnum[] sets = values();
+    public static FurnitureType weightedSelection(String id) {
+        FurnitureType[] sets = values();
         double[] weights = FurnitureSetChances.getSettler(id).getWeights();
 
         double totalWeight = 0.0;

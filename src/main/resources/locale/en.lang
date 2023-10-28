@@ -1,14 +1,12 @@
 [object]
 dryingrack=Drying Rack
-chair=Chair
 
 [itemtooltip]
 dryingracktip=Leather is dried on it, which turns into dried leather that's darker in color.
 
 [settlement]
-personalizedfurniture=Personalized Room
-personalizedfurnituremissing=Missing
-personalizedfurniturepartialmissing=Still missing
+personalizedobject=Personalized Room
+nopersonalizedobject=Missing
 
 [remarks]
 hunterpersonalizedfurnituremissing=

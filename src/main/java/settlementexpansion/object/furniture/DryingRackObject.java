@@ -15,6 +15,7 @@ import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
+import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.gameObject.furniture.FurnitureObject;
 import necesse.level.maps.Level;
@@ -23,7 +24,7 @@ import necesse.level.maps.light.GameLight;
 import java.awt.*;
 import java.util.List;
 
-public class DryingRackObject extends FurnitureObject {
+public class DryingRackObject extends GameObject {
     public GameTexture texture;
 
     public DryingRackObject() {
@@ -33,7 +34,6 @@ public class DryingRackObject extends FurnitureObject {
         this.objectHealth = 50;
         this.drawDmg = false;
         this.isLightTransparent = true;
-        this.furnitureType = "dryingrack";
     }
 
     public void loadTextures() {
