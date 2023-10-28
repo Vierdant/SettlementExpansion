@@ -1,4 +1,4 @@
-package settlementexpansion.object.furniture;
+package settlementexpansion.object;
 
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ContainerRegistry;
@@ -17,6 +17,7 @@ import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
+import necesse.level.gameObject.WorkstationObject;
 import necesse.level.gameObject.furniture.FurnitureObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;

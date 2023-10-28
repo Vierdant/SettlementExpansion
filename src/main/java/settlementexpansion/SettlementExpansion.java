@@ -6,7 +6,7 @@ import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
-import settlementexpansion.object.furniture.DryingRackObject;
+import settlementexpansion.object.DryingRackObject;
 
 @ModEntry
 public class SettlementExpansion {

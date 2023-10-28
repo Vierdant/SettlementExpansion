@@ -1,4 +1,4 @@
-package settlementexpansion.mob.friendly;
+package settlementexpansion.patch;
 
 import necesse.engine.modLoader.annotations.ModConstructorPatch;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
@@ -6,6 +6,7 @@ import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.mob.friendly.HumanMobData;
 
 public class HumanMobDataPatch {
 

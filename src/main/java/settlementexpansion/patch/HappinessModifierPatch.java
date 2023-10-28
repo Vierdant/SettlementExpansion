@@ -1,4 +1,4 @@
-package settlementexpansion.mob.friendly;
+package settlementexpansion.patch;
 
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
@@ -7,6 +7,8 @@ import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.settlement.SettlementRoomData;
+import settlementexpansion.mob.friendly.HumanMobData;
+import settlementexpansion.mob.friendly.SettlerPersonalObjects;
 import settlementexpansion.util.StringUtil;
 
 import java.awt.*;

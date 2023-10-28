@@ -1,9 +1,10 @@
-package settlementexpansion.map.settlement;
+package settlementexpansion.patch;
 
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.levelData.settlementData.SettlementRoomsManager;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.map.settlement.SettlementRoomData;
 
 import java.awt.*;
 
