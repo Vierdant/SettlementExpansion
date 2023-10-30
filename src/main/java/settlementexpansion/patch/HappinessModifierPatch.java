@@ -19,12 +19,8 @@ import java.util.StringJoiner;
 @ModMethodPatch(target = HumanMob.class, name = "getHappinessModifiers", arguments = {})
 public class HappinessModifierPatch {
 
-    public static List<HappinessModifier> instanceModifiers;
-
-    @Advice.OnMethodEnter()
-    static void onEnter(@Advice.This HumanMob mob, @Advice.Local("modifiers") ArrayList<HappinessModifier> modifiers) {
-        modifiers = new ArrayList<>();
-
+    @Advice.OnMethodExit
+    static void onExit(@Advice.This HumanMob mob, @Advice.Return(readOnly = false)List<HappinessModifier> modifiers) {
         if (mob.levelSettler != null) {
             if (mob.levelSettler.getBed() != null) {
                 SettlementRoom room = mob.levelSettler.getBed().getRoom();
@@ -56,9 +52,9 @@ public class HappinessModifierPatch {
 
                         modifiers.add(new HappinessModifier(specialObjectModifier,
                                 specialObjectModifier != 10 ?
-                                    builder.append("settlement", "nopersonalizedobject")
-                                            .append(joiner.toString()) :
-                                    builder.append("settlement", "personalizedobject")));
+                                        builder.append("settlement", "nopersonalizedobject")
+                                                .append(joiner.toString()) :
+                                        builder.append("settlement", "personalizedobject")));
                     }
 
                     HumanMobData humanMobData = HumanMobData.storage.get(mob.idData);
@@ -66,8 +62,8 @@ public class HappinessModifierPatch {
                     if (humanMobData != null && roomData != null) {
                         if (roomData.getFurnitureMajority() != null &&
                                 humanMobData.preferredFurnitureType == roomData.getFurnitureMajority()) {
-                                modifiers.add(new HappinessModifier(+10, new GameMessageBuilder()
-                                        .append("Furniture Set of Choice")));
+                            modifiers.add(new HappinessModifier(+10, new GameMessageBuilder()
+                                    .append("Furniture Set of Choice")));
                         } else {
                             String choice = humanMobData.preferredFurnitureType.getString();
                             modifiers.add(new HappinessModifier(0, new GameMessageBuilder().append(
@@ -77,13 +73,6 @@ public class HappinessModifierPatch {
                 }
             }
         }
-        instanceModifiers = modifiers;
-
-    }
-
-    @Advice.OnMethodExit
-    static void onExit(@Advice.Return(readOnly = false)List<HappinessModifier> modifiers) {
-        modifiers.addAll(instanceModifiers);
     }
 
 }

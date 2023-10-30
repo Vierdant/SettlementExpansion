@@ -1,6 +1,13 @@
 [object]
 dryingrack=Drying Rack
 
+[ui]
+drying=Drying...
+needdrymaterial=Needs material to dry
+
+[item]
+tannedleather=Tanned Leather
+
 [itemtooltip]
 dryingracktip=Leather is dried on it, which turns into dried leather that's darker in color.
 

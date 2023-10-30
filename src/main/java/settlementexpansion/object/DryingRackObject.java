@@ -4,8 +4,10 @@ import necesse.engine.localization.Localization;
 import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.objectEntity.CompostBinObjectEntity;
 import necesse.entity.objectEntity.DresserObjectEntity;
 import necesse.entity.objectEntity.ObjectEntity;
+import necesse.entity.objectEntity.ProcessingTechInventoryObjectEntity;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.TextureDrawOptions;
 import necesse.gfx.drawables.LevelSortedDrawable;
@@ -13,23 +15,31 @@ import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
+import necesse.inventory.InventoryRange;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
+import necesse.inventory.recipe.Recipe;
+import necesse.inventory.recipe.Recipes;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.gameObject.WorkstationObject;
 import necesse.level.gameObject.furniture.FurnitureObject;
 import necesse.level.maps.Level;
+import necesse.level.maps.levelData.settlementData.SettlementWorkstationObject;
 import necesse.level.maps.light.GameLight;
+import settlementexpansion.object.entity.DryingRackEntityObject;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class DryingRackObject extends GameObject {
+public class DryingRackObject extends GameObject implements SettlementWorkstationObject {
     public GameTexture texture;
 
     public DryingRackObject() {
         super(new Rectangle(32, 32));
+        this.setItemCategory("objects", "craftingstations");
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
@@ -96,19 +106,60 @@ public class DryingRackObject extends GameObject {
     }
 
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
-        return false;
+        return true;
     }
 
-//    public void interact(Level level, int x, int y, PlayerMob player) {
-//        if (level.isServerLevel()) {
-//            OEInventoryContainer.openAndSendContainer(ContainerRegistry.DRESSER_CONTAINER, player.getServerClient(), level, x, y);
-//        }
-//
-//    }
-//
-//    public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-//        return new DresserObjectEntity(level, x, y);
-//    }
+    public void interact(Level level, int x, int y, PlayerMob player) {
+        if (level.isServerLevel()) {
+            OEInventoryContainer.openAndSendContainer(ContainerRegistry.PROCESSING_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
+        }
+    }
+
+    public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
+        return new DryingRackEntityObject(level, x, y);
+    }
+
+    public ProcessingTechInventoryObjectEntity getProcessingObjectEntity(Level level, int tileX, int tileY) {
+        ObjectEntity objectEntity = level.entityManager.getObjectEntity(tileX, tileY);
+        return objectEntity instanceof ProcessingTechInventoryObjectEntity ? (ProcessingTechInventoryObjectEntity)objectEntity : null;
+    }
+
+    public Stream<Recipe> streamSettlementRecipes(Level level, int tileX, int tileY) {
+        ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
+        return processingOE != null ? Recipes.streamRecipes(processingOE.techs) : Stream.empty();
+    }
+
+    public boolean isProcessingInventory(Level level, int tileX, int tileY) {
+        return true;
+    }
+
+    public boolean canCurrentlyCraft(Level level, int tileX, int tileY, Recipe recipe) {
+        ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
+        if (processingOE != null) {
+            return processingOE.getExpectedResults().crafts < 10;
+        } else {
+            return false;
+        }
+    }
+
+    public int getMaxCraftsAtOnce(Level level, int tileX, int tileY, Recipe recipe) {
+        return 5;
+    }
+
+    public InventoryRange getProcessingInputRange(Level level, int tileX, int tileY) {
+        ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
+        return processingOE != null ? processingOE.getInputInventoryRange() : null;
+    }
+
+    public InventoryRange getProcessingOutputRange(Level level, int tileX, int tileY) {
+        ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
+        return processingOE != null ? processingOE.getOutputInventoryRange() : null;
+    }
+
+    public ArrayList<InventoryItem> getCurrentAndFutureProcessingOutputs(Level level, int tileX, int tileY) {
+        ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
+        return processingOE != null ? processingOE.getCurrentAndExpectedResults().items : new ArrayList();
+    }
 
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
