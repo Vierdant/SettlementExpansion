@@ -36,8 +36,9 @@ public class SettlementRoomDataPatch {
     @ModMethodPatch(target = SettlementRoom.class, name = "getRoomSize", arguments = {})
     public static class SettlementRoomRecalculatePatch {
         @Advice.OnMethodExit
-        static void onEnter(@Advice.This SettlementRoom room) {
-            SettlementRoomData roomEx = SettlementRoomData.storage.get(new Point(room.tileX, room.tileY));
+        static void onExit(@Advice.This SettlementRoom room) {
+            Point point = new Point(room.tileX, room.tileY);
+            SettlementRoomData roomEx = SettlementRoomData.storage.get(point);
 
             if (roomEx != null) {
                 roomEx.recalculateStats();
