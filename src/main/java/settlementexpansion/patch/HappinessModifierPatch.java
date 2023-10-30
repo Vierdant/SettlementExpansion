@@ -1,6 +1,8 @@
 package settlementexpansion.patch;
 
 import necesse.engine.localization.message.GameMessageBuilder;
+import necesse.engine.localization.message.LocalMessage;
+import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
@@ -28,7 +30,6 @@ public class HappinessModifierPatch {
                     List<String> objectsList = SettlerPersonalObjects.getSettler(mob.settlerStringID).getFurniture();
 
                     if (!objectsList.isEmpty()) {
-                        GameMessageBuilder builder = new GameMessageBuilder().append(" ");
                         StringJoiner joiner = new StringJoiner(", ");
 
                         SettlementRoomData roomData = SettlementRoomData
@@ -41,8 +42,7 @@ public class HappinessModifierPatch {
                                 continue;
                             }
                             // adds missing objects to the joiner
-                            joiner.add(builder.append("object", entry).translate());
-                            builder.clear();
+                            joiner.add(new LocalMessage("object", entry).translate());
                         }
                         // in percentage how much of the desired furniture found from total, applied to 10
                         int specialObjectModifier = !objectsList.isEmpty() ?
@@ -50,9 +50,10 @@ public class HappinessModifierPatch {
 
                         if (specialObjectModifier <= 0) specialObjectModifier = -10;
 
+                        GameMessageBuilder builder = new GameMessageBuilder();
                         modifiers.add(new HappinessModifier(specialObjectModifier,
                                 specialObjectModifier != 10 ?
-                                        builder.append("settlement", "nopersonalizedobject")
+                                        builder.append("settlement", "nopersonalizedobject").append(" ")
                                                 .append(joiner.toString()) :
                                         builder.append("settlement", "personalizedobject")));
                     }
@@ -63,11 +64,11 @@ public class HappinessModifierPatch {
                         if (roomData.getFurnitureMajority() != null &&
                                 humanMobData.preferredFurnitureType == roomData.getFurnitureMajority()) {
                             modifiers.add(new HappinessModifier(+10, new GameMessageBuilder()
-                                    .append("Furniture Set of Choice")));
+                                    .append("Furniture set of choice")));
                         } else {
                             String choice = humanMobData.preferredFurnitureType.getString();
                             modifiers.add(new HappinessModifier(0, new GameMessageBuilder().append(
-                                    "I like more " + StringUtil.capitalize(choice) + " Furniture in my room")));
+                                    "I like more " + StringUtil.capitalize(choice) + " furniture in my room")));
                         }
                     }
                 }
