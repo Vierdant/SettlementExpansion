@@ -1,10 +1,10 @@
-package settlementexpansion.util;
+package settlementexpansion.registry;
 
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.recipe.Tech;
 
-public class RecipeModTechRegistry {
+public class RecipeTechModRegistry {
 
     public static Tech DRYINGRACK;
 

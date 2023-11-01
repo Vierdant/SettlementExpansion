@@ -7,12 +7,12 @@ import necesse.entity.objectEntity.ProcessingTechInventoryObjectEntity;
 import necesse.gfx.gameTooltips.StringTooltips;
 import necesse.gfx.gameTooltips.TooltipLocation;
 import necesse.level.maps.Level;
-import settlementexpansion.util.RecipeModTechRegistry;
+import settlementexpansion.registry.RecipeTechModRegistry;
 
 public class DryingRackEntityObject extends ProcessingTechInventoryObjectEntity {
 
     public DryingRackEntityObject(Level level, int x, int y) {
-        super(level, "dryingrack", x, y, 2, 2, RecipeModTechRegistry.DRYINGRACK);
+        super(level, "dryingrack", x, y, 2, 2, RecipeTechModRegistry.DRYINGRACK);
     }
 
     public int getProcessTime() {

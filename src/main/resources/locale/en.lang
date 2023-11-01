@@ -4,10 +4,14 @@ litwoodfloor=Lit Wooden Floor
 [object]
 dryingrack=Drying Rack
 fishwalldisplay=Fish Display
+safebox=Safebox
 
 [ui]
 drying=Drying...
 needdrymaterial=Needs material to dry
+lockedinventory=State: <state>
+lockbutton=Lock
+unlockbutton=Unlock
 
 [item]
 tannedleather=Tanned Leather
@@ -15,6 +19,7 @@ tannedleather=Tanned Leather
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it
 fishdisplaytip=Wall display for special fish
+safebox=Safe place to store private items
 
 [settlement]
 personalizedobject=Personalized Room
