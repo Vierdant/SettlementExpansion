@@ -1,5 +1,9 @@
+[tile]
+litwoodfloor=Lit Wooden Floor
+
 [object]
 dryingrack=Drying Rack
+fishwalldisplay=Fish Display
 
 [ui]
 drying=Drying...
@@ -9,7 +13,8 @@ needdrymaterial=Needs material to dry
 tannedleather=Tanned Leather
 
 [itemtooltip]
-dryingracktip=Leather is dried on it, which turns into dried leather that's darker in color.
+dryingracktip=Dries and tans leather to unlock more uses for it
+fishdisplaytip=Wall display for special fish
 
 [settlement]
 personalizedobject=Personalized Room

@@ -8,6 +8,7 @@ import java.util.List;
 
 public enum SettlerPersonalObjects {
     HUNTER(Arrays.asList("dryingrack")),
+    ANGLER(Arrays.asList("fishwalldisplay")),
     GENERIC(Collections.emptyList())
     ;
 
@@ -24,6 +25,7 @@ public enum SettlerPersonalObjects {
     public static SettlerPersonalObjects getSettler(String id) {
         switch (id) {
             case "hunter": return HUNTER;
+            case "angler": return ANGLER;
             default: return GENERIC;
         }
     }
