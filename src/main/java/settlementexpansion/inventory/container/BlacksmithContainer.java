@@ -12,14 +12,13 @@ import necesse.engine.util.GameMath;
 import necesse.engine.util.GameRandom;
 import necesse.engine.util.TicketSystemList;
 import necesse.gfx.GameResources;
-import necesse.inventory.InventoryAddConsumer;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.PlayerTempInventory;
 import necesse.inventory.container.customAction.BooleanCustomAction;
 import necesse.inventory.container.customAction.ContentCustomAction;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.mob.ShopContainer;
-import necesse.inventory.container.slots.ContainerSlot;
+import necesse.inventory.container.slots.ExtractOnlyContainerSlot;
 import necesse.inventory.item.Item;
 import necesse.level.maps.hudManager.floatText.ItemPickupText;
 import settlementexpansion.inventory.slots.GeodeSlot;
@@ -45,7 +44,7 @@ public class BlacksmithContainer extends ShopContainer {
                 (m) -> this.isClosed());
 
         this.GEODE_SLOT = this.addSlot(new GeodeSlot(this.geodeBreakInv, 0));
-        this.RESULT_SLOT = this.addSlot(new ContainerSlot(this.geodeBreakInv, 1));
+        this.RESULT_SLOT = this.addSlot(new ExtractOnlyContainerSlot(this.geodeBreakInv, 1));
         this.addInventoryQuickTransfer((s) -> this.isBreakingGeode, this.GEODE_SLOT, this.GEODE_SLOT);
         this.addInventoryQuickTransfer((s) -> this.isBreakingGeode, this.RESULT_SLOT, this.RESULT_SLOT);
 
@@ -62,8 +61,6 @@ public class BlacksmithContainer extends ShopContainer {
                         InventoryItem result = getFocusedBreakResult(item);
 
                         geodeBreakInv.removeItems(client.playerMob.getLevel(), client.playerMob, item.item, 1, "break");
-                        //System.out.println(geodeBreakInv.addItem(client.playerMob.getLevel(), client.playerMob, result, RESULT_SLOT, RESULT_SLOT, "break", null));
-
                         getSlot(RESULT_SLOT).setItem(result);
 
                         client.playerMob.getInv().main.removeItems(client.playerMob.getLevel(), client.playerMob, ItemRegistry.getItem("coin"), breakCost, "break");
@@ -100,7 +97,7 @@ public class BlacksmithContainer extends ShopContainer {
         } else {
             InventoryItem item = this.getSlot(this.GEODE_SLOT).getItem();
             GeodeItem geode = (GeodeItem) item.item;
-            GameRandom random = new GameRandom(this.breakCostSeed + ((long) item.item.getID() * GameRandom.prime(54)));
+            GameRandom random = new GameRandom(this.breakCostSeed + ((long) item.item.getID() * GameRandom.prime(54)) + ((long) geode.getBreakCost() * GameRandom.prime(13)));
             return Math.abs(geode.getRandomBreakCost(random, this.settlerHappiness));
         }
     }
@@ -119,7 +116,7 @@ public class BlacksmithContainer extends ShopContainer {
         }
 
         for (Item entryItem : possibleItems) {
-            float costModifier = (geode.getRarityModifier(entryItem.getRarity()) - 1F) * 100.0F;
+            float costModifier = (geode.getRarityWeightModifier(entryItem.getRarity()) - 1F) * 100.0F;
             if (settlerHappiness > 50) {
                 lottery.addObject(100 + (int) (lotteryFocus * costModifier), entryItem);
             } else {
@@ -146,7 +143,7 @@ public class BlacksmithContainer extends ShopContainer {
         Packet packet = new Packet();
         PacketWriter writer = new PacketWriter(packet);
         writer.putNextContentPacket(mob.getShopItemsContentPacket(client));
-        writer.putNextContentPacket(client.playerMob.getInv().getTempInventoryPacket(1));
+        writer.putNextContentPacket(client.playerMob.getInv().getTempInventoryPacket(2));
         return packet;
     }
 }

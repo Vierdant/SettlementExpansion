@@ -15,10 +15,9 @@ import java.util.List;
 
 public class GeodeItem extends Item {
     private final String tooltipKey;
-    private final float costModifier;
     private final int breakCost;
 
-    public GeodeItem(Rarity rarity, String tooltipKey, int breakCost, float costModifier) {
+    public GeodeItem(Rarity rarity, String tooltipKey, int breakCost) {
         super(5);
         this.dropsAsMatDeathPenalty = true;
         this.setItemCategory("misc", "geodes");
@@ -26,7 +25,6 @@ public class GeodeItem extends Item {
         this.rarity = rarity;
         this.tooltipKey = tooltipKey;
         this.breakCost = breakCost;
-        this.costModifier = costModifier;
     }
 
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
@@ -38,20 +36,28 @@ public class GeodeItem extends Item {
         return tooltips;
     }
 
-    public float getCostModifier() {
-        return this.costModifier;
-    }
-
     public int getBreakCost() {
         return this.breakCost;
     }
 
+    public float getBreakCostModifier() {
+        List<Item> lootTable = this.getLootTable();
+        float mod = 1F;
+
+        for (Item entry : lootTable) {
+            mod += getRarityCostModifier(entry.getRarity());
+        }
+
+        return mod;
+    }
+
     public int getFinalBreakCost() {
-        return (int)((float)this.getBreakCost() * this.getCostModifier());
+        System.out.println((int)(getBreakCost() * getBreakCostModifier()));
+        return (int)(getBreakCost() * getBreakCostModifier());
     }
 
     public int getRandomBreakCost(GameRandom random, int happiness) {
-        return HumanShop.getRandomHappinessMiddlePrice(random, happiness, this.getFinalBreakCost(), 6, 3);
+        return HumanShop.getRandomHappinessMiddlePrice(random, happiness, this.getFinalBreakCost(), 3, 3);
     }
 
     public List<Item> getLootTable() {
@@ -69,7 +75,7 @@ public class GeodeItem extends Item {
         return list;
     }
 
-    public float getRarityModifier(Rarity rarity) {
+    public float getRarityWeightModifier(Rarity rarity) {
         switch (rarity) {
             case COMMON: return 1F;
             case UNCOMMON: return 0.8F;
@@ -77,6 +83,17 @@ public class GeodeItem extends Item {
             case EPIC: return 0.4F;
             case LEGENDARY: return 0.2F;
             default: return 1.2F;
+        }
+    }
+
+    public float getRarityCostModifier(Rarity rarity) {
+        switch (rarity) {
+            case COMMON: return 0.2F;
+            case UNCOMMON: return 0.3F;
+            case RARE: return 0.4F;
+            case EPIC: return 0.5F;
+            case LEGENDARY: return 0.8F;
+            default: return 0.1F;
         }
     }
 
