@@ -9,6 +9,7 @@ import java.util.List;
 public enum SettlerPersonalObjects {
     HUNTER(Arrays.asList("dryingrack")),
     ANGLER(Arrays.asList("fishwalldisplay")),
+    PAWNBROKER(Arrays.asList("safebox")),
     GENERIC(Collections.emptyList())
     ;
 
@@ -26,6 +27,7 @@ public enum SettlerPersonalObjects {
         switch (id) {
             case "hunter": return HUNTER;
             case "angler": return ANGLER;
+            case "pawnbroker": return PAWNBROKER;
             default: return GENERIC;
         }
     }

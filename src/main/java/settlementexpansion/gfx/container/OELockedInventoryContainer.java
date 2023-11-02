@@ -15,8 +15,6 @@ public class OELockedInventoryContainer extends OEInventoryContainer {
         super(client, uniqueSeed, objectEntity, reader);
         this.lockedObjectEntity = objectEntity;
 
-        System.out.println("locked container call");
-
         this.lockButton = registerAction(new EmptyCustomAction() {
             @Override
             protected void run() {

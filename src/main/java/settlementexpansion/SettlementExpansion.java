@@ -1,10 +1,7 @@
 package settlementexpansion;
 
 import necesse.engine.modLoader.annotations.ModEntry;
-import necesse.engine.registries.ItemRegistry;
-import necesse.engine.registries.ObjectRegistry;
-import necesse.engine.registries.RecipeTechRegistry;
-import necesse.engine.registries.TileRegistry;
+import necesse.engine.registries.*;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
@@ -12,6 +9,7 @@ import settlementexpansion.item.material.TannedLeatherMaterial;
 import settlementexpansion.object.DryingRackObject;
 import settlementexpansion.object.furniture.FishDisplayObject;
 import settlementexpansion.object.furniture.SafeBoxInventoryObject;
+import settlementexpansion.packet.PacketLockedInventory;
 import settlementexpansion.registry.ContainerModRegistry;
 import settlementexpansion.registry.ModResources;
 import settlementexpansion.registry.InterfaceModRegistry;
@@ -42,6 +40,9 @@ public class SettlementExpansion {
 
         // Register Containers
         ContainerModRegistry.registerContainers();
+
+        // Register Packets
+        PacketRegistry.registerPacket(PacketLockedInventory.class);
     }
 
     public void initResources() {
