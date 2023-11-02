@@ -2,10 +2,13 @@ package settlementexpansion;
 
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
+import necesse.inventory.item.ItemCategory;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import settlementexpansion.item.geode.ExampleGeode;
 import settlementexpansion.item.material.TannedLeatherMaterial;
+import settlementexpansion.mob.friendly.BlacksmithModHumanMob;
 import settlementexpansion.object.DryingRackObject;
 import settlementexpansion.object.furniture.FishDisplayObject;
 import settlementexpansion.object.furniture.SafeBoxInventoryObject;
@@ -33,7 +36,10 @@ public class SettlementExpansion {
         ObjectRegistry.registerObject("safebox", new SafeBoxInventoryObject("safebox", 40, new Color(150, 119, 70)), 40, true);
 
         // Register items
+        ItemCategory.createCategory("A-F-A", "misc", "geodes");
+
         ItemRegistry.registerItem("tannedleather", new TannedLeatherMaterial(), 10, true);
+        ItemRegistry.registerItem("examplegeode", new ExampleGeode(), 10, true);
 
         // Register tiles
         TileRegistry.registerTile("litwoodfloor", new LitFloorTile("litwoodfloor", new Color(153, 127, 98), 150, 50, 0.2f), 1, false);
@@ -41,8 +47,11 @@ public class SettlementExpansion {
         // Register Containers
         ContainerModRegistry.registerContainers();
 
+        // Register Mobs
+
         // Register Packets
         PacketRegistry.registerPacket(PacketLockedInventory.class);
+
     }
 
     public void initResources() {
@@ -57,6 +66,16 @@ public class SettlementExpansion {
                 RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
                         new Ingredient("anylog", 20)
+                },
+                false
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "examplegeode",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("anylog", 1)
                 },
                 false
         ));

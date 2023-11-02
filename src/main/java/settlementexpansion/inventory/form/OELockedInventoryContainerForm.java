@@ -1,9 +1,7 @@
-package settlementexpansion.gfx.form;
+package settlementexpansion.inventory.form;
 
-import necesse.engine.Settings;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.GameMessageBuilder;
-import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.network.client.Client;
 import necesse.gfx.forms.components.FormContentIconButton;
 import necesse.gfx.forms.components.FormFlow;
@@ -11,7 +9,7 @@ import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.presets.containerComponent.object.OEInventoryContainerForm;
 import necesse.gfx.ui.ButtonColor;
 import necesse.gfx.ui.ButtonIcon;
-import settlementexpansion.gfx.container.OELockedInventoryContainer;
+import settlementexpansion.inventory.container.OELockedInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 import settlementexpansion.registry.InterfaceModRegistry;
 

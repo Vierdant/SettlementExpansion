@@ -1,4 +1,4 @@
-package settlementexpansion.gfx.container;
+package settlementexpansion.inventory.container;
 
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.PacketReader;

@@ -12,6 +12,12 @@ needdrymaterial=Needs material to dry
 lockedinventory=State: <state>
 lockbutton=Lock
 unlockbutton=Unlock
+blacksmithbreak=Break Geode
+blacksmithbreakconfirm=Break Geode!
+blacksmithcost=Cost:
+blacksmithbreaktip=Put the geode in slot and press break to obtain various treasures!
+blacksmithbreakfocustip=Higher happiness increases the odds of higher quality, undamaged treasures
+blacksmithwantbreakgeode=I want to break some geodes
 
 [item]
 tannedleather=Tanned Leather
@@ -20,6 +26,8 @@ tannedleather=Tanned Leather
 dryingracktip=Dries and tans leather to unlock more uses for it
 fishdisplaytip=Wall display for special fish
 safebox=Safe place to store private items
+geodeslot=Geode Slot
+examplegeode=An example geode item
 
 [settlement]
 personalizedobject=Personalized Room
