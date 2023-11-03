@@ -2,7 +2,9 @@ package settlementexpansion;
 
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
+import necesse.engine.util.GameRandom;
 import necesse.inventory.item.ItemCategory;
+import necesse.inventory.lootTable.presets.CrateLootTable;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;

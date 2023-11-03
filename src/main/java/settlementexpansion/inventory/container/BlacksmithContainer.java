@@ -104,28 +104,8 @@ public class BlacksmithContainer extends ShopContainer {
 
     public InventoryItem getFocusedBreakResult(InventoryItem item) {
         GeodeItem geode = (GeodeItem) item.item;
-        List<Item> possibleItems = geode.getLootTable();
-        float happinessMultiplier = 0.05F;
-        float lotteryFocus = 0.0F;
-        int settlerHappiness = GameMath.limit(this.settlerHappiness, 0, 100);
-        TicketSystemList<Item> lottery = new TicketSystemList<>();
-        if (settlerHappiness > 50) {
-            lotteryFocus = (float)(settlerHappiness - 50) * happinessMultiplier;
-        } else if (settlerHappiness < 50) {
-            lotteryFocus = (float)(-settlerHappiness + 50) * happinessMultiplier;
-        }
-
-        for (Item entryItem : possibleItems) {
-            float costModifier = (geode.getRarityWeightModifier(entryItem.getRarity()) - 1F) * 100.0F;
-            if (settlerHappiness > 50) {
-                lottery.addObject(100 + (int) (lotteryFocus * costModifier), entryItem);
-            } else {
-                lottery.addObject(100 - (int) (lotteryFocus * costModifier), entryItem);
-            }
-        }
-
-        Item reward = lottery.getRandomObject(GameRandom.globalRandom);
-        return new InventoryItem(reward);
+        List<InventoryItem> items = geode.getLootTable();
+        return items.get(0);
     }
 
     public boolean canBreak() {
