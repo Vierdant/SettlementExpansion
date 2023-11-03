@@ -7,9 +7,13 @@ import java.util.Collections;
 import java.util.List;
 
 public enum SettlerPersonalObjects {
-    HUNTER(Arrays.asList("dryingrack")),
-    ANGLER(Arrays.asList("fishwalldisplay")),
-    PAWNBROKER(Arrays.asList("safebox")),
+    HUNTER(Collections.singletonList("dryingrack")),
+    ANGLER(Collections.singletonList("fishwalldisplay")),
+    PAWNBROKER(Collections.singletonList("safebox")),
+    EXPLORER(Collections.singletonList("cartographertable")),
+    GUARD(Collections.singletonList("armorstand")),
+    ALCHEMIST(Collections.singletonList("alchemytable")),
+    BLACKSMITH(Arrays.asList("forge", "ironanvil")),
     GENERIC(Collections.emptyList())
     ;
 
@@ -28,6 +32,10 @@ public enum SettlerPersonalObjects {
             case "hunter": return HUNTER;
             case "angler": return ANGLER;
             case "pawnbroker": return PAWNBROKER;
+            case "explorer": return EXPLORER;
+            case "guard": return GUARD;
+            case "alchemist": return ALCHEMIST;
+            case "blacksmith": return BLACKSMITH;
             default: return GENERIC;
         }
     }
