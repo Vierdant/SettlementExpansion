@@ -3,7 +3,6 @@ package settlementexpansion.inventory.lootTable.preset;
 import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.lootTable.lootItem.LootItem;
 import necesse.inventory.lootTable.lootItem.OneOfTicketLootItems;
-import java.util.Collections;
 
 public class GeodeLootTable extends LootTable {
 

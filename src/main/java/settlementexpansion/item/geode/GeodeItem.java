@@ -47,8 +47,7 @@ public class GeodeItem extends Item {
 
     public List<InventoryItem> getLootTable() {
         List<InventoryItem> list = new ArrayList<>();
-        GameRandom random = new GameRandom();
-        LootTableModPresets.geode.addItems(list, random, 1f);
+        LootTableModPresets.geode.addItems(list, GameRandom.globalRandom, 1f);
         return list;
     }
 
