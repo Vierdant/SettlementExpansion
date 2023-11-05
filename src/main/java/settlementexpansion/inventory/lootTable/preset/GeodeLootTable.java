@@ -1,18 +1,29 @@
 package settlementexpansion.inventory.lootTable.preset;
 
 import necesse.inventory.lootTable.LootTable;
+import necesse.inventory.lootTable.lootItem.ConditionLootItem;
 import necesse.inventory.lootTable.lootItem.LootItem;
 import necesse.inventory.lootTable.lootItem.OneOfTicketLootItems;
 
 public class GeodeLootTable extends LootTable {
 
     public static final Object[] base = new Object[]{
-            75, new LootItem("stone"),
-            100, new LootItem("torch")
+            100, LootItem.between("stone", 2, 15),
+            100, LootItem.between("copperore", 2, 6),
+            75, LootItem.between("ironore", 2, 4),
+            50, LootItem.between("goldore", 1, 4),
+            25, new LootItem("quartz")
     };
-    public static final Object[] special = new Object[]{
-            1, new LootItem("goldbar"),
-            50, new LootItem("ironbar")
+    public static final Object[] casual = new Object[]{
+            15, new LootItem("alamite"),
+            15, new LootItem("amethyst"),
+            15, new LootItem("calcite"),
+            15, new LootItem("celestine"),
+            15, new LootItem("jagoite"),
+            15, new LootItem("jasper"),
+            15, new LootItem("malachite"),
+            15, new LootItem("orpiment"),
+            5, new LootItem("earthcrystal"),
     };
 
     public static final GeodeLootTable geode;
@@ -42,7 +53,7 @@ public class GeodeLootTable extends LootTable {
     }
 
     static {
-        geode = new GeodeLootTable(base, special);
+        geode = new GeodeLootTable(base, casual);
     }
 
 }

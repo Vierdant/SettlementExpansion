@@ -14,8 +14,10 @@ public class HumanMobDataPatch {
     public static class HumanMobConstructPatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.This HumanMob humanMob) {
-            HumanMobData.storage.put(humanMob.idData,
-                    new HumanMobData(humanMob));
+            if (humanMob.isSettler()) {
+                HumanMobData.storage.put(humanMob.idData,
+                        new HumanMobData(humanMob));
+            }
         }
     }
 

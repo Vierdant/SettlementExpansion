@@ -15,19 +15,23 @@ import java.util.List;
 public class GeodeItem extends Item {
     private final String tooltipKey;
     private final int breakCost;
+    private float maxMultiplier;
+    private float multiplier;
 
-    public GeodeItem(Rarity rarity, String tooltipKey, int breakCost) {
-        super(5);
+    public GeodeItem(Rarity rarity, String tooltipKey, int breakCost, float maxMultiplier) {
+        super(20);
         this.dropsAsMatDeathPenalty = true;
         this.setItemCategory("misc", "geodes");
         this.keyWords.add("geode");
         this.rarity = rarity;
         this.tooltipKey = tooltipKey;
         this.breakCost = breakCost;
+        this.maxMultiplier = maxMultiplier;
+        updateMultiplier();
     }
 
-    public GeodeItem(String tooltipKey, int breakCost) {
-        this(Rarity.NORMAL, tooltipKey, breakCost);
+    public GeodeItem(String tooltipKey, int breakCost, float maxMultiplier) {
+        this(Rarity.NORMAL, tooltipKey, breakCost, maxMultiplier);
     }
 
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
@@ -39,8 +43,12 @@ public class GeodeItem extends Item {
         return tooltips;
     }
 
+    public void updateMultiplier() {
+        this.multiplier = GameRandom.globalRandom.getFloatBetween(1F, Math.max(maxMultiplier, 1F));
+    }
+
     public int getBreakCost() {
-        return this.breakCost;
+        return (int)(this.breakCost * this.multiplier);
     }
 
     public int getRandomBreakCost(GameRandom random, int happiness) {

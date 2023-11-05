@@ -21,17 +21,41 @@ blacksmithwantbreakgeode=I want to break some geodes
 
 [item]
 tannedleather=Tanned Leather
+geode=Geode
+alamite=Alamite
+amethyst=Amethyst
+calcite=Calcite
+celestine=Celestine
+jagoite=Jagoite
+jasper=Jasper Crystal
+malachite=Malachite
+orpiment=Orpiment
+earthcrystal=Earth Crystal
+earthring=Earth Ring
 
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it
 fishdisplaytip=Wall display for special fish
 safebox=Safe place to store private items
 geodeslot=Geode Slot
-examplegeode=An example geode item
+geode=Hollow rock formation with possible valuables inside. A blacksmith might be able to open this
+alamite=A commonly seeked out shiny formations by rock collectors
+amethyst=Famous for its purple-ish color, referred to as raspberry
+calcite=Yellow crystal with odd shimmers to it
+celestine=Associated with a lot of fairy tales...
+jagoite=Glittery little collection of look alike crystals
+jasper=Are you sure this is a crystal?
+malachite=Very sturdy, and commonly used in sculpture
+orpiment=Toxic gem, however its properties can be useful in the right hands
+earthcrystal=Energy that resonates with stone can be felt from it
+earthring=Utilizing the earth energy from a rare crystal, it is a miner's treasures
 
 [settlement]
 personalizedobject=Personalized Room
 nopersonalizedobject=Missing
 
-[remarks]
-hunterpersonalizedfurnituremissing=
+[itemcategory]
+processed=Processed goods
+geodes==Geodes
+gems=Gems
+

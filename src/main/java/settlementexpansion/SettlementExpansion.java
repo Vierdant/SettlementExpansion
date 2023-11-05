@@ -13,6 +13,8 @@ public class SettlementExpansion {
 
         ObjectModRegistry.registerObjects();
 
+        BuffModRegistry.registerBuffs();
+
         ItemModRegistry.registerCategories();
         ItemModRegistry.registerItems();
 

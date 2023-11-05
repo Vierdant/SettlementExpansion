@@ -102,6 +102,7 @@ public class BlacksmithContainer extends ShopContainer {
     public InventoryItem getFocusedBreakResult(InventoryItem item) {
         GeodeItem geode = (GeodeItem) item.item;
         List<InventoryItem> items = geode.getLootTable();
+        geode.updateMultiplier();
         return items.get(0);
     }
 
