@@ -16,7 +16,6 @@ public class BlacksmithModHumanMob extends BlacksmithHumanMob {
     }
 
     public PacketOpenContainer getOpenShopPacket(Server server, ServerClient client) {
-        System.out.println("Wee it's getting the right one!");
         return PacketOpenContainer.Mob(ContainerModRegistry.BLACKSMITH_CONTAINER, this, BlacksmithContainer.getBlacksmithContainerContent(this, client));
     }
 }

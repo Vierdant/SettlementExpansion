@@ -1,8 +1,6 @@
-package settlementexpansion.item.geode;
+package settlementexpansion.item.misc;
 
-import necesse.engine.GameLog;
 import necesse.engine.localization.Localization;
-import necesse.engine.registries.ItemRegistry;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
@@ -26,6 +24,10 @@ public class GeodeItem extends Item {
         this.rarity = rarity;
         this.tooltipKey = tooltipKey;
         this.breakCost = breakCost;
+    }
+
+    public GeodeItem(String tooltipKey, int breakCost) {
+        this(Rarity.NORMAL, tooltipKey, breakCost);
     }
 
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {

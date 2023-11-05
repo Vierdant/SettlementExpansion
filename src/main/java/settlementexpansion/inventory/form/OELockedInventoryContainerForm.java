@@ -11,7 +11,7 @@ import necesse.gfx.ui.ButtonColor;
 import necesse.gfx.ui.ButtonIcon;
 import settlementexpansion.inventory.container.OELockedInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
-import settlementexpansion.registry.InterfaceModRegistry;
+import settlementexpansion.registry.ModResources;
 
 public class OELockedInventoryContainerForm<T extends OELockedInventoryContainer> extends OEInventoryContainerForm<T> {
 
@@ -38,7 +38,7 @@ public class OELockedInventoryContainerForm<T extends OELockedInventoryContainer
     }
 
     private ButtonIcon getIcon(boolean state) {
-        return state ? InterfaceModRegistry.inventory_locked : InterfaceModRegistry.inventory_unlocked;
+        return state ? ModResources.inventory_locked : ModResources.inventory_unlocked;
     }
 
     private GameMessage getTooltip(boolean state) {
