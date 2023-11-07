@@ -1,5 +1,6 @@
 package settlementexpansion.inventory.lootTable.preset;
 
+import necesse.engine.network.server.ServerClient;
 import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.lootTable.lootItem.ConditionLootItem;
 import necesse.inventory.lootTable.lootItem.LootItem;
@@ -12,7 +13,10 @@ public class GeodeLootTable extends LootTable {
             100, LootItem.between("copperore", 2, 6),
             75, LootItem.between("ironore", 2, 4),
             50, LootItem.between("goldore", 1, 4),
-            25, new LootItem("quartz")
+            25, new ConditionLootItem("quartz", (r, o) -> {
+        ServerClient client = LootTable.expectExtra(ServerClient.class, o, 1);
+        return client.characterStats().mob_kills.getKills("evilsprotector") > 0;
+    })
     };
     public static final Object[] casual = new Object[]{
             15, new LootItem("alamite"),
@@ -20,7 +24,6 @@ public class GeodeLootTable extends LootTable {
             15, new LootItem("calcite"),
             15, new LootItem("celestine"),
             15, new LootItem("jagoite"),
-            15, new LootItem("jasper"),
             15, new LootItem("malachite"),
             15, new LootItem("orpiment"),
             5, new LootItem("earthcrystal"),

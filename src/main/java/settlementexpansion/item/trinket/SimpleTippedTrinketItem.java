@@ -6,15 +6,15 @@ import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.trinketItem.SimpleTrinketItem;
 
-public class SimpleDescriptiveTrinketItem extends SimpleTrinketItem {
+public class SimpleTippedTrinketItem extends SimpleTrinketItem {
     private final String tooltipKey;
 
-    public SimpleDescriptiveTrinketItem(Rarity rarity, String[] buffStringIDs, String tooltipKey, int enchantCost) {
+    public SimpleTippedTrinketItem(Rarity rarity, String[] buffStringIDs, String tooltipKey, int enchantCost) {
         super(rarity, buffStringIDs, enchantCost);
         this.tooltipKey = tooltipKey;
     }
 
-    public SimpleDescriptiveTrinketItem(Rarity rarity, String buffStringID, String tooltipKey, int enchantCost) {
+    public SimpleTippedTrinketItem(Rarity rarity, String buffStringID, String tooltipKey, int enchantCost) {
         super(rarity, buffStringID, enchantCost);
         this.tooltipKey = tooltipKey;
     }
