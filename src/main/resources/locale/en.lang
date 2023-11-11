@@ -5,6 +5,8 @@ litwoodfloor=Lit Wooden Floor
 dryingrack=Drying Rack
 fishwalldisplay=Fish Display
 safebox=Safebox
+seedlingtable=Seedling Table
+studytable=Study Table
 
 [ui]
 drying=Drying...
@@ -47,6 +49,7 @@ malachite=Very sturdy, and commonly used in sculpture
 orpiment=Toxic gem, however its properties can be useful in the right hands
 earthcrystal=Energy that resonates with stone can be felt from it
 earthring=Utilizing the earth energy from a rare crystal, it is a miner's treasures
+seedlingtabletip=Used to multiply seeds
 
 [settlement]
 personalizedobject=Personalized Room

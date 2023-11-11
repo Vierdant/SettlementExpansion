@@ -1,4 +1,4 @@
-package settlementexpansion.registry;
+package settlementexpansion;
 
 import necesse.engine.Settings;
 import necesse.gfx.gameSound.GameSound;

@@ -14,8 +14,8 @@ public enum SettlerPersonalObjects {
     GUARD(Collections.singletonList("armorstand")),
     ALCHEMIST(Collections.singletonList("alchemytable")),
     BLACKSMITH(Arrays.asList("forge", "ironanvil")),
-    GENERIC(Collections.emptyList())
-    ;
+    FARMER(Collections.singletonList("seedlingtable")),
+    GENERIC(Collections.emptyList());
 
     final List<String> furniture;
 
@@ -36,6 +36,7 @@ public enum SettlerPersonalObjects {
             case "guard": return GUARD;
             case "alchemist": return ALCHEMIST;
             case "blacksmith": return BLACKSMITH;
+            case "farmer": return FARMER;
             default: return GENERIC;
         }
     }

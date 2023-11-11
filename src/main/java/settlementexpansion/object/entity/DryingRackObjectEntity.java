@@ -9,9 +9,9 @@ import necesse.gfx.gameTooltips.TooltipLocation;
 import necesse.level.maps.Level;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
-public class DryingRackEntityObject extends ProcessingTechInventoryObjectEntity {
+public class DryingRackObjectEntity extends ProcessingTechInventoryObjectEntity {
 
-    public DryingRackEntityObject(Level level, int x, int y) {
+    public DryingRackObjectEntity(Level level, int x, int y) {
         super(level, "dryingrack", x, y, 2, 2, RecipeTechModRegistry.DRYINGRACK);
     }
 

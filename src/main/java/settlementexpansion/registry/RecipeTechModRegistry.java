@@ -7,8 +7,10 @@ import necesse.inventory.recipe.Tech;
 public class RecipeTechModRegistry {
 
     public static Tech DRYINGRACK;
+    public static Tech SEEDLINGTABLE;
 
     public static void registerModdedTech() {
         DRYINGRACK = RecipeTechRegistry.registerTech("dryingrack", new LocalMessage("object", "dryingrack"));
+        SEEDLINGTABLE = RecipeTechRegistry.registerTech("seedlingtable", new LocalMessage("object", "seedlingtable"));
     }
 }

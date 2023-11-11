@@ -11,7 +11,7 @@ import necesse.level.maps.Level;
 import settlementexpansion.inventory.container.OELockedInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
-import settlementexpansion.registry.ModResources;
+import settlementexpansion.ModResources;
 
 import java.awt.*;
 

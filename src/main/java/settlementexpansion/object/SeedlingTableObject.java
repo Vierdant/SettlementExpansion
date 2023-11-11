@@ -2,12 +2,13 @@ package settlementexpansion.object;
 
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ContainerRegistry;
+import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.objectEntity.ProcessingTechInventoryObjectEntity;
 import necesse.gfx.camera.GameCamera;
-import necesse.gfx.drawOptions.texture.TextureDrawOptions;
+import necesse.gfx.drawOptions.DrawOptionsList;
 import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
@@ -16,6 +17,7 @@ import necesse.inventory.InventoryItem;
 import necesse.inventory.InventoryRange;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
+import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import necesse.level.gameObject.GameObject;
@@ -23,17 +25,21 @@ import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.settlementData.SettlementWorkstationObject;
 import necesse.level.maps.light.GameLight;
-import settlementexpansion.object.entity.DryingRackObjectEntity;
+import necesse.level.maps.multiTile.MultiTile;
+import necesse.level.maps.multiTile.SideMultiTile;
+import settlementexpansion.object.entity.SeedlingTableObjectEntity;
+import settlementexpansion.registry.RecipeTechModRegistry;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DryingRackObject extends GameObject implements SettlementWorkstationObject {
-    public GameTexture texture;
+public class SeedlingTableObject extends GameObject implements SettlementWorkstationObject {
+    private GameTexture texture;
+    private int counterID;
 
-    public DryingRackObject() {
+    public SeedlingTableObject() {
         super(new Rectangle(32, 32));
         this.setItemCategory("objects", "craftingstations");
         this.toolType = ToolType.ALL;
@@ -43,17 +49,37 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
         this.isLightTransparent = true;
     }
 
-    public void loadTextures() {
-        super.loadTextures();
-        this.texture = GameTexture.fromFile("objects/dryingrack");
+    public MultiTile getMultiTile(int rotation) {
+        return new SideMultiTile(0, 1, 1, 2, rotation, true, this.counterID, this.getID());
     }
 
-    public void addDrawables(java.util.List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
+    public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
+        return Math.floorMod(super.getPlaceRotation(level, levelX, levelY, player, playerDir) - 1, 4);
+    }
+
+    public void loadTextures() {
+        super.loadTextures();
+        this.texture = GameTexture.fromFile("objects/seedlingtable");
+    }
+
+    public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
-        byte rotation = level.getObjectRotation(tileX, tileY);
-        final TextureDrawOptions options = this.texture.initDraw().sprite(rotation % 4, 0, 32, this.texture.getHeight()).light(light).pos(drawX, drawY - this.texture.getHeight() + 32);
+        int rotation = level.getObjectRotation(tileX, tileY);
+        final DrawOptionsList options = new DrawOptionsList();
+        if (rotation == 0) {
+            options.add(this.texture.initDraw().sprite(1, 1, 32).light(light).pos(drawX, drawY + 2));
+        } else if (rotation == 1) {
+            options.add(this.texture.initDraw().sprite(1, 2, 32).mirrorX().light(light).pos(drawX, drawY - 24));
+            options.add(this.texture.initDraw().sprite(1, 3, 32).mirrorX().light(light).pos(drawX, drawY + 8));
+        } else if (rotation == 2) {
+            options.add(this.texture.initDraw().sprite(0, 0, 32).light(light).pos(drawX, drawY + 2));
+        } else {
+            options.add(this.texture.initDraw().sprite(1, 2, 32).light(light).pos(drawX, drawY - 24));
+            options.add(this.texture.initDraw().sprite(1, 3, 32).light(light).pos(drawX, drawY + 8));
+        }
+
         list.add(new LevelSortedDrawable(this, tileX, tileY) {
             public int getSortY() {
                 return 16;
@@ -68,30 +94,40 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
-        this.texture.initDraw().sprite(rotation % 4, 0, 32, this.texture.getHeight()).alpha(alpha).draw(drawX, drawY - this.texture.getHeight() + 32);
+        if (rotation == 0) {
+            this.texture.initDraw().sprite(1, 1, 32).alpha(alpha).draw(drawX, drawY + 2);
+            this.texture.initDraw().sprite(1, 0, 32).alpha(alpha).draw(drawX, drawY - 32 + 2);
+        } else if (rotation == 1) {
+            this.texture.initDraw().sprite(0, 2, 32).mirrorX().alpha(alpha).draw(drawX + 32, drawY - 24);
+            this.texture.initDraw().sprite(1, 2, 32).mirrorX().alpha(alpha).draw(drawX, drawY - 24);
+            this.texture.initDraw().sprite(0, 3, 32).mirrorX().alpha(alpha).draw(drawX + 32, drawY + 8);
+            this.texture.initDraw().sprite(1, 3, 32).mirrorX().alpha(alpha).draw(drawX, drawY + 8);
+        } else if (rotation == 2) {
+            this.texture.initDraw().sprite(0, 0, 32).alpha(alpha).draw(drawX, drawY + 2);
+            this.texture.initDraw().sprite(0, 1, 32).alpha(alpha).draw(drawX, drawY + 32 + 2);
+        } else {
+            this.texture.initDraw().sprite(0, 2, 32).alpha(alpha).draw(drawX - 32, drawY - 24);
+            this.texture.initDraw().sprite(1, 2, 32).alpha(alpha).draw(drawX, drawY - 24);
+            this.texture.initDraw().sprite(0, 3, 32).alpha(alpha).draw(drawX - 32, drawY + 8);
+            this.texture.initDraw().sprite(1, 3, 32).alpha(alpha).draw(drawX, drawY + 8);
+        }
     }
 
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
-            return new Rectangle(x * 32 + 2, y * 32 + 12, 28, 18);
+            return new Rectangle(x * 32 + 5, y * 32, 22, 26);
         } else if (rotation == 1) {
-            return new Rectangle(x * 32, y * 32 + 2, 22, 28);
+            return new Rectangle(x * 32 + 12, y * 32 + 6, 20, 20);
         } else {
-            return rotation == 2 ? new Rectangle(x * 32 + 2, y * 32 + 2, 28, 18) : new Rectangle(x * 32 + 10, y * 32 + 2, 22, 28);
+            return rotation == 2 ? new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16) : new Rectangle(x * 32, y * 32 + 6, 20, 20);
         }
     }
 
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
-        if (rotation == 0) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -12, 32, 12));
-        } else if (rotation == 1) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 22, 16));
-        } else if (rotation == 2) {
+        if (rotation == 1 || rotation == 3) {
             list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
-        } else {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 10, -16, 22, 16));
         }
 
         return list;
@@ -112,7 +148,7 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
     }
 
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return new DryingRackObjectEntity(level, x, y);
+        return new SeedlingTableObjectEntity(level, x, y);
     }
 
     public ProcessingTechInventoryObjectEntity getProcessingObjectEntity(Level level, int tileX, int tileY) {
@@ -154,12 +190,36 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
 
     public ArrayList<InventoryItem> getCurrentAndFutureProcessingOutputs(Level level, int tileX, int tileY) {
         ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
-        return processingOE != null ? processingOE.getCurrentAndExpectedResults().items : new ArrayList();
+        return processingOE != null ? processingOE.getCurrentAndExpectedResults().items : new ArrayList<>();
     }
 
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
-        tooltips.add(Localization.translate("itemtooltip", "dryingracktip"));
+        tooltips.add(Localization.translate("itemtooltip", "seedlingtabletip"));
         return tooltips;
+    }
+
+    public static void registerSeedlingTable() {
+        SeedlingTableObject cb1o = new SeedlingTableObject();
+        SeedlingTable2Object cb2o = new SeedlingTable2Object();
+        cb1o.counterID = ObjectRegistry.registerObject("seedlingtable2", cb2o, 0.0F, false);
+        cb2o.counterID = ObjectRegistry.registerObject("seedlingtable", cb1o, 20.0F, true);
+    }
+
+    public static void registerSeedlingRecipes() {
+        String[] seeds = new String[]{"wheatseed", "cornseed", "tomatoseed", "cabbageseed", "chilipepperseed", "sugarbeetseed", "eggplantseed", "potatoseed", "riceseed", "carrotseed", "onionseed", "pumpkinseed", "strawberryseed", "grassseed", "swampgrassseed", "sunflowerseed", "firemoneseed", "iceblossomseed"};
+
+        for (String id : seeds) {
+            Recipes.registerModRecipe(new Recipe(
+                    id,
+                    2,
+                    RecipeTechModRegistry.SEEDLINGTABLE,
+                    new Ingredient[]{
+                            new Ingredient(id, 1)
+                    }
+            ));
+        }
+
+
     }
 }
