@@ -1,12 +1,10 @@
 package settlementexpansion.object.furniture;
 
 import necesse.engine.localization.Localization;
-import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
-import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptionsList;
 import necesse.gfx.drawables.LevelSortedDrawable;
@@ -61,7 +59,6 @@ public class StudyTableObject extends FurnitureObject {
         int bookAddition = hasBook(level, tileX, tileY) ? 2 : 0;
 
         final DrawOptionsList options = new DrawOptionsList();
-        System.out.println(rotation);
         if (rotation == 0) {
             options.add(this.texture.initDraw().sprite(bookAddition, 4, 32).light(light).pos(drawX, drawY - 24));
             options.add(this.texture.initDraw().sprite(bookAddition, 5, 32).light(light).pos(drawX, drawY + 8));
@@ -153,10 +150,9 @@ public class StudyTableObject extends FurnitureObject {
     }
 
     protected static boolean hasBook(Level level, int tileX, int tileY) {
-        ObjectEntity ent = level.entityManager.getObjectEntity(tileX, tileY);
+        StudyTableObjectEntity ent = (StudyTableObjectEntity) level.entityManager.getObjectEntity(tileX, tileY);
         if (ent != null) {
-            InventoryItem book = ((OEInventory)ent).getInventory().getItem(0);
-            return book != null && book.item.getStringID().equalsIgnoreCase("book");
+            return ent.getMaterialCount() > 0;
         }
 
         return false;

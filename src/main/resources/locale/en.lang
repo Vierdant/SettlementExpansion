@@ -60,3 +60,9 @@ processed=Processed goods
 geodes==Geodes
 gems=Gems
 
+[jobs]
+studyingname=Studying
+studyingtip=Studies various books at a study table and produces scrolls with the newly obtained knowledge
+
+[activities]
+studying=Studying a book

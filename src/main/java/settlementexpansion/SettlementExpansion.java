@@ -23,7 +23,6 @@ public class SettlementExpansion {
         ContainerModRegistry.registerContainers();
 
         PacketModRegistry.registerPackets();
-
     }
 
     public void initResources() {

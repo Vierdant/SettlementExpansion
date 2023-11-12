@@ -6,18 +6,27 @@ import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.map.job.StudyBookLevelJob;
 import settlementexpansion.mob.friendly.HumanMobData;
 
-public class HumanMobDataPatch {
+public class HumanMobPatch {
 
     @ModConstructorPatch(target = HumanMob.class, arguments = {int.class, int.class, String.class})
     public static class HumanMobConstructPatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.This HumanMob humanMob) {
+            setJobHandlers(humanMob);
+
             if (humanMob.isSettler()) {
                 HumanMobData.storage.put(humanMob.idData,
                         new HumanMobData(humanMob));
             }
+        }
+
+        public static void setJobHandlers(HumanMob humanMob) {
+            humanMob.jobTypeHandler.setJobHandler(StudyBookLevelJob.class, 3000, 10000, 0, 4000, () ->
+                            (!humanMob.isSettler() || humanMob.isSettlerOnCurrentLevel()) && !humanMob.getWorkInventory().isFull(),
+                    (foundJob) -> StudyBookLevelJob.getJobSequence(humanMob, foundJob));
         }
     }
 

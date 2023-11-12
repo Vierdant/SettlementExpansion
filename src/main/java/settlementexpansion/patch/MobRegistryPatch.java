@@ -31,6 +31,7 @@ import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetPenguinM
 import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetWalkingTorchMob;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.mob.friendly.BlacksmithModHumanMob;
+import settlementexpansion.mob.friendly.MageModHumanMob;
 
 @ModMethodPatch(target = MobRegistry.class, name = "registerCore", arguments = {})
 public class MobRegistryPatch {
@@ -75,7 +76,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("farmerhuman", FarmerHumanMob.class, true);
         MobRegistry.registerMob("blacksmithhuman", BlacksmithModHumanMob.class, true);
         MobRegistry.registerMob("guardhuman", GuardHumanMob.class, true);
-        MobRegistry.registerMob("magehuman", MageHumanMob.class, true);
+        MobRegistry.registerMob("magehuman", MageModHumanMob.class, true);
         MobRegistry.registerMob("gunsmithhuman", GunsmithHumanMob.class, true);
         MobRegistry.registerMob("alchemisthuman", AlchemistHumanMob.class, true);
         MobRegistry.registerMob("hunterhuman", HunterHumanMob.class, true);
