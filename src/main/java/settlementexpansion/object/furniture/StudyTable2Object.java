@@ -49,11 +49,11 @@ public class StudyTable2Object extends FurnitureObject {
 
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
-            return new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16);
-        } else if (rotation == 1) {
             return new Rectangle(x * 32, y * 32 + 6, 20, 20);
+        } else if (rotation == 1) {
+            return new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16);
         } else {
-            return rotation == 2 ? new Rectangle(x * 32 + 5, y * 32, 22, 26) : new Rectangle(x * 32 + 12, y * 32 + 6, 20, 20);
+            return rotation == 2 ? new Rectangle(x * 32 + 12, y * 32 + 6, 20, 20) : new Rectangle(x * 32 + 5, y * 32, 22, 26);
         }
     }
 
@@ -82,10 +82,10 @@ public class StudyTable2Object extends FurnitureObject {
         } else if (rotation == 1) {
             options.add(this.texture.initDraw().sprite(bookAddition, 1, 32).light(light).pos(drawX, drawY + 2));
         } else if (rotation == 2) {
-            options.add(this.texture.initDraw().sprite(1 + bookAddition, 2, 32).mirrorX().light(light).pos(drawX, drawY - 24));
-            options.add(this.texture.initDraw().sprite(1 + bookAddition, 3, 32).mirrorX().light(light).pos(drawX, drawY + 8));
+            options.add(this.texture.initDraw().sprite(bookAddition, 2, 32).light(light).pos(drawX, drawY - 24));
+            options.add(this.texture.initDraw().sprite(bookAddition, 3, 32).light(light).pos(drawX, drawY + 8));
         } else {
-            options.add(this.texture.initDraw().sprite(1 + bookAddition, 1, 32).light(light).pos(drawX, drawY + 2));
+            options.add(this.texture.initDraw().sprite(1 + bookAddition, 0, 32).light(light).pos(drawX, drawY + 2));
         }
 
         list.add(new LevelSortedDrawable(this, tileX, tileY) {

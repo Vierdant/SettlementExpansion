@@ -61,16 +61,17 @@ public class StudyTableObject extends FurnitureObject {
         int bookAddition = hasBook(level, tileX, tileY) ? 2 : 0;
 
         final DrawOptionsList options = new DrawOptionsList();
+        System.out.println(rotation);
         if (rotation == 0) {
             options.add(this.texture.initDraw().sprite(bookAddition, 4, 32).light(light).pos(drawX, drawY - 24));
             options.add(this.texture.initDraw().sprite(bookAddition, 5, 32).light(light).pos(drawX, drawY + 8));
         } else if (rotation == 1) {
             options.add(this.texture.initDraw().sprite(bookAddition, 0, 32).light(light).pos(drawX, drawY + 2));
         } else if (rotation == 2) {
-            options.add(this.texture.initDraw().sprite(bookAddition, 2, 32).mirrorX().light(light).pos(drawX, drawY - 24));
-            options.add(this.texture.initDraw().sprite(bookAddition, 3, 32).mirrorX().light(light).pos(drawX, drawY + 8));
+            options.add(this.texture.initDraw().sprite(1 + bookAddition, 2, 32).light(light).pos(drawX, drawY - 24));
+            options.add(this.texture.initDraw().sprite(1 + bookAddition, 3, 32).light(light).pos(drawX, drawY + 8));
         } else {
-            options.add(this.texture.initDraw().sprite(1 + bookAddition, 0, 32).light(light).pos(drawX, drawY + 2));
+            options.add(this.texture.initDraw().sprite(1 + bookAddition, 1, 32).light(light).pos(drawX, drawY + 2));
         }
 
         list.add(new LevelSortedDrawable(this, tileX, tileY) {
@@ -88,18 +89,18 @@ public class StudyTableObject extends FurnitureObject {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
         if (rotation == 0) {
-            this.texture.initDraw().sprite(0, 2, 32).mirrorX().alpha(alpha).draw(drawX + 32, drawY - 24);
-            this.texture.initDraw().sprite(1, 2, 32).mirrorX().alpha(alpha).draw(drawX, drawY - 24);
-            this.texture.initDraw().sprite(0, 3, 32).mirrorX().alpha(alpha).draw(drawX + 32, drawY + 8);
-            this.texture.initDraw().sprite(1, 3, 32).mirrorX().alpha(alpha).draw(drawX, drawY + 8);
+            this.texture.initDraw().sprite(0, 4, 32).alpha(alpha).draw(drawX, drawY - 24);
+            this.texture.initDraw().sprite(1, 4, 32).alpha(alpha).draw(drawX + 32, drawY - 24);
+            this.texture.initDraw().sprite(0, 5, 32).alpha(alpha).draw(drawX, drawY + 8);
+            this.texture.initDraw().sprite(1, 5, 32).alpha(alpha).draw(drawX + 32, drawY + 8);
         } else if (rotation == 1) {
             this.texture.initDraw().sprite(0, 0, 32).alpha(alpha).draw(drawX, drawY + 2);
             this.texture.initDraw().sprite(0, 1, 32).alpha(alpha).draw(drawX, drawY + 32 + 2);
         } else if (rotation == 2) {
-            this.texture.initDraw().sprite(0, 4, 32).alpha(alpha).draw(drawX - 32, drawY - 24);
-            this.texture.initDraw().sprite(1, 4, 32).alpha(alpha).draw(drawX, drawY - 24);
-            this.texture.initDraw().sprite(0, 5, 32).alpha(alpha).draw(drawX - 32, drawY + 8);
-            this.texture.initDraw().sprite(1, 5, 32).alpha(alpha).draw(drawX, drawY + 8);
+            this.texture.initDraw().sprite(0, 2, 32).alpha(alpha).draw(drawX - 32, drawY - 24);
+            this.texture.initDraw().sprite(1, 2, 32).alpha(alpha).draw(drawX, drawY - 24);
+            this.texture.initDraw().sprite(0, 3, 32).alpha(alpha).draw(drawX - 32, drawY + 8);
+            this.texture.initDraw().sprite(1, 3, 32).alpha(alpha).draw(drawX, drawY + 8);
         } else {
             this.texture.initDraw().sprite(1, 1, 32).alpha(alpha).draw(drawX, drawY + 2);
             this.texture.initDraw().sprite(1, 0, 32).alpha(alpha).draw(drawX, drawY - 32 + 2);
@@ -109,11 +110,11 @@ public class StudyTableObject extends FurnitureObject {
 
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
-            return new Rectangle(x * 32 + 5, y * 32, 22, 26);
-        } else if (rotation == 1) {
             return new Rectangle(x * 32 + 12, y * 32 + 6, 20, 20);
+        } else if (rotation == 1) {
+            return new Rectangle(x * 32 + 5, y * 32, 22, 26);
         } else {
-            return rotation == 2 ? new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16) : new Rectangle(x * 32, y * 32 + 6, 20, 20);
+            return rotation == 2 ? new Rectangle(x * 32, y * 32 + 6, 20, 20) : new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16);
         }
     }
 
