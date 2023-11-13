@@ -1,4 +1,4 @@
-package settlementexpansion.mob.friendly;
+package settlementexpansion.entity.mob.friendly;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -30,8 +30,8 @@ import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetParrotMo
 import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetPenguinMob;
 import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetWalkingTorchMob;
 import net.bytebuddy.asm.Advice;
-import settlementexpansion.mob.friendly.BlacksmithModHumanMob;
-import settlementexpansion.mob.friendly.MageModHumanMob;
+import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
+import settlementexpansion.entity.mob.friendly.MageModHumanMob;
 
 @ModMethodPatch(target = MobRegistry.class, name = "registerCore", arguments = {})
 public class MobRegistryPatch {

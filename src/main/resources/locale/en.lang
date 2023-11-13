@@ -13,6 +13,7 @@ spruceleatherchair=Spruce Leather Chair
 pineleatherchair=Pine Leather Chair
 palmleatherchair=Palm Leather Chair
 deadwoodleatherchair=Deadwood Leather Chair
+cannontrap=Cannon Trap
 
 
 [ui]
@@ -61,6 +62,7 @@ orpiment=Toxic gem, however its properties can be useful in the right hands
 earthcrystal=Energy that resonates with stone can be felt from it
 earthring=Utilizing the earth energy from a rare crystal, it is a miner's treasures
 seedlingtabletip=Used to multiply seeds
+cannontrap=Loved by pirates, for obvious reasons
 
 [itemcategory]
 processed=Processed goods

@@ -1,6 +1,7 @@
 package settlementexpansion;
 
 import necesse.engine.modLoader.annotations.ModEntry;
+import necesse.engine.registries.ProjectileRegistry;
 import settlementexpansion.registry.*;
 
 @ModEntry
@@ -19,6 +20,8 @@ public class SettlementExpansion {
         ItemModRegistry.registerItems();
 
         TileModRegistry.registerTiles();
+
+        ProjectileModRegistry.registerProjectiles();
 
         ContainerModRegistry.registerContainers();
 

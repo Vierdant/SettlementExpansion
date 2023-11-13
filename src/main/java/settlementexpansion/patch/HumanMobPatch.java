@@ -7,7 +7,7 @@ import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.job.StudyBookLevelJob;
-import settlementexpansion.mob.friendly.HumanMobData;
+import settlementexpansion.entity.mob.friendly.HumanMobData;
 
 public class HumanMobPatch {
 

@@ -1,4 +1,4 @@
-package settlementexpansion.mob.friendly;
+package settlementexpansion.entity.mob.friendly;
 
 import necesse.entity.mobs.friendly.human.humanShop.MageHumanMob;
 

@@ -11,6 +11,7 @@ import settlementexpansion.object.furniture.FishDisplayObject;
 import settlementexpansion.object.furniture.LeatherChairObject;
 import settlementexpansion.object.furniture.SafeBoxInventoryObject;
 import settlementexpansion.object.furniture.StudyTableObject;
+import settlementexpansion.object.trap.CannonTrapObject;
 
 import java.awt.*;
 
@@ -29,12 +30,25 @@ public class ObjectModRegistry {
         ObjectRegistry.registerObject("dryingrack", new DryingRackObject(), 50.0F, true);
         ObjectRegistry.registerObject("fishwalldisplay", new FishDisplayObject("sprucefishwalldisplay", 0), 10, true);
         ObjectRegistry.registerObject("safebox", new SafeBoxInventoryObject("safebox", 40, new Color(49, 52, 70)), 40, true);
+        ObjectRegistry.registerObject("cannontrap", new CannonTrapObject(), 50F, true);
 
         SeedlingTableObject.registerSeedlingTable();
         StudyTableObject.registerSeedlingTable();
     }
 
     public static void registerRecipes() {
+
+        Recipes.registerModRecipe(new Recipe(
+                "cannontrap",
+                1,
+                RecipeTechRegistry.ADVANCED_WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("handcannon", 1),
+                        new Ingredient("ironbar", 10),
+                        new Ingredient("copperbar", 5)
+                },
+                false
+        ));
 
         Recipes.registerModRecipe(new Recipe(
                 "dryingrack",

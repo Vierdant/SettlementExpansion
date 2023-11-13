@@ -22,7 +22,7 @@ import necesse.gfx.ui.ButtonColor;
 import necesse.level.maps.levelData.settlementData.settler.Settler;
 import settlementexpansion.inventory.container.BlacksmithContainer;
 import settlementexpansion.inventory.slots.FormContainerGeodeSlot;
-import settlementexpansion.mob.friendly.BlacksmithModHumanMob;
+import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 
 import java.awt.*;
 

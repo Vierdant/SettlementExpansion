@@ -2,18 +2,14 @@ package settlementexpansion.registry;
 
 import necesse.engine.network.PacketReader;
 import necesse.engine.registries.ContainerRegistry;
-import necesse.entity.mobs.friendly.human.humanShop.MageHumanMob;
 import necesse.entity.objectEntity.interfaces.OEInventory;
-import necesse.gfx.forms.presets.containerComponent.mob.MageContainerForm;
-import necesse.gfx.forms.presets.containerComponent.object.DresserContainerForm;
-import necesse.inventory.container.mob.MageContainer;
 import necesse.inventory.container.object.OEInventoryContainer;
 import settlementexpansion.inventory.container.BlacksmithContainer;
 import settlementexpansion.inventory.container.OELockedInventoryContainer;
 import settlementexpansion.inventory.form.BlacksmithContainerForm;
 import settlementexpansion.inventory.form.OELockedInventoryContainerForm;
 import settlementexpansion.inventory.form.StudyTableContainerForm;
-import settlementexpansion.mob.friendly.BlacksmithModHumanMob;
+import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 
 public class ContainerModRegistry {

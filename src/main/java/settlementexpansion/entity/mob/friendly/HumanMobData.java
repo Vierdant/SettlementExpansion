@@ -1,4 +1,4 @@
-package settlementexpansion.mob.friendly;
+package settlementexpansion.entity.mob.friendly;
 
 import necesse.engine.registries.IDData;
 import necesse.engine.save.LoadData;
