@@ -7,6 +7,13 @@ fishwalldisplay=Fish Display
 safebox=Safebox
 seedlingtable=Seedling Table
 studytable=Study Table
+leatherchair=Leather Chair
+oakleatherchair=Oak Leather Chair
+spruceleatherchair=Spruce Leather Chair
+pineleatherchair=Pine Leather Chair
+palmleatherchair=Palm Leather Chair
+deadwoodleatherchair=Deadwood Leather Chair
+
 
 [ui]
 drying=Drying...
@@ -20,6 +27,10 @@ blacksmithcost=Cost:
 blacksmithbreaktip=Put the geode in slot and press break to obtain various treasures!
 blacksmithbreakfocustip=Higher happiness allows you to break geodes for cheaper
 blacksmithwantbreakgeode=I want to break some geodes
+personalizedroom=Personalized Room
+nopersonalizedroom=Missing <list> in my room
+preferredfurniturewoodtype=Preferred furniture wood type
+notfurniturewoodtype=I would like  more <wood> furniture in my room
 
 [item]
 tannedleather=Tanned Leather
@@ -50,10 +61,6 @@ orpiment=Toxic gem, however its properties can be useful in the right hands
 earthcrystal=Energy that resonates with stone can be felt from it
 earthring=Utilizing the earth energy from a rare crystal, it is a miner's treasures
 seedlingtabletip=Used to multiply seeds
-
-[settlement]
-personalizedobject=Personalized Room
-nopersonalizedobject=Missing
 
 [itemcategory]
 processed=Processed goods

@@ -1,7 +1,5 @@
 package settlementexpansion.mob.friendly;
 
-import necesse.engine.localization.message.GameMessageBuilder;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,16 +14,17 @@ public enum SettlerPersonalObjects {
     BLACKSMITH(Arrays.asList("forge", "ironanvil")),
     FARMER(Collections.singletonList("seedlingtable")),
     MAGE(Collections.singletonList("studytable")),
+    ANIMALKEEPER(Collections.singletonList("leatherchair")),
     GENERIC(Collections.emptyList());
 
-    final List<String> furniture;
+    final List<String> objectList;
 
     SettlerPersonalObjects(List<String> furniture) {
-        this.furniture = furniture;
+        this.objectList = furniture;
     }
 
-    public List<String> getFurniture() {
-        return furniture;
+    public List<String> getObjects() {
+        return objectList;
     }
 
     public static SettlerPersonalObjects getSettler(String id) {
@@ -39,6 +38,7 @@ public enum SettlerPersonalObjects {
             case "blacksmith": return BLACKSMITH;
             case "farmer": return FARMER;
             case "mage": return MAGE;
+            case "animalkeeper": return ANIMALKEEPER;
             default: return GENERIC;
         }
     }
