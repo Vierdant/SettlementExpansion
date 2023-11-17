@@ -7,6 +7,7 @@ import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import settlementexpansion.object.DryingRackObject;
 import settlementexpansion.object.SeedlingTableObject;
+import settlementexpansion.object.ToolsRackObject;
 import settlementexpansion.object.furniture.FishDisplayObject;
 import settlementexpansion.object.furniture.LeatherChairObject;
 import settlementexpansion.object.furniture.SafeBoxInventoryObject;
@@ -34,6 +35,7 @@ public class ObjectModRegistry {
 
         SeedlingTableObject.registerSeedlingTable();
         StudyTableObject.registerSeedlingTable();
+        ToolsRackObject.registerToolsRack();
     }
 
     public static void registerRecipes() {
@@ -59,6 +61,16 @@ public class ObjectModRegistry {
                 },
                 false
         ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "toolsrack",
+                1,
+                RecipeTechRegistry.CARPENTER,
+                new Ingredient[]{
+                        new Ingredient("anylog", 15)
+                },
+                false
+        ).showAfter("barrel"));
 
         Recipes.registerModRecipe(new Recipe(
                 "safebox",
