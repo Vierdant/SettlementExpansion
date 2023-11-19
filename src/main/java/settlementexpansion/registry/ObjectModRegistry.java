@@ -27,7 +27,7 @@ public class ObjectModRegistry {
         }
 
         ObjectRegistry.registerObject("dryingrack", new DryingRackObject(), 50.0F, true);
-        ObjectRegistry.registerObject("fishwalldisplay", new FishDisplayObject("sprucefishwalldisplay", 0), 10, true);
+        ObjectRegistry.registerObject("sprucefishwalldisplay", new FishDisplayObject("sprucefishwalldisplay", 0), 10, true);
         ObjectRegistry.registerObject("safebox", new SafeBoxInventoryObject("safebox", 40, new Color(49, 52, 70)), 40, true);
         ObjectRegistry.registerObject("cannontrap", new CannonTrapObject(), 50F, true);
 
@@ -81,7 +81,7 @@ public class ObjectModRegistry {
         ));
 
         Recipes.registerModRecipe(new Recipe(
-                "fishwalldisplay",
+                "sprucefishwalldisplay",
                 1,
                 RecipeTechRegistry.CARPENTER,
                 new Ingredient[]{
@@ -121,7 +121,7 @@ public class ObjectModRegistry {
                     RecipeTechRegistry.CARPENTER,
                     new Ingredient[]{
                             new Ingredient(type + "log", 5),
-                            new Ingredient("glassbottle", 5)
+                            new Ingredient("glass", 5)
 
                     },
                     false

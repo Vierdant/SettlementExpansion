@@ -23,6 +23,8 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("tannedleather", (new MatItem(250)).setItemCategory("materials", "mobdrops", "processed"), 10.0F, true);
         ItemRegistry.registerItem("geode", new GeodeItem("geode", 35, 1.5F), 25, true);
 
+        ItemRegistry.registerItem("glass", (new MatItem(100).setItemCategory("materials")), 5, true);
+
         ItemRegistry.registerItem("alamite", (new MatItem(100, Item.Rarity.UNCOMMON, "alamite").setItemCategory("materials", "minerals", "gems")), 150, true);
         ItemRegistry.registerItem("amethyst", (new MatItem(100, Item.Rarity.UNCOMMON, "amethyst").setItemCategory("materials", "minerals", "gems")), 100, true);
         ItemRegistry.registerItem("calcite", (new MatItem(100, Item.Rarity.UNCOMMON, "calcite").setItemCategory("materials", "minerals", "gems")), 75, true);
@@ -46,6 +48,15 @@ public class ItemModRegistry {
         ));
 
         Recipes.registerModRecipe(new Recipe(
+                "glass",
+                2,
+                RecipeTechRegistry.FORGE,
+                new Ingredient[]{
+                        new Ingredient("sandtile", 1)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
                 "earthring",
                 1,
                 RecipeTechRegistry.DEMONIC,
@@ -53,7 +64,7 @@ public class ItemModRegistry {
                         new Ingredient("ironbar", 2),
                         new Ingredient("earthcrystal", 1)
                 }
-        ));
+        ).showAfter("explorersatchel"));
     }
 
 }

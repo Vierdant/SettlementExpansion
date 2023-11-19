@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum SettlerPersonalObjects {
     HUNTER(Collections.singletonList("dryingrack")),
-    ANGLER(Arrays.asList("fishwalldisplay", "storagebox")),
+    ANGLER(Arrays.asList("sprucefishwalldisplay", "storagebox")),
     PAWNBROKER(Collections.singletonList("safebox")),
     EXPLORER(Collections.singletonList("cartographertable")),
     GUARD(Collections.singletonList("armorstand")),
@@ -16,6 +16,7 @@ public enum SettlerPersonalObjects {
     MAGE(Arrays.asList("studytable", "chair")),
     ANIMALKEEPER(Arrays.asList("leatherchair", "leathercarpet")),
     MINER(Arrays.asList("toolsrack", "storagebox")),
+    GUNSMITH(Collections.singletonList("trainingdummy")),
     STYLIST(Arrays.asList("tallmirror", "woolcarpet")),
     GENERIC(Collections.emptyList());
 
@@ -43,6 +44,7 @@ public enum SettlerPersonalObjects {
             case "animalkeeper": return ANIMALKEEPER;
             case "miner": return MINER;
             case "stylist": return STYLIST;
+            case "gunsmith": return GUNSMITH;
             default: return GENERIC;
         }
     }

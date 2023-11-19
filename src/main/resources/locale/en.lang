@@ -1,5 +1,10 @@
 [tile]
 litwoodfloor=Lit Wooden Floor
+litwoodpathtile=Lit Wooden Path
+litstonefloor=Lit Stone Floor
+litstonepathtile=Lit Stone Path
+litswampstonefloor=Lit Swamp Stone Floor
+litswampstonepathtile=Lit Swamp Stone Path
 
 [object]
 dryingrack=Drying Rack
@@ -53,6 +58,7 @@ malachite=Malachite
 orpiment=Orpiment
 earthcrystal=Earth Crystal
 earthring=Earth Ring
+glass=Glass
 
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it

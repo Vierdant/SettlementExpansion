@@ -251,7 +251,6 @@ public class RecipesPatch {
         out.add(new Recipe("calmingminersbouquet", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{calmingrose, 1}, {miningcharm, 1}}"), true));
         out.add(new Recipe("steelboat", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{spareboatparts, 1}, {coin, 500}}")));
         out.add(new Recipe("tnt", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{dynamitestick, 4}, {wire, 10}}")));
-        out.add(new Recipe("glassbottle", 2, RecipeTechRegistry.FORGE, ingredientsFromScript("{{sandtile, 1}}")));
         out.add(new Recipe("healthpotion", 2, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{sunflower, 3}, {glassbottle, 2}}")));
         out.add(new Recipe("greaterhealthpotion", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{healthpotion, 1}, {caveglow, 1}}"), true));
         out.add(new Recipe("manapotion", 2, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{sunflower, 1}, {blueberry, 4}, {glassbottle, 2}}")));
@@ -280,6 +279,7 @@ public class RecipesPatch {
         out.add(new Recipe("minionpotion", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{glacialshard, 1}, {caveglow, 2}, {icefish, 1}, {glassbottle, 1}}")));
         out.add(new Recipe("webpotion", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{silk, 1}, {caveglow, 2}, {glassbottle, 1}}")));
         out.add(new Recipe("regenpendant", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{goldbar, 10}, {healthregenpotion, 5}}")));
+        out.add(new Recipe("glassbottle", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{glass, 1}}")));
         out.add(new Recipe("sandtile", 1, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{anystone, 5}}")));
         out.add(new Recipe("craftingguide", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 2}, {leather, 5}}")));
         out.add(new Recipe("woodpickaxe", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 8}}")));
