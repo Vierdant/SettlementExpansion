@@ -16,6 +16,7 @@ public enum SettlerPersonalObjects {
     MAGE(Arrays.asList("studytable", "chair")),
     ANIMALKEEPER(Arrays.asList("leatherchair", "leathercarpet")),
     MINER(Arrays.asList("toolsrack", "storagebox")),
+    STYLIST(Arrays.asList("tallmirror", "woolcarpet")),
     GENERIC(Collections.emptyList());
 
     final List<String> objectList;
@@ -41,6 +42,7 @@ public enum SettlerPersonalObjects {
             case "mage": return MAGE;
             case "animalkeeper": return ANIMALKEEPER;
             case "miner": return MINER;
+            case "stylist": return STYLIST;
             default: return GENERIC;
         }
     }

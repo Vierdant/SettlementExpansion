@@ -8,10 +8,7 @@ import necesse.inventory.recipe.Recipes;
 import settlementexpansion.object.DryingRackObject;
 import settlementexpansion.object.SeedlingTableObject;
 import settlementexpansion.object.ToolsRackObject;
-import settlementexpansion.object.furniture.FishDisplayObject;
-import settlementexpansion.object.furniture.LeatherChairObject;
-import settlementexpansion.object.furniture.SafeBoxInventoryObject;
-import settlementexpansion.object.furniture.StudyTableObject;
+import settlementexpansion.object.furniture.*;
 import settlementexpansion.object.trap.CannonTrapObject;
 
 import java.awt.*;
@@ -25,7 +22,8 @@ public class ObjectModRegistry {
         Color woodFurniture = new Color(150, 119, 70);
 
         for (String type : woodFurnitureTypes) {
-            ObjectRegistry.registerObject(type + "leatherchair", new LeatherChairObject("spruceleatherchair", woodFurniture), 6F, true);
+            ObjectRegistry.registerObject(type + "leatherchair", new LeatherChairObject(type + "leatherchair", woodFurniture), 6F, true);
+            ObjectRegistry.registerObject(type + "tallmirror", new TallMirrorObject(type + "tallmirror", woodFurniture), 10F, true);
         }
 
         ObjectRegistry.registerObject("dryingrack", new DryingRackObject(), 50.0F, true);
@@ -116,6 +114,18 @@ public class ObjectModRegistry {
                     },
                     false
             ).showAfter(type + "chair"));
+
+            Recipes.registerModRecipe(new Recipe(
+                    type + "tallmirror",
+                    1,
+                    RecipeTechRegistry.CARPENTER,
+                    new Ingredient[]{
+                            new Ingredient(type + "log", 5),
+                            new Ingredient("glassbottle", 5)
+
+                    },
+                    false
+            ).showAfter(type + "bookshelf"));
         }
 
         SeedlingTableObject.registerSeedlingRecipes();
