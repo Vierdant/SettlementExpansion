@@ -1,3 +1,3 @@
-An example mod for Necesse.
+Settlement Expansion mod
 
-Check out the [modding wiki page](https://necessewiki.com/Modding) for more.
+a mod that aims to expands the settlement functionality of Necesse
