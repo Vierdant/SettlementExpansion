@@ -17,7 +17,7 @@ public class HumanMobPatch {
         static void onExit(@Advice.This HumanMob humanMob) {
             setJobHandlers(humanMob);
 
-            if (humanMob.isSettler()) {
+            if (!humanMob.getStringID().equalsIgnoreCase("travelingmerchant")) {
                 HumanMobData.storage.put(humanMob.idData,
                         new HumanMobData(humanMob));
             }
