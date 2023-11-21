@@ -14,11 +14,11 @@ public class TileModRegistry {
 
     public static void registerTiles() {
         TileRegistry.registerTile("litwoodfloor", new LitFloorTile("litwoodfloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
-        TileRegistry.registerTile("litwoodpathtile", new LitPathTiledTile("litwoodpath", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
+        TileRegistry.registerTile("litwoodpathtile", new LitPathTiledTile("litwoodpath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("woodpathtile")), 5, true);
         TileRegistry.registerTile("litstonefloor", new LitFloorTile("litstonefloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
-        TileRegistry.registerTile("litstonepathtile", new LitPathTiledTile("litstonepath", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
+        TileRegistry.registerTile("litstonepathtile", new LitPathTiledTile("litstonepath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("stonepathtile")), 5, true);
         TileRegistry.registerTile("litswampstonefloor", new LitFloorTile("litswampstonefloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
-        TileRegistry.registerTile("litswampstonepathtile", new LitPathTiledTile("litswampstonepath", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
+        TileRegistry.registerTile("litswampstonepathtile", new LitPathTiledTile("litswampstonepath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("swampstonepathtile")), 5, true);
     }
 
     public static void registerRecipes() {

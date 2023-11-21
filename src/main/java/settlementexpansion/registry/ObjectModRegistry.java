@@ -48,7 +48,7 @@ public class ObjectModRegistry {
                         new Ingredient("copperbar", 5)
                 },
                 false
-        ));
+        ).showAfter("upgradestation"));
 
         Recipes.registerModRecipe(new Recipe(
                 "dryingrack",
@@ -58,7 +58,7 @@ public class ObjectModRegistry {
                         new Ingredient("anylog", 20)
                 },
                 false
-        ));
+        ).showAfter("net"));
 
         Recipes.registerModRecipe(new Recipe(
                 "toolsrack",
@@ -78,7 +78,7 @@ public class ObjectModRegistry {
                         new Ingredient("ironbar", 12)
                 },
                 false
-        ));
+        ).showAfter("storagebox"));
 
         Recipes.registerModRecipe(new Recipe(
                 "sprucefishwalldisplay",
@@ -88,7 +88,7 @@ public class ObjectModRegistry {
                         new Ingredient("anylog", 10)
                 },
                 false
-        ));
+        ).showAfter("sprucechest"));
 
         Recipes.registerModRecipe(new Recipe(
                 "seedlingtable",
@@ -100,7 +100,7 @@ public class ObjectModRegistry {
                         new Ingredient("ironbar", 1)
                 },
                 false
-        ));
+        ).showAfter("dryingrack"));
 
         for (String type : woodFurnitureTypes) {
             Recipes.registerModRecipe(new Recipe(
