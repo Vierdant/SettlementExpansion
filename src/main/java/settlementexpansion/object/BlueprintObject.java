@@ -124,7 +124,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public static void registerBlueprints() {
-        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_2), 5, true);
     }
 
     public static void registerBlueprintRecipes() {

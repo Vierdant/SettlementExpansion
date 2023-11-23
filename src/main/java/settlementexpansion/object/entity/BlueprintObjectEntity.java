@@ -1,6 +1,5 @@
 package settlementexpansion.object.entity;
 
-import necesse.engine.GameTileRange;
 import necesse.engine.Screen;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.save.LoadData;
@@ -10,16 +9,14 @@ import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.pickup.ItemPickupEntity;
 import necesse.gfx.camera.GameCamera;
-import necesse.gfx.drawOptions.texture.SharedTextureDrawOptions;
 import necesse.gfx.drawOptions.texture.TextureDrawOptionsEnd;
 import necesse.gfx.drawables.SortedDrawable;
-import necesse.gfx.forms.presets.containerComponent.object.CraftingStationContainerForm;
-import necesse.gfx.forms.presets.debug.tools.PresetPasteGameTool;
-import necesse.inventory.container.object.CraftingStationContainer;
 import necesse.level.gameObject.GameObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
 import necesse.level.maps.presets.Preset;
+import necesse.level.maps.presets.PresetRotateException;
+import necesse.level.maps.presets.PresetRotation;
 import settlementexpansion.map.preset.BlueprintPreset;
 import settlementexpansion.map.preset.BlueprintPresetID;
 
@@ -34,6 +31,13 @@ public class BlueprintObjectEntity extends ObjectEntity {
     public BlueprintObjectEntity(Level level, BlueprintPresetID presetId, int x, int y) {
         super(level, "blueprint", x, y);
         this.preset = new BlueprintPreset(presetId);
+
+        try {
+            System.out.println("rotated to: " + level.getObjectRotation(x, y));
+            this.preset = preset.rotate(PresetRotation.toRotationAngle(level.getObjectRotation(x, y)));
+        } catch (PresetRotateException ignored) {
+        }
+
         this.hudElement = null;
     }
 
@@ -56,8 +60,6 @@ public class BlueprintObjectEntity extends ObjectEntity {
                         canApplyOptions = Screen.initQuadDraw(preset.width * 32, preset.height * 32).color(1.0F, 0.0F, 0.0F, 0.5F).pos(camera.getTileDrawX(placeTile.x), camera.getTileDrawY(placeTile.y));
                     }
 
-                    //final SharedTextureDrawOptions options = new GameTileRange(9).getDrawOptions(new Color(255, 255, 255, 200), new Color(255, 255, 255, 75), getTileX(), getTileY(), camera);
-
                     list.add(new SortedDrawable() {
                         public int getPriority() {
                             return Integer.MIN_VALUE;
@@ -68,8 +70,6 @@ public class BlueprintObjectEntity extends ObjectEntity {
                             if (canApplyOptions != null) {
                                 canApplyOptions.draw();
                             }
-
-                            //options.draw();
                         }
                     });
                 }
@@ -88,15 +88,5 @@ public class BlueprintObjectEntity extends ObjectEntity {
             System.out.println("removed");
             this.hudElement.remove();
         }
-    }
-
-    public void addSaveData(SaveData save) {
-        super.addSaveData(save);
-        save.addEnum("blueprintid", preset.id);
-    }
-
-    public void applyLoadData(LoadData save) {
-        super.applyLoadData(save);
-        this.preset = new BlueprintPreset(save.getEnum(BlueprintPresetID.class, "blueprintid"));
     }
 }
