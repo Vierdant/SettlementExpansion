@@ -27,6 +27,8 @@ sprucetallmirror=Spruce Tall Mirror
 pinetallmirror=Pine Tall Mirror
 palmtallmirror=Palm Tall Mirror
 deadwoodtallmirror=Deadwood Tall Mirror
+blueprinttable=Blueprint Table
+blueprint=Blueprint
 
 
 [ui]
@@ -45,6 +47,7 @@ personalizedroom=Personalized Room
 nopersonalizedroom=Missing <list> in my room
 preferredfurniturewoodtype=Preferred furniture wood type
 notfurniturewoodtype=I would like  more <wood> furniture in my room
+blueprintbuildconfirm=Construct Blueprint
 
 [item]
 tannedleather=Tanned Leather
@@ -59,6 +62,7 @@ orpiment=Orpiment
 earthcrystal=Earth Crystal
 earthring=Earth Ring
 glass=Glass
+blueprintempty=Empty Blueprint
 
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it

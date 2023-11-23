@@ -6,12 +6,12 @@ import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.object.OEInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 
-public class OELockedInventoryContainer extends OEInventoryContainer {
+public class LockedInventoryContainer extends OEInventoryContainer {
 
     public LockedInventoryObjectEntity lockedObjectEntity;
     public EmptyCustomAction lockButton;
 
-    public OELockedInventoryContainer(NetworkClient client, int uniqueSeed, LockedInventoryObjectEntity objectEntity, PacketReader reader) {
+    public LockedInventoryContainer(NetworkClient client, int uniqueSeed, LockedInventoryObjectEntity objectEntity, PacketReader reader) {
         super(client, uniqueSeed, objectEntity, reader);
         this.lockedObjectEntity = objectEntity;
 

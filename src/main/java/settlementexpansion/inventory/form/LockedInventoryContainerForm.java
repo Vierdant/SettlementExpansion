@@ -9,16 +9,16 @@ import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.presets.containerComponent.object.OEInventoryContainerForm;
 import necesse.gfx.ui.ButtonColor;
 import necesse.gfx.ui.ButtonIcon;
-import settlementexpansion.inventory.container.OELockedInventoryContainer;
+import settlementexpansion.inventory.container.LockedInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 import settlementexpansion.ModResources;
 
-public class OELockedInventoryContainerForm<T extends OELockedInventoryContainer> extends OEInventoryContainerForm<T> {
+public class LockedInventoryContainerForm<T extends LockedInventoryContainer> extends OEInventoryContainerForm<T> {
 
     private final FormContentIconButton lockButton;
     private final LockedInventoryObjectEntity objectEntity;
 
-    public OELockedInventoryContainerForm(Client client, T container, int height) {
+    public LockedInventoryContainerForm(Client client, T container, int height) {
         super(client, container, height);
         this.objectEntity = container.lockedObjectEntity;
         FormFlow iconFlow = new FormFlow(this.inventoryForm.getWidth() - 4);
@@ -33,7 +33,7 @@ public class OELockedInventoryContainerForm<T extends OELockedInventoryContainer
         this.lockButton.setCooldown(500);
     }
 
-    public OELockedInventoryContainerForm(Client client, T container) {
+    public LockedInventoryContainerForm(Client client, T container) {
         this(client, container, getContainerHeight(container.getOEInventory().getInventory().getSize(), 10));
     }
 

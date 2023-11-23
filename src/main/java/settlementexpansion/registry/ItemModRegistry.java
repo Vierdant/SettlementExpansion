@@ -24,6 +24,7 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("geode", new GeodeItem("geode", 35, 1.5F), 25, true);
 
         ItemRegistry.registerItem("glass", (new MatItem(100).setItemCategory("materials")), 5, true);
+        ItemRegistry.registerItem("blueprintempty", (new MatItem(100).setItemCategory("misc")), 5, true);
 
         ItemRegistry.registerItem("alamite", (new MatItem(100, Item.Rarity.UNCOMMON, "alamite").setItemCategory("materials", "minerals", "gems")), 150, true);
         ItemRegistry.registerItem("amethyst", (new MatItem(100, Item.Rarity.UNCOMMON, "amethyst").setItemCategory("materials", "minerals", "gems")), 100, true);
@@ -53,6 +54,17 @@ public class ItemModRegistry {
                 RecipeTechRegistry.FORGE,
                 new Ingredient[]{
                         new Ingredient("sandtile", 1)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "blueprintempty",
+                1,
+                RecipeTechModRegistry.BLUEPRINTTABLE,
+                new Ingredient[]{
+                        new Ingredient("tannedleather", 1),
+                        new Ingredient("iceblossom", 1)
+
                 }
         ));
 

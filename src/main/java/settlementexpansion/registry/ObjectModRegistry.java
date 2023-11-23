@@ -5,9 +5,7 @@ import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
-import settlementexpansion.object.DryingRackObject;
-import settlementexpansion.object.SeedlingTableObject;
-import settlementexpansion.object.ToolsRackObject;
+import settlementexpansion.object.*;
 import settlementexpansion.object.furniture.*;
 import settlementexpansion.object.trap.CannonTrapObject;
 
@@ -34,6 +32,8 @@ public class ObjectModRegistry {
         SeedlingTableObject.registerSeedlingTable();
         StudyTableObject.registerSeedlingTable();
         ToolsRackObject.registerToolsRack();
+        BlueprintTableObject.registerBlueprintTable();
+        BlueprintObject.registerBlueprints();
     }
 
     public static void registerRecipes() {
@@ -102,6 +102,17 @@ public class ObjectModRegistry {
                 false
         ).showAfter("dryingrack"));
 
+        Recipes.registerModRecipe(new Recipe(
+                "blueprinttable",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("anylog", 10),
+                        new Ingredient("iceblossom", 5)
+                },
+                false
+        ).showAfter("seedlingtable"));
+
         for (String type : woodFurnitureTypes) {
             Recipes.registerModRecipe(new Recipe(
                     type + "leatherchair",
@@ -129,5 +140,6 @@ public class ObjectModRegistry {
         }
 
         SeedlingTableObject.registerSeedlingRecipes();
+        BlueprintObject.registerBlueprintRecipes();
     }
 }

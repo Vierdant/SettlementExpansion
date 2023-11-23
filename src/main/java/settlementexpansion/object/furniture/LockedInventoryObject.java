@@ -8,7 +8,7 @@ import necesse.entity.objectEntity.ObjectEntity;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.furniture.InventoryObject;
 import necesse.level.maps.Level;
-import settlementexpansion.inventory.container.OELockedInventoryContainer;
+import settlementexpansion.inventory.container.LockedInventoryContainer;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
 import settlementexpansion.ModResources;
@@ -33,7 +33,7 @@ public class LockedInventoryObject extends InventoryObject {
             if (oe.getLockState() && oe.getCurrentOwner() != player.getNetworkClient().authentication) {
                 return;
             }
-            OELockedInventoryContainer.openAndSendContainer(ContainerModRegistry.OE_LOCKED_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
+            LockedInventoryContainer.openAndSendContainer(ContainerModRegistry.OE_LOCKED_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
         }
     }
 
