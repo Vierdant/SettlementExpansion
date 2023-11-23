@@ -9,6 +9,8 @@ import settlementexpansion.inventory.recipe.BlueprintRecipe;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class BlueprintPreset extends Preset {
 
@@ -30,12 +32,12 @@ public class BlueprintPreset extends Preset {
         this.recipe = new BlueprintRecipe();
         for (int id : Arrays.stream(this.tiles).distinct().filter((i) -> i != -1).toArray()) {
             recipe.addIngredient(new Ingredient(TileRegistry.getTile(id).getStringID(),
-                    Collections.frequency(Collections.singleton(this.tiles), id)));
+                    Arrays.stream(this.tiles).filter((i) -> i == id).boxed().toArray().length));
         }
         for (int id : Arrays.stream(this.objects).distinct().filter((i) -> i != 0).filter((id)
                 -> ObjectRegistry.getObject(id).isMultiTileMaster()).toArray()) {
             recipe.addIngredient(new Ingredient(ObjectRegistry.getObject(id).getStringID(),
-                    Collections.frequency(Collections.singleton(this.objects), id)));
+                    Arrays.stream(this.objects).filter((i) -> i == id).boxed().toArray().length));
         }
     }
 

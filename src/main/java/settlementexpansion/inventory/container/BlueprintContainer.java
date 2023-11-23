@@ -24,8 +24,6 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 public class BlueprintContainer extends SettlementDependantContainer {
-    private final LinkedHashSet<Inventory> nearbyInventories = new LinkedHashSet<>();
-    public final GameTileRange range;
     public final EmptyCustomAction buildAction;
     public final BlueprintObjectEntity objectEntity;
     public SettlementContainerObjectStatusManager settlementObjectManager;
@@ -34,12 +32,6 @@ public class BlueprintContainer extends SettlementDependantContainer {
         super(client, uniqueSeed);
         this.objectEntity = objectEntity;
         this.settlementObjectManager = new SettlementContainerObjectStatusManager(this, objectEntity.getLevel(), objectEntity.getTileX(), objectEntity.getTileY(), reader);
-        this.range = new GameTileRange(CraftingStationContainer.nearbyCraftTileRange);
-        this.nearbyInventories.addAll(this.craftInventories);
-        for (InventoryRange inventoryRange : this.getNearbyInventories(objectEntity.getLevel(),
-                objectEntity.getTileX(), objectEntity.getTileY(), this.range, OEInventory::canUseForNearbyCrafting)) {
-            this.nearbyInventories.add(inventoryRange.inventory);
-        }
 
         this.buildAction = this.registerAction(new EmptyCustomAction() {
             @Override
@@ -52,14 +44,6 @@ public class BlueprintContainer extends SettlementDependantContainer {
     @Override
     protected Level getLevel() {
         return this.client.isServerClient() ? this.client.getServerClient().getLevel() : this.client.playerMob.getLevel();
-    }
-
-    public Collection<Inventory> getCraftInventories() {
-        return this.useNearbyInventories() ? this.nearbyInventories : super.getCraftInventories();
-    }
-
-    private boolean useNearbyInventories() {
-        return this.client.isServerClient() ? this.client.craftingUsesNearbyInventories : Settings.craftingUseNearby.get();
     }
 
     public static void openAndSendContainer(int containerID, ServerClient client, Level level, int tileX, int tileY, Packet extraContent) {

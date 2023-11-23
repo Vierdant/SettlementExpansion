@@ -47,7 +47,7 @@ personalizedroom=Personalized Room
 nopersonalizedroom=Missing <list> in my room
 preferredfurniturewoodtype=Preferred furniture wood type
 notfurniturewoodtype=I would like  more <wood> furniture in my room
-blueprintbuildconfirm=Construct Blueprint
+blueprintbuildconfirm=Construct Building
 
 [item]
 tannedleather=Tanned Leather

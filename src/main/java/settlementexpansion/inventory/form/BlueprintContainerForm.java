@@ -39,32 +39,16 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
     public Form buildForm;
     public SettlementObjectStatusFormManager settlementObjectFormManager;
     public FormLocalTextButton buildButton;
-    protected FormLocalCheckBox useNearby;
-    protected HudDrawElement rangeElement;
 
     public BlueprintContainerForm(Client client, T container) {
         super(client, container);
         this.buildForm = this.addComponent(new Form(400, 80));
-        this.buildButton = this.buildForm.addComponent(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 2, this.buildForm.getHeight() / 2, 200, FormInputSize.SIZE_24, ButtonColor.BASE));
+        this.buildButton = this.buildForm.addComponent(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, this.buildForm.getHeight() / 2, 200, FormInputSize.SIZE_24, ButtonColor.BASE));
         this.buildButton.onClicked((e) -> {
             container.buildAction.runAndSend();
         });
 
-        this.useNearby = this.buildForm.addComponent(new FormLocalCheckBox("ui", "usenearbyinv", 5, this.buildForm.getHeight() - 16 - 4, Settings.craftingUseNearby.get()) {
-            public GameTooltips getTooltip() {
-                return (new StringTooltips()).add(Localization.translate("ui", "usenearbyinvtip"), 400);
-            }
-        }, 100);
-        Settings.craftingUseNearby.addChangeListener((v) -> {
-            this.useNearby.checked = v;
-            GlobalData.updateCraftable();
-        }, this::isDisposed);
-        this.useNearby.onClicked((e) -> {
-            Settings.craftingUseNearby.set((e.from).checked);
-        });
-
         this.settlementObjectFormManager = container.settlementObjectManager.getFormManager(this, this.buildForm, client);
-        updateBuildActive();
         this.makeCurrent(this.buildForm);
     }
 
@@ -78,55 +62,18 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
         this.settlementObjectFormManager.onWindowResized();
     }
 
-    protected void init() {
-        super.init();
-        if (this.rangeElement != null) {
-            this.rangeElement.remove();
-        }
-
-        this.rangeElement = new HudDrawElement() {
-            public void addDrawables(List<SortedDrawable> list, GameCamera camera, PlayerMob perspective) {
-                if (BlueprintContainerForm.this.useNearby.isHovering()) {
-                    final SharedTextureDrawOptions options = (BlueprintContainerForm.this.container).range.getDrawOptions(new Color(255, 255, 255, 200), new Color(255, 255, 255, 75), (BlueprintContainerForm.this.container).objectEntity.getTileX(), (BlueprintContainerForm.this.container).objectEntity.getTileY(), camera);
-                    if (options != null) {
-                        list.add(new SortedDrawable() {
-                            public int getPriority() {
-                                return -1000000;
-                            }
-
-                            public void draw(TickManager tickManager) {
-                                options.draw();
-                            }
-                        });
-                    }
-
-                }
-            }
-        };
-
-        this.client.getLevel().hudManager.addElement(this.rangeElement);
-    }
-
-
     public void draw(TickManager tickManager, PlayerMob perspective, Rectangle renderBox) {
         this.settlementObjectFormManager.updateButtons();
+        updateBuildActive();
         super.draw(tickManager, perspective, renderBox);
         if (this.buildButton.isHovering()) {
             ListGameTooltips tooltips = new ListGameTooltips();
-            tooltips.add(this.container.objectEntity.getPreset().recipe.getTooltip(null, perspective));
+            tooltips.add(this.container.objectEntity.getPreset().recipe.getTooltip(this.client.getPlayer()));
             Screen.addTooltip(tooltips, GameBackground.getItemTooltipBackground(), TooltipLocation.FORM_FOCUS);
         }
     }
 
     private void updateBuildActive() {
-        this.buildButton.setActive(this.container.objectEntity.getPreset().recipe.canCraft(this.client.getLevel(), this.client.getPlayer(), this.getContainer().getCraftInventories(), true).canCraft());
-    }
-
-    public void dispose() {
-        super.dispose();
-        if (this.rangeElement != null) {
-            this.rangeElement.remove();
-        }
-
+        this.buildButton.setActive(this.container.objectEntity.getPreset().recipe.canCraft(this.client.getPlayer()));
     }
 }

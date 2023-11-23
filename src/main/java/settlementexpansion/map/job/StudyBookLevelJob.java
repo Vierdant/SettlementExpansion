@@ -82,7 +82,6 @@ public class StudyBookLevelJob extends LevelJob {
                     this.worker.showPickupAnimation(this.tileX * 32 + 16, this.tileY * 32 + 16, null, 250);
 
                     for (InventoryItem item : items) {
-                        System.out.println("Adding: " + item.item.getStringID());
                         this.worker.getWorkInventory().add(item);
                     }
 
