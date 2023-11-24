@@ -9,6 +9,7 @@ import necesse.engine.network.PacketWriter;
 import necesse.engine.network.packet.PacketOpenContainer;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ContainerRegistry;
+import necesse.entity.TileDamageType;
 import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.inventory.Inventory;
 import necesse.inventory.InventoryRange;
@@ -20,6 +21,7 @@ import necesse.inventory.container.settlement.SettlementDependantContainer;
 import necesse.level.maps.Level;
 import settlementexpansion.object.entity.BlueprintObjectEntity;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -36,7 +38,14 @@ public class BlueprintContainer extends SettlementDependantContainer {
         this.buildAction = this.registerAction(new EmptyCustomAction() {
             @Override
             protected void run() {
-                System.out.println("placing");
+                int x = objectEntity.getTileX();
+                int y = objectEntity.getTileY();
+                int rotation = getLevel().getObjectRotation(x, y);
+                Point placeTile = objectEntity.getPlaceTile(rotation);
+                objectEntity.getPreset().applyToLevel(getLevel(), placeTile.x, placeTile.y);
+                objectEntity.getPreset().getRecipe().consumeBuildMaterials(getClientInventory());
+                getLevel().entityManager.doDamage(x, y, 100, TileDamageType.Object, -1, null);
+                close();
             }
         });
     }

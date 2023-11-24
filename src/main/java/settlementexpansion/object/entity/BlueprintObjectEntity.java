@@ -1,6 +1,8 @@
 package settlementexpansion.object.entity;
 
 import necesse.engine.Screen;
+import necesse.engine.network.PacketReader;
+import necesse.engine.network.PacketWriter;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
@@ -30,34 +32,38 @@ public class BlueprintObjectEntity extends ObjectEntity {
 
     public BlueprintObjectEntity(Level level, BlueprintPresetID presetId, int x, int y) {
         super(level, "blueprint", x, y);
-        this.preset = new BlueprintPreset(presetId);
-
-        try {
-            System.out.println("rotated to: " + level.getObjectRotation(x, y));
-            this.preset = preset.rotate(PresetRotation.toRotationAngle(level.getObjectRotation(x, y)));
-        } catch (PresetRotateException ignored) {
-        }
-
+        this.preset = new BlueprintPreset(presetId, false, false);
         this.hudElement = null;
     }
 
     public BlueprintPreset getPreset() {
-        return preset;
+        return this.preset;
     }
 
     @Override
     public void init() {
         super.init();
 
+        if (this.getLevel().isServerLevel()) {
+            int rotation = getLevel().getObjectRotation(getTileX(), getTileY());
+            if (rotation != 0) {
+                try {
+                    this.preset = preset.rotate(getBlueprintRotation(rotation));
+                } catch (PresetRotateException ignored) {
+                }
+            }
+        }
+
         if (this.getLevel().isClientLevel()) {
             this.getLevel().hudManager.addElement(this.hudElement = new HudDrawElement() {
                 public void addDrawables(List<SortedDrawable> list, final GameCamera camera, final PlayerMob perspective) {
-                    final Point placeTile = new Point(getTileX(), getTileY());
+                    int rotation = getLevel().getObjectRotation(getTileX(), getTileY());
+                    final Point placeTile = getPlaceTile(rotation);
                     final TextureDrawOptionsEnd canApplyOptions;
                     if (preset.canApplyToLevel(this.getLevel(), placeTile.x, placeTile.y)) {
                         canApplyOptions = null;
                     } else {
-                        canApplyOptions = Screen.initQuadDraw(preset.width * 32, preset.height * 32).color(1.0F, 0.0F, 0.0F, 0.5F).pos(camera.getTileDrawX(placeTile.x), camera.getTileDrawY(placeTile.y));
+                        canApplyOptions = Screen.initQuadDraw(preset.width * 32, preset.height * 32).color(1.0F, 0.0F, 0.0F, 0.2F).pos(camera.getTileDrawX(placeTile.x), camera.getTileDrawY(placeTile.y));
                     }
 
                     list.add(new SortedDrawable() {
@@ -77,15 +83,49 @@ public class BlueprintObjectEntity extends ObjectEntity {
         }
     }
 
-    public Point getPlaceTile(Preset preset) {
-        return new Point((this.getTileX() - preset.width * 32 / 2 + 16) / 32, (this.getTileY() - preset.height * 32 / 2 + 16) / 32);
+    public Point getPlaceTile(int rotation) {
+        if (rotation == 0) {
+            return new Point(getTileX() - preset.width + 1, getTileY() + 1);
+        } else if (rotation == 2) {
+            return new Point(getTileX(), getTileY() - preset.height);
+        } else if (rotation == 1) {
+            return new Point(getTileX() - preset.width, getTileY() - preset.height + 1);
+        } else {
+            return new Point(getTileX() + 1, getTileY());
+        }
+
+    }
+
+    public PresetRotation getBlueprintRotation(int rotation) {
+        switch (rotation) {
+            case 3: return PresetRotation.ANTI_CLOCKWISE;
+            case 2: return PresetRotation.HALF_180;
+            default: return PresetRotation.CLOCKWISE;
+        }
+    }
+
+    public HudDrawElement getHudElement() {
+        return hudElement;
+    }
+
+    @Override
+    public void setupContentPacket(PacketWriter writer) {
+        super.setupContentPacket(writer);
+        writer.putNextStringLong(this.preset.getScript());
+        writer.putNextBoolean(this.preset.canPlaceOnShore);
+        writer.putNextBoolean(this.preset.canPlaceOnLiquid);
+    }
+
+    @Override
+    public void applyContentPacket(PacketReader reader) {
+        super.applyContentPacket(reader);
+        this.preset = new BlueprintPreset(reader.getNextStringLong(), reader.getNextBoolean(), reader.getNextBoolean());
     }
 
     @Override
     public void onObjectDestroyed(GameObject previousObject, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
         super.onObjectDestroyed(previousObject, client, itemsDropped);
         if (hudElement != null) {
-            System.out.println("removed");
             this.hudElement.remove();
         }
     }
