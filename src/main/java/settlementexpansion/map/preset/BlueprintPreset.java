@@ -2,9 +2,9 @@ package settlementexpansion.map.preset;
 
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.registries.TileRegistry;
+import necesse.engine.util.GameMath;
 import necesse.inventory.recipe.Ingredient;
 import necesse.level.gameObject.GameObject;
-import necesse.level.maps.CollisionFilter;
 import necesse.level.maps.Level;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.presets.*;
@@ -12,10 +12,8 @@ import settlementexpansion.inventory.recipe.BlueprintRecipe;
 
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
 
 public class BlueprintPreset extends Preset {
     private BlueprintRecipe recipe;
@@ -65,6 +63,85 @@ public class BlueprintPreset extends Preset {
             recipe.addIngredient(new Ingredient(ObjectRegistry.getObject(id).getStringID(),
                     Arrays.stream(this.objects).filter((i) -> i == id).boxed().toArray().length));
         }
+    }
+
+    public LinkedList<UndoLogic> applyToLevel(Level level, int levelX, int levelY) {
+        LinkedList<UndoLogic> undoLogics = new LinkedList<>();
+
+        UndoLogic undoLogic;
+
+        for (CustomApply custom : this.customPreApplies) {
+            undoLogic = custom.applyToLevel(level, levelX, levelY);
+            if (undoLogic != null) {
+                undoLogics.add(undoLogic);
+            }
+        }
+
+        for(int i = 0; i < this.width; ++i) {
+            int tileX = levelX + i;
+            if (tileX >= 0 && tileX < level.width) {
+                for(int j = 0; j < this.height; ++j) {
+                    int tileY = levelY + j;
+                    if (tileY >= 0 && tileY < level.height) {
+                        int tile = getInt(this.tiles, this.width, i, j);
+                        if (tile != -1) {
+                            level.setTile(tileX, tileY, tile);
+                            level.sendTileUpdatePacket(tileX, tileY);
+                            for (TileApplyListener listener : this.tileApplyListeners) {
+                                listener.onTileApply(level, tileX, tileY, tile);
+                            }
+                        }
+
+                        byte wireData = getByte(this.wires, this.width, i, j);
+
+                        int object;
+                        for(object = 0; object < 4; ++object) {
+                            if (GameMath.getBit(wireData, object * 2)) {
+                                boolean isThere = GameMath.getBit(wireData, object * 2 + 1);
+                                level.wireManager.setWire(tileX, tileY, object, isThere);
+                                level.sendWireUpdatePacket(tileX, tileY);
+
+                                for (WireApplyListener listener : this.wireApplyListeners) {
+                                    listener.onWireApply(level, tileX, tileY, tile, isThere);
+                                }
+                            }
+                        }
+
+                        level.logicLayer.clearLogicGate(tileX, tileY);
+                        object = getInt(this.objects, this.width, i, j);
+                        if (object != -1) {
+                            byte objectRotation = getByte(this.objectRotations, this.width, i, j);
+                            level.setObject(tileX, tileY, object, objectRotation);
+                            level.sendObjectUpdatePacket(tileX, tileY);
+
+                            for (ObjectApplyListener listener : this.objectApplyListeners) {
+                                listener.onObjectApply(level, tileX, tileY, object, objectRotation);
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }
+
+        this.logicGates.forEach((tilex, presetLogicGate) -> {
+            int tileX = levelX + tilex.x;
+            int tileY = levelY + tilex.y;
+            if (tileX >= 0 && tileX < level.width && tileY >= 0 && tileY < level.height) {
+                presetLogicGate.applyToLevel(level, tileX, tileY);
+            }
+
+        });
+
+        for (CustomApply custom : this.customApplies) {
+            undoLogic = custom.applyToLevel(level, levelX, levelY);
+            if (undoLogic != null) {
+                undoLogics.add(undoLogic);
+            }
+        }
+
+        return undoLogics;
     }
 
     public boolean canApplyToLevel(Level level, int tileX, int tileY) {

@@ -93,3 +93,10 @@ studyingtip=Studies various books at a study table and produces scrolls with the
 
 [activities]
 studying=Studying a book
+
+[blueprint]
+blueprint=Blueprint
+house1empty=7x7 Empty Wooden House
+house1=7x7 Furnished Wooden House
+house2empty=9x7 Empty Wooden House
+house2=9x7 Furnished Wooden House

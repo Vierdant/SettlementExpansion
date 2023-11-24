@@ -1,14 +1,18 @@
 package settlementexpansion.object;
 
+import necesse.engine.GameEvents;
 import necesse.engine.Screen;
+import necesse.engine.events.loot.ObjectLootTableDropsEvent;
 import necesse.engine.localization.Localization;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
+import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
+import necesse.entity.pickup.ItemPickupEntity;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.TextureDrawOptions;
 import necesse.gfx.drawOptions.texture.TextureDrawOptionsEnd;
@@ -17,14 +21,17 @@ import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.drawables.SortedDrawable;
 import necesse.gfx.forms.presets.debug.tools.PresetPasteGameTool;
 import necesse.gfx.gameTexture.GameTexture;
+import necesse.inventory.InventoryItem;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
+import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
+import necesse.level.maps.LevelObject;
 import necesse.level.maps.light.GameLight;
 import settlementexpansion.map.preset.BlueprintPreset;
 import settlementexpansion.map.preset.BlueprintPresetID;
@@ -34,14 +41,17 @@ import settlementexpansion.registry.ContainerModRegistry;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BlueprintObject extends GameObject {
 
     public GameTexture texture;
     private final BlueprintPresetID presetId;
+    private final String blueprintKey;
 
-    public BlueprintObject(BlueprintPresetID presetId) {
+    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey) {
         super(new Rectangle(32, 32));
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(42, 59, 171);
@@ -49,6 +59,7 @@ public class BlueprintObject extends GameObject {
         this.drawDmg = false;
         this.isLightTransparent = true;
         this.presetId = presetId;
+        this.blueprintKey = blueprintKey;
     }
 
     public void loadTextures() {
@@ -57,7 +68,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public GameMessage getNewLocalization() {
-        return new LocalMessage("object", "blueprint");
+        return new LocalMessage("blueprint", blueprintKey);
     }
 
     public GameTexture generateItemTexture() {
@@ -123,12 +134,48 @@ public class BlueprintObject extends GameObject {
         return new BlueprintObjectEntity(level, presetId, x, y);
     }
 
+    public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
+        ObjectLootTableDropsEvent dropsEvent;
+        if (itemsDropped != null && client != null) {
+            ArrayList<InventoryItem> drops = this.getDroppedItems(level, x, y);
+            GameEvents.triggerEvent(dropsEvent = new ObjectLootTableDropsEvent(new LevelObject(level, x, y), new Point(x * 32 + 16, y * 32 + 16), drops));
+            if (dropsEvent.dropPos != null && dropsEvent.drops != null) {
+                for (InventoryItem item : dropsEvent.drops) {
+                    ItemPickupEntity droppedItem = item.getPickupEntity(level, (float) dropsEvent.dropPos.x, (float) dropsEvent.dropPos.y);
+                    level.entityManager.pickups.add(droppedItem);
+                    itemsDropped.add(droppedItem);
+                }
+            }
+        }
+
+        if (client != null) {
+            client.newStats.objects_mined.increment(1);
+        }
+
+        if (!level.isServerLevel()) {
+            this.spawnDestroyedParticles(level, x, y);
+        }
+
+        ObjectEntity objectEntity = level.entityManager.getObjectEntity(x, y);
+        level.setObject(x, y, 0);
+        if (objectEntity != null) {
+            objectEntity.onObjectDestroyed(this, client, itemsDropped);
+            objectEntity.remove();
+        }
+
+    }
+
     public static void registerBlueprints() {
-        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1empty", new BlueprintObject(BlueprintPresetID.HOUSE_1_EMPTY, "house1empty"), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1, "house1"), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2empty", new BlueprintObject(BlueprintPresetID.HOUSE_2_EMPTY, "house2empty"), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2", new BlueprintObject(BlueprintPresetID.HOUSE_2, "house2"), 5, true);
     }
 
     public static void registerBlueprintRecipes() {
-        String[] list = new String[]{"blueprinthouse1"};
+        String[] list = new String[]{
+                "blueprinthouse1empty", "blueprinthouse1",
+                "blueprinthouse2empty", "blueprinthouse2"};
 
         for (String entry : list) {
             Recipes.registerModRecipe(new Recipe(
