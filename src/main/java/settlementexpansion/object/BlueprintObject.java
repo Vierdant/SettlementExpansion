@@ -68,7 +68,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public GameMessage getNewLocalization() {
-        return new LocalMessage("blueprint", blueprintKey);
+        return new LocalMessage("object", blueprintKey);
     }
 
     public GameTexture generateItemTexture() {

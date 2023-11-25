@@ -29,6 +29,10 @@ palmtallmirror=Palm Tall Mirror
 deadwoodtallmirror=Deadwood Tall Mirror
 blueprinttable=Blueprint Table
 blueprint=Blueprint
+house1empty=7x7 Empty Wooden House
+house1=7x7 Furnished Wooden House
+house2empty=9x7 Empty Wooden House
+house2=9x7 Furnished Wooden House
 
 
 [ui]
@@ -94,9 +98,15 @@ studyingtip=Studies various books at a study table and produces scrolls with the
 [activities]
 studying=Studying a book
 
-[blueprint]
-blueprint=Blueprint
-house1empty=7x7 Empty Wooden House
-house1=7x7 Furnished Wooden House
-house2empty=9x7 Empty Wooden House
-house2=9x7 Furnished Wooden House
+[mob]
+architecthuman=Architect
+architecthumanname=<name> the Architect
+
+[mobmsg]
+architecttalk1=The job of the architect is to create beautiful buildings
+architecttalk2=To create, one must first question everything
+architecttalk3=As someone once said: God is in the details
+architecttalk4=There has to be something you need from me
+architecttalk5=You know, I really like apples, they are easy to eat
+architectspecial1=If <stylist> allows it, a mansion would suit her
+architectspecial2=<elder>'s original house could use an upgrade

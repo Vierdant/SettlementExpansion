@@ -21,6 +21,10 @@ public class SettlementExpansion {
 
         TileModRegistry.registerTiles();
 
+        MobModRegistry.registerMobs();
+
+        SettlerModRegistry.registerSettlers();
+
         ProjectileModRegistry.registerProjectiles();
 
         ContainerModRegistry.registerContainers();
@@ -30,6 +34,7 @@ public class SettlementExpansion {
 
     public void initResources() {
         ModResources.loadTextures();
+        ModResources.loadMobTextures();
         ModResources.loadSounds();
     }
 

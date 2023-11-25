@@ -4,6 +4,8 @@ import necesse.engine.registries.ItemRegistry;
 import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.item.Item;
 import necesse.inventory.item.ItemCategory;
+import necesse.inventory.item.armorItem.BootsArmorItem;
+import necesse.inventory.item.armorItem.ChestArmorItem;
 import necesse.inventory.item.matItem.MatItem;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
@@ -36,6 +38,10 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("earthcrystal", (new MatItem(100, Item.Rarity.UNCOMMON, "earthcrystal").setItemCategory("materials", "minerals", "gems")), 350, true);
 
         ItemRegistry.registerItem("earthring", (new SimpleTippedTrinketItem(Item.Rarity.UNCOMMON, "earthringtrinket", "earthring", 200)), 300, true);
+
+
+        ItemRegistry.registerItem("businesssuit", new ChestArmorItem(0, 0, Item.Rarity.COMMON, "businesssuit", "businesssuitarms"), 50.0F, false);
+        ItemRegistry.registerItem("businesssuitshoes", new BootsArmorItem(0, 0, Item.Rarity.COMMON, "businesssuitshoes"), 50.0F, false);
     }
 
     public static void registerRecipes() {
