@@ -7,10 +7,13 @@ import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.Form;
+import necesse.gfx.forms.components.FormFlow;
 import necesse.gfx.forms.components.FormInputSize;
+import necesse.gfx.forms.components.localComponents.FormLocalLabel;
 import necesse.gfx.forms.components.localComponents.FormLocalTextButton;
 import necesse.gfx.forms.presets.containerComponent.ContainerFormSwitcher;
 import necesse.gfx.forms.presets.containerComponent.settlement.SettlementObjectStatusFormManager;
+import necesse.gfx.gameFont.FontOptions;
 import necesse.gfx.gameTooltips.*;
 import necesse.gfx.ui.ButtonColor;
 import settlementexpansion.inventory.container.BlueprintContainer;
@@ -24,8 +27,10 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
 
     public BlueprintContainerForm(Client client, T container) {
         super(client, container);
-        this.buildForm = this.addComponent(new Form(400, 80));
-        this.buildButton = this.buildForm.addComponent(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, this.buildForm.getHeight() / 2, 200, FormInputSize.SIZE_24, ButtonColor.BASE));
+        this.buildForm = this.addComponent(new Form(400, 60));
+        FormFlow heightFlow = new FormFlow(5);
+        this.buildForm.addComponent(heightFlow.next(new FormLocalLabel(container.objectEntity.getObject().getLocalization(), new FontOptions(16), 0, this.buildForm.getWidth() / 2, 5), 5));
+        this.buildButton = this.buildForm.addComponent(heightFlow.next(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, this.buildForm.getHeight() / 2, 200, FormInputSize.SIZE_24, ButtonColor.BASE), 50));
         this.buildButton.onClicked((e) -> {
             container.buildAction.runAndSend();
         });
