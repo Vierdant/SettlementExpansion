@@ -1,11 +1,12 @@
 package settlementexpansion;
 
 import necesse.engine.modLoader.annotations.ModEntry;
-import necesse.engine.registries.ProjectileRegistry;
 import settlementexpansion.registry.*;
 
 @ModEntry
 public class SettlementExpansion {
+
+    private static Settings settings;
 
     public void init() {
         System.out.println("Settlement Expansion was enabled!");
@@ -38,10 +39,19 @@ public class SettlementExpansion {
         ModResources.loadSounds();
     }
 
+    public Settings initSettings() {
+        settings = new Settings();
+        return settings;
+    }
+
     public void postInit() {
         ObjectModRegistry.registerRecipes();
         TileModRegistry.registerRecipes();
         ItemModRegistry.registerRecipes();
     }
 
+    public static Settings getSettings() {
+        settings = new Settings();
+        return settings;
+    }
 }
