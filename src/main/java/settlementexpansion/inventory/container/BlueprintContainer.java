@@ -15,6 +15,8 @@ import necesse.inventory.Inventory;
 import necesse.inventory.InventoryRange;
 import necesse.inventory.container.customAction.ContentCustomAction;
 import necesse.inventory.container.customAction.EmptyCustomAction;
+import necesse.inventory.container.customAction.IntCustomAction;
+import necesse.inventory.container.customAction.StringCustomAction;
 import necesse.inventory.container.object.CraftingStationContainer;
 import necesse.inventory.container.settlement.SettlementContainerObjectStatusManager;
 import necesse.inventory.container.settlement.SettlementDependantContainer;
@@ -27,6 +29,8 @@ import java.util.LinkedHashSet;
 
 public class BlueprintContainer extends SettlementDependantContainer {
     public final EmptyCustomAction buildAction;
+    public final StringCustomAction setWoodType;
+    public final StringCustomAction setWallType;
     public final BlueprintObjectEntity objectEntity;
     public SettlementContainerObjectStatusManager settlementObjectManager;
 
@@ -34,6 +38,21 @@ public class BlueprintContainer extends SettlementDependantContainer {
         super(client, uniqueSeed);
         this.objectEntity = objectEntity;
         this.settlementObjectManager = new SettlementContainerObjectStatusManager(this, objectEntity.getLevel(), objectEntity.getTileX(), objectEntity.getTileY(), reader);
+        this.setWoodType = this.registerAction(new StringCustomAction() {
+            @Override
+            protected void run(String value) {
+                objectEntity.getPreset().setFurnitureType(value);
+                objectEntity.markDirty();
+            }
+        });
+
+        this.setWallType = this.registerAction(new StringCustomAction() {
+            @Override
+            protected void run(String value) {
+                objectEntity.getPreset().setCurrentWall(value);
+                objectEntity.markDirty();
+            }
+        });
 
         this.buildAction = this.registerAction(new EmptyCustomAction() {
             @Override
@@ -53,15 +72,6 @@ public class BlueprintContainer extends SettlementDependantContainer {
     @Override
     protected Level getLevel() {
         return this.client.isServerClient() ? this.client.getServerClient().getLevel() : this.client.playerMob.getLevel();
-    }
-
-    public Level getServerLevel() {
-        if (this.client.getClientClient().getClient().getLocalServer() == null) {
-            return null;
-        } else {
-            ServerClient sClient = this.client.getClientClient().getClient().getLocalServer().getLocalServerClient();
-            return this.client.getClientClient().getClient().getLocalServer().world.getLevel(sClient.getLevelIdentifier());
-        }
     }
 
     public static void openAndSendContainer(int containerID, ServerClient client, Level level, int tileX, int tileY, Packet extraContent) {

@@ -1,13 +1,11 @@
 package settlementexpansion.object;
 
 import necesse.engine.GameEvents;
-import necesse.engine.Screen;
 import necesse.engine.events.loot.ObjectLootTableDropsEvent;
 import necesse.engine.localization.Localization;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.server.ServerClient;
-import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
@@ -15,16 +13,12 @@ import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.pickup.ItemPickupEntity;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.TextureDrawOptions;
-import necesse.gfx.drawOptions.texture.TextureDrawOptionsEnd;
 import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
-import necesse.gfx.drawables.SortedDrawable;
-import necesse.gfx.forms.presets.debug.tools.PresetPasteGameTool;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
-import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
@@ -33,16 +27,13 @@ import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 import necesse.level.maps.LevelObject;
 import necesse.level.maps.light.GameLight;
-import settlementexpansion.map.preset.BlueprintPreset;
 import settlementexpansion.map.preset.BlueprintPresetID;
 import settlementexpansion.object.entity.BlueprintObjectEntity;
-import settlementexpansion.object.entity.ToolsRackObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class BlueprintObject extends GameObject {
@@ -50,8 +41,12 @@ public class BlueprintObject extends GameObject {
     public GameTexture texture;
     private final BlueprintPresetID presetId;
     private final String blueprintKey;
+    private final String furnitureType;
+    private final boolean canChangeWalls;
+    private final boolean canPlaceOnLiquid;
+    private final boolean canPlaceOnShore;
 
-    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey) {
+    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(new Rectangle(32, 32));
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(42, 59, 171);
@@ -60,6 +55,10 @@ public class BlueprintObject extends GameObject {
         this.isLightTransparent = true;
         this.presetId = presetId;
         this.blueprintKey = blueprintKey;
+        this.furnitureType = furnitureType;
+        this.canChangeWalls = canChangeWalls;
+        this.canPlaceOnShore = canPlaceOnShore;
+        this.canPlaceOnLiquid = canPlaceOnLiquid;
     }
 
     public void loadTextures() {
@@ -131,7 +130,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return new BlueprintObjectEntity(level, presetId, x, y);
+        return new BlueprintObjectEntity(level, presetId, x, y, furnitureType, canChangeWalls, canPlaceOnLiquid, canPlaceOnShore);
     }
 
     public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
@@ -166,10 +165,10 @@ public class BlueprintObject extends GameObject {
     }
 
     public static void registerBlueprints() {
-        ObjectRegistry.registerObject("blueprinthouse1empty", new BlueprintObject(BlueprintPresetID.HOUSE_1_EMPTY, "house1empty"), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1, "house1"), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse2empty", new BlueprintObject(BlueprintPresetID.HOUSE_2_EMPTY, "house2empty"), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse2", new BlueprintObject(BlueprintPresetID.HOUSE_2, "house2"), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1empty", new BlueprintObject(BlueprintPresetID.HOUSE_1_EMPTY, "house1empty", null, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1, "house1", "spruce", true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2empty", new BlueprintObject(BlueprintPresetID.HOUSE_2_EMPTY, "house2empty", null, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2", new BlueprintObject(BlueprintPresetID.HOUSE_2, "house2", "spruce", true, false, false), 5, true);
     }
 
     public static void registerBlueprintRecipes() {

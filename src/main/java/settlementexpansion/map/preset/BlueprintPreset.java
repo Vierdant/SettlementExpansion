@@ -2,6 +2,7 @@ package settlementexpansion.map.preset;
 
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.registries.TileRegistry;
+import necesse.engine.save.LoadData;
 import necesse.engine.util.GameMath;
 import necesse.inventory.recipe.Ingredient;
 import necesse.level.gameObject.GameObject;
@@ -11,36 +12,50 @@ import necesse.level.maps.presets.*;
 import settlementexpansion.inventory.recipe.BlueprintRecipe;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class BlueprintPreset extends Preset {
     private BlueprintRecipe recipe;
     public BlueprintPresetID id;
+    public int currentWallId;
+    public String furnitureType;
+    public boolean canChangeWalls;
     public boolean canPlaceOnLiquid;
     public boolean canPlaceOnShore;
 
 
-    public BlueprintPreset(int x, int y, BlueprintPresetID id, BlueprintRecipe recipe, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintPreset(int x, int y, BlueprintPresetID id, BlueprintRecipe recipe, String furnitureType, int currentWallId, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(x, y);
         this.id = id;
         this.recipe = recipe;
+        this.currentWallId = currentWallId;
+        this.furnitureType = furnitureType;
+        this.canChangeWalls = canChangeWalls;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
     }
 
-    public BlueprintPreset(String script, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintPreset(String script, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(script);
         this.id = BlueprintPresetID.getMatchingScript(script);
+        this.furnitureType = furnitureType;
+        this.canChangeWalls = canChangeWalls;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
+        this.currentWallId = this.canChangeWalls ? determineWallType(new LoadData(script)) : -1;
         calculateIngredients();
 
     }
 
-    public BlueprintPreset(BlueprintPresetID id, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
-        this(id.getScript(), canPlaceOnShore, canPlaceOnLiquid);
+    public BlueprintPreset(BlueprintPresetID id, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+        this(id.getScript(), furnitureType, canChangeWalls, canPlaceOnShore, canPlaceOnLiquid);
+    }
+
+    public boolean isFurnished() {
+        return furnitureType != null;
     }
 
     public BlueprintRecipe getRecipe() {
@@ -49,6 +64,31 @@ public class BlueprintPreset extends Preset {
         }
 
         return recipe;
+    }
+
+    public void setFurnitureType(String type) {
+        this.furnitureType = type;
+        for (int i = 0; i < this.objects.length; i++) {
+            if (this.objects[i] == -1) continue;
+            GameObject object = ObjectRegistry.getObject(this.objects[i]);
+            if (BlueprintHelper.isObjectWoodFurniture(object.getStringID())) {
+                String modelType = BlueprintHelper.getTrueFurnitureType(object.getStringID());
+                if (ObjectRegistry.validStringID(type + modelType)) {
+                    this.objects[i] = ObjectRegistry.getObjectID(type + modelType);
+                }
+            }
+        }
+    }
+
+    public void setCurrentWall(String type) {
+        int currentId = this.currentWallId;
+        int newId = ObjectRegistry.getObjectID(type);
+        this.currentWallId = newId;
+        for (int i = 0; i < this.objects.length; i++) {
+            if (this.objects[i] == currentId) {
+                this.objects[i] = newId;
+            }
+        }
     }
 
     public void calculateIngredients() {
@@ -63,6 +103,42 @@ public class BlueprintPreset extends Preset {
             recipe.addIngredient(new Ingredient(ObjectRegistry.getObject(id).getStringID(),
                     Arrays.stream(this.objects).filter((i) -> i == id).boxed().toArray().length));
         }
+    }
+
+    public int determineWallType(LoadData save) {
+        if (save.hasLoadDataByName("objects")) {
+            int[] scriptObjects = save.getIntArray("objects");
+            if (save.hasLoadDataByName("objectIDs")) {
+                ArrayList<String> walls = new ArrayList<>();
+                String[] objectIDs = save.getStringArray("objectIDs");
+                for (int i = 1; i < objectIDs.length; i += 2) {
+                    for (String wall : BlueprintHelper.wallTypes) {
+                        if (wall.equalsIgnoreCase(objectIDs[i])) {
+                            walls.add(objectIDs[i]);
+                        }
+                    }
+                }
+
+                if (!walls.isEmpty()) {
+                    System.out.println(Arrays.toString(scriptObjects));
+
+                    int bigCount = 0;
+                    int bigWall = -1;
+                    for (String wall : walls) {
+                        int id = ObjectRegistry.getObjectID(wall);
+                        int current = Arrays.stream(scriptObjects).filter((i) -> i == id).boxed().toArray().length;
+                        if (current > bigCount) {
+                            bigCount = current;
+                            bigWall = id;
+                        }
+                    }
+
+                    return bigWall;
+                }
+            }
+        }
+
+        return -1;
     }
 
     public LinkedList<UndoLogic> applyToLevel(Level level, int levelX, int levelY) {
@@ -224,39 +300,22 @@ public class BlueprintPreset extends Preset {
         from.logicGates.forEach((p, lg) -> {
             this.logicGates.put(PresetUtils.getRotatedPointInSpace(p.x, p.y, from.width, from.height, rotation), lg);
         });
-        Iterator iterator = from.applyPredicates.iterator();
 
-        while(iterator.hasNext()) {
-            ApplyPredicate applyPredicate = (ApplyPredicate)iterator.next();
-            this.applyPredicates.add(applyPredicate.rotate(rotation, from.width, from.height));
+        for (ApplyPredicate predicate : from.applyPredicates) {
+            this.applyPredicates.add(predicate.rotate(rotation, from.width, from.height));
         }
 
-        iterator = from.customPreApplies.iterator();
-
-        CustomApply customApply;
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customPreApplies) {
             this.customPreApplies.add(customApply.rotate(rotation, from.width, from.height));
         }
 
-        iterator = from.customApplies.iterator();
-
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customApplies) {
             this.customApplies.add(customApply.rotate(rotation, from.width, from.height));
         }
 
         this.tileApplyListeners.addAll(from.tileApplyListeners);
         this.objectApplyListeners.addAll(from.objectApplyListeners);
         this.wireApplyListeners.addAll(from.wireApplyListeners);
-    }
-
-    public BlueprintPreset attemptMirrorX() {
-        try {
-            return this.mirrorX();
-        } catch (PresetMirrorException e) {
-            return this.copy();
-        }
     }
 
     public BlueprintPreset mirrorX() throws PresetMirrorException {
@@ -301,39 +360,22 @@ public class BlueprintPreset extends Preset {
         from.logicGates.forEach((p, lg) -> {
             this.logicGates.put(new Point(this.getMirroredX(p.x), p.y), lg);
         });
-        Iterator iterator = from.applyPredicates.iterator();
 
-        while(iterator.hasNext()) {
-            ApplyPredicate applyPredicate = (ApplyPredicate)iterator.next();
-            this.applyPredicates.add(applyPredicate.mirrorX(this.width));
+        for (ApplyPredicate predicate : from.applyPredicates) {
+            this.applyPredicates.add(predicate.mirrorX(this.width));
         }
 
-        iterator = from.customPreApplies.iterator();
-
-        CustomApply customApply;
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customPreApplies) {
             this.customPreApplies.add(customApply.mirrorX(this.width));
         }
 
-        iterator = from.customApplies.iterator();
-
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customApplies) {
             this.customApplies.add(customApply.mirrorX(this.width));
         }
 
         this.tileApplyListeners.addAll(from.tileApplyListeners);
         this.objectApplyListeners.addAll(from.objectApplyListeners);
         this.wireApplyListeners.addAll(from.wireApplyListeners);
-    }
-
-    public final BlueprintPreset attemptMirrorY() {
-        try {
-            return this.mirrorY();
-        } catch (PresetMirrorException e) {
-            return this.copy();
-        }
     }
 
     public BlueprintPreset mirrorY() throws PresetMirrorException {
@@ -378,25 +420,16 @@ public class BlueprintPreset extends Preset {
         from.logicGates.forEach((p, lg) -> {
             this.logicGates.put(new Point(p.x, this.getMirroredY(p.y)), lg);
         });
-        Iterator iterator = from.applyPredicates.iterator();
 
-        while(iterator.hasNext()) {
-            ApplyPredicate applyPredicate = (ApplyPredicate)iterator.next();
-            this.applyPredicates.add(applyPredicate.mirrorY(this.height));
+        for (ApplyPredicate predicate : from.applyPredicates) {
+            this.applyPredicates.add(predicate.mirrorY(this.height));
         }
 
-        iterator = from.customPreApplies.iterator();
-
-        CustomApply customApply;
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customPreApplies) {
             this.customPreApplies.add(customApply.mirrorY(this.height));
         }
 
-        iterator = from.customApplies.iterator();
-
-        while(iterator.hasNext()) {
-            customApply = (CustomApply)iterator.next();
+        for (CustomApply customApply : from.customApplies) {
             this.customApplies.add(customApply.mirrorY(this.height));
         }
 
@@ -406,7 +439,7 @@ public class BlueprintPreset extends Preset {
     }
 
     protected BlueprintPreset newObject(int width, int height) {
-        return new BlueprintPreset(width, height, id, recipe, canPlaceOnShore, canPlaceOnLiquid);
+        return new BlueprintPreset(width, height, id, recipe, furnitureType, currentWallId, canChangeWalls, canPlaceOnShore, canPlaceOnLiquid);
     }
 
 
