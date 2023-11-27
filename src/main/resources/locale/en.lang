@@ -29,10 +29,14 @@ palmtallmirror=Palm Tall Mirror
 deadwoodtallmirror=Deadwood Tall Mirror
 blueprinttable=Blueprint Table
 blueprint=Blueprint
-house1empty=7x7 Empty Wooden House
-house1=7x7 Furnished Wooden House
-house2empty=9x7 Empty Wooden House
-house2=9x7 Furnished Wooden House
+house1empty=7x7 Empty House
+house1=7x7 Furnished House
+house2empty=9x7 Empty House
+house2=9x7 Furnished House
+house2empty=12x10 Empty House
+house2=12x10 Furnished House
+trainingarea=10x10 Training Area
+storageroom=11x11 Storage Room
 
 
 [ui]
@@ -52,6 +56,9 @@ nopersonalizedroom=Missing <list> in my room
 preferredfurniturewoodtype=Preferred furniture wood type
 notfurniturewoodtype=I would like  more <wood> furniture in my room
 blueprintbuildconfirm=Construct Building
+blueprintwalls=Wall:
+blueprintfloor=Floor:
+blueprintfurniture=Wood:
 
 [item]
 tannedleather=Tanned Leather

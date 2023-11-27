@@ -31,6 +31,7 @@ public class BlueprintContainer extends SettlementDependantContainer {
     public final EmptyCustomAction buildAction;
     public final StringCustomAction setWoodType;
     public final StringCustomAction setWallType;
+    public final StringCustomAction setFloorType;
     public final BlueprintObjectEntity objectEntity;
     public SettlementContainerObjectStatusManager settlementObjectManager;
 
@@ -50,6 +51,14 @@ public class BlueprintContainer extends SettlementDependantContainer {
             @Override
             protected void run(String value) {
                 objectEntity.getPreset().setCurrentWall(value);
+                objectEntity.markDirty();
+            }
+        });
+
+        this.setFloorType = this.registerAction(new StringCustomAction() {
+            @Override
+            protected void run(String value) {
+                objectEntity.getPreset().setCurrentFloor(value);
                 objectEntity.markDirty();
             }
         });

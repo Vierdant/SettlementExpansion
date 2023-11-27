@@ -162,7 +162,9 @@ public class ArchitectHumanMob extends HumanShop {
         } else {
             ArrayList<ShopItem> out = new ArrayList<>();
             GameRandom random = new GameRandom(this.getShopSeed() + 5L);
-            out.add(ShopItem.item("blueprintempty", this.getRandomHappinessPrice(random, 10, 4, 2)));
+            out.add(ShopItem.item("blueprintempty", this.getRandomHappinessPrice(random, 15, 25, 2)));
+            out.add(ShopItem.item("trainingarea", this.getRandomHappinessPrice(random, 150, 350, 5)));
+            out.add(ShopItem.item("storageroombig", this.getRandomHappinessPrice(random, 350, 580, 5)));
             return out;
         }
     }

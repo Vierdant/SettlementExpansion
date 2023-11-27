@@ -5,6 +5,7 @@ import necesse.engine.network.PacketReader;
 import necesse.engine.network.PacketWriter;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ObjectRegistry;
+import necesse.engine.registries.TileRegistry;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.engine.tickManager.TickManager;
@@ -32,9 +33,9 @@ public class BlueprintObjectEntity extends ObjectEntity {
     private HudDrawElement hudElement;
     private boolean rotated;
 
-    public BlueprintObjectEntity(Level level, BlueprintPresetID presetId, int x, int y, String furnitureType, boolean canChangeWalls, boolean canPlaceOnSore, boolean canPlaceOnLiquid) {
+    public BlueprintObjectEntity(Level level, BlueprintPresetID presetId, int x, int y, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnSore, boolean canPlaceOnLiquid) {
         super(level, "blueprint", x, y);
-        this.preset = new BlueprintPreset(presetId, furnitureType, canChangeWalls, canPlaceOnSore, canPlaceOnLiquid);
+        this.preset = new BlueprintPreset(presetId, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnSore, canPlaceOnLiquid);
         this.hudElement = null;
     }
 
@@ -112,10 +113,8 @@ public class BlueprintObjectEntity extends ObjectEntity {
         super.addSaveData(save);
         save.addSafeString("script", this.preset.getScript());
         save.addSafeString("furnitureType", this.preset.furnitureType == null ? "null" : this.preset.furnitureType);
-        save.addBoolean("canChangeWalls", this.preset.canChangeWalls);
-        save.addBoolean("canPlaceOnShore", this.preset.canPlaceOnShore);
-        save.addBoolean("canPlaceOnLiquid", this.preset.canPlaceOnLiquid);
         save.addInt("currentWallId", this.preset.currentWallId);
+        save.addInt("currentFloorId", this.preset.currentFloorId);
         save.addBoolean("rotated", this.rotated);
     }
 
@@ -125,10 +124,14 @@ public class BlueprintObjectEntity extends ObjectEntity {
         this.rotated = save.getBoolean("rotated");
         String script = save.getSafeString("script");
         String type = save.getSafeString("furnitureType");
-        this.preset = new BlueprintPreset(script, type.equalsIgnoreCase("null") ? null : type, save.getBoolean("canChangeWalls"), save.getBoolean("canPlaceOnShore"), save.getBoolean("canPlaceOnLiquid"));
+        this.preset = new BlueprintPreset(script, type.equalsIgnoreCase("null") ? null : type,  this.preset.canChangeWalls, this.preset.canChangeFloor, this.preset.canPlaceOnShore, this.preset.canPlaceOnLiquid);
         int wallId = save.getInt("currentWallId");
+        int floorId = save.getInt("currentFloorId");
         if (this.preset.canChangeWalls && wallId != -1) {
             this.preset.setCurrentWall(ObjectRegistry.getObject(wallId).getStringID());
+        }
+        if (this.preset.canChangeFloor && floorId != -1) {
+            this.preset.setCurrentFloor(TileRegistry.getTile(floorId).getStringID());
         }
     }
 
@@ -137,10 +140,8 @@ public class BlueprintObjectEntity extends ObjectEntity {
         super.setupContentPacket(writer);
         writer.putNextStringLong(this.preset.getScript());
         writer.putNextString(this.preset.furnitureType == null ? "null" : this.preset.furnitureType);
-        writer.putNextBoolean(this.preset.canChangeWalls);
-        writer.putNextBoolean(this.preset.canPlaceOnShore);
-        writer.putNextBoolean(this.preset.canPlaceOnLiquid);
         writer.putNextInt(this.preset.currentWallId);
+        writer.putNextInt(this.preset.currentFloorId);
         writer.putNextBoolean(this.rotated);
     }
 
@@ -149,10 +150,14 @@ public class BlueprintObjectEntity extends ObjectEntity {
         super.applyContentPacket(reader);
         String script = reader.getNextStringLong();
         String type = reader.getNextString();
-        this.preset = new BlueprintPreset(script, type.equalsIgnoreCase("null") ? null : type, reader.getNextBoolean(), reader.getNextBoolean(), reader.getNextBoolean());
+        this.preset = new BlueprintPreset(script, type.equalsIgnoreCase("null") ? null : type, this.preset.canChangeWalls, this.preset.canChangeFloor, this.preset.canPlaceOnShore, this.preset.canPlaceOnLiquid);
         int wallId = reader.getNextInt();
+        int floorId = reader.getNextInt();
         if (this.preset.canChangeWalls && wallId != -1) {
             this.preset.setCurrentWall(ObjectRegistry.getObject(wallId).getStringID());
+        }
+        if (this.preset.canChangeFloor && floorId != -1) {
+            this.preset.setCurrentFloor(TileRegistry.getTile(floorId).getStringID());
         }
         this.rotated = reader.getNextBoolean();
     }

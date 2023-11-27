@@ -43,10 +43,11 @@ public class BlueprintObject extends GameObject {
     private final String blueprintKey;
     private final String furnitureType;
     private final boolean canChangeWalls;
+    private final boolean canChangeFloor;
     private final boolean canPlaceOnLiquid;
     private final boolean canPlaceOnShore;
 
-    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(new Rectangle(32, 32));
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(42, 59, 171);
@@ -57,6 +58,7 @@ public class BlueprintObject extends GameObject {
         this.blueprintKey = blueprintKey;
         this.furnitureType = furnitureType;
         this.canChangeWalls = canChangeWalls;
+        this.canChangeFloor = canChangeFloor;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
     }
@@ -130,7 +132,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return new BlueprintObjectEntity(level, presetId, x, y, furnitureType, canChangeWalls, canPlaceOnLiquid, canPlaceOnShore);
+        return new BlueprintObjectEntity(level, presetId, x, y, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnLiquid, canPlaceOnShore);
     }
 
     public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
@@ -165,16 +167,23 @@ public class BlueprintObject extends GameObject {
     }
 
     public static void registerBlueprints() {
-        ObjectRegistry.registerObject("blueprinthouse1empty", new BlueprintObject(BlueprintPresetID.HOUSE_1_EMPTY, "house1empty", null, true, false, false), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1, "house1", "spruce", true, false, false), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse2empty", new BlueprintObject(BlueprintPresetID.HOUSE_2_EMPTY, "house2empty", null, true, false, false), 5, true);
-        ObjectRegistry.registerObject("blueprinthouse2", new BlueprintObject(BlueprintPresetID.HOUSE_2, "house2", "spruce", true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1empty", new BlueprintObject(BlueprintPresetID.HOUSE_1_EMPTY, "house1empty", null, true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse1", new BlueprintObject(BlueprintPresetID.HOUSE_1, "house1", "spruce", true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2empty", new BlueprintObject(BlueprintPresetID.HOUSE_2_EMPTY, "house2empty", null, true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse2", new BlueprintObject(BlueprintPresetID.HOUSE_2, "house2", "spruce", true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse3empty", new BlueprintObject(BlueprintPresetID.HOUSE_3_EMPTY, "house3empty", null, true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("blueprinthouse3", new BlueprintObject(BlueprintPresetID.HOUSE_3, "house3", "spruce", true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("trainingarea", new BlueprintObject(BlueprintPresetID.TRAINING_AREA, "trainingarea", null, false, false, false, false), 5, true);
+        ObjectRegistry.registerObject("storageroom", new BlueprintObject(BlueprintPresetID.STORAGE_ROOM, "storageroom", null, true, true, false, false), 5, true);
+        ObjectRegistry.registerObject("storageroombig", new BlueprintObject(BlueprintPresetID.STORAGE_ROOM_BIG, "storageroombig", null, true, true, false, false), 5, true);
     }
 
     public static void registerBlueprintRecipes() {
         String[] list = new String[]{
                 "blueprinthouse1empty", "blueprinthouse1",
-                "blueprinthouse2empty", "blueprinthouse2"};
+                "blueprinthouse2empty", "blueprinthouse2",
+                "blueprinthouse3empty", "blueprinthouse3",
+                "storageroom",};
 
         for (String entry : list) {
             Recipes.registerModRecipe(new Recipe(

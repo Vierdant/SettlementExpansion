@@ -21,37 +21,44 @@ public class BlueprintPreset extends Preset {
     private BlueprintRecipe recipe;
     public BlueprintPresetID id;
     public int currentWallId;
+    public int currentFloorId;
     public String furnitureType;
     public boolean canChangeWalls;
+    public boolean canChangeFloor;
     public boolean canPlaceOnLiquid;
     public boolean canPlaceOnShore;
 
 
-    public BlueprintPreset(int x, int y, BlueprintPresetID id, BlueprintRecipe recipe, String furnitureType, int currentWallId, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintPreset(int x, int y, BlueprintPresetID id, BlueprintRecipe recipe, String furnitureType, int currentWallId, boolean canChangeWalls, int currentFloorId, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(x, y);
         this.id = id;
         this.recipe = recipe;
         this.currentWallId = currentWallId;
+        this.currentFloorId = currentFloorId;
         this.furnitureType = furnitureType;
         this.canChangeWalls = canChangeWalls;
+        this.canChangeFloor = canChangeFloor;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
     }
 
-    public BlueprintPreset(String script, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintPreset(String script, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(script);
+        LoadData data = new LoadData(script);
         this.id = BlueprintPresetID.getMatchingScript(script);
         this.furnitureType = furnitureType;
         this.canChangeWalls = canChangeWalls;
+        this.canChangeFloor = canChangeFloor;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
-        this.currentWallId = this.canChangeWalls ? determineWallType(new LoadData(script)) : -1;
+        this.currentWallId = this.canChangeWalls ? determineWallType(data) : -1;
+        this.currentFloorId = this.canChangeFloor ? determineFloorType(data) : -1;
         calculateIngredients();
 
     }
 
-    public BlueprintPreset(BlueprintPresetID id, String furnitureType, boolean canChangeWalls, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
-        this(id.getScript(), furnitureType, canChangeWalls, canPlaceOnShore, canPlaceOnLiquid);
+    public BlueprintPreset(BlueprintPresetID id, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+        this(id.getScript(), furnitureType, canChangeWalls, canChangeFloor, canPlaceOnShore, canPlaceOnLiquid);
     }
 
     public boolean isFurnished() {
@@ -91,6 +98,17 @@ public class BlueprintPreset extends Preset {
         }
     }
 
+    public void setCurrentFloor(String type) {
+        int currentId = this.currentFloorId;
+        int newId = TileRegistry.getTileID(type);
+        this.currentFloorId = newId;
+        for (int i = 0; i < this.tiles.length; i++) {
+            if (this.tiles[i] == currentId) {
+                this.tiles[i] = newId;
+            }
+        }
+    }
+
     public void calculateIngredients() {
         this.recipe = new BlueprintRecipe();
 
@@ -120,8 +138,6 @@ public class BlueprintPreset extends Preset {
                 }
 
                 if (!walls.isEmpty()) {
-                    System.out.println(Arrays.toString(scriptObjects));
-
                     int bigCount = 0;
                     int bigWall = -1;
                     for (String wall : walls) {
@@ -134,6 +150,40 @@ public class BlueprintPreset extends Preset {
                     }
 
                     return bigWall;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public int determineFloorType(LoadData save) {
+        if (save.hasLoadDataByName("tiles")) {
+            int[] scriptTiles = save.getIntArray("tiles");
+            if (save.hasLoadDataByName("tileIDs")) {
+                ArrayList<String> floors = new ArrayList<>();
+                String[] tileIds = save.getStringArray("tileIDs");
+                for (int i = 1; i < tileIds.length; i += 2) {
+                    for (String floor : BlueprintHelper.floorTypes) {
+                        if (floor.equalsIgnoreCase(tileIds[i])) {
+                            floors.add(tileIds[i]);
+                        }
+                    }
+                }
+
+                if (!floors.isEmpty()) {
+                    int bigCount = 0;
+                    int bigFloor = -1;
+                    for (String floor : floors) {
+                        int id = TileRegistry.getTileID(floor);
+                        int current = Arrays.stream(scriptTiles).filter((i) -> i == id).boxed().toArray().length;
+                        if (current > bigCount) {
+                            bigCount = current;
+                            bigFloor = id;
+                        }
+                    }
+
+                    return bigFloor;
                 }
             }
         }
@@ -439,7 +489,7 @@ public class BlueprintPreset extends Preset {
     }
 
     protected BlueprintPreset newObject(int width, int height) {
-        return new BlueprintPreset(width, height, id, recipe, furnitureType, currentWallId, canChangeWalls, canPlaceOnShore, canPlaceOnLiquid);
+        return new BlueprintPreset(width, height, id, recipe, furnitureType, currentWallId, canChangeWalls, currentFloorId, canChangeFloor, canPlaceOnShore, canPlaceOnLiquid);
     }
 
 
