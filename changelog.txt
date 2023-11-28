@@ -1,0 +1,7 @@
+[Version 1.1 Update]
+
+Added:
+- Blueprint System | Allows you to "build" pre-built structures with a click of the button, as long as you have the mats
+- Blueprint Table | Craft blueprints
+- Architect Settler | Sells you more blueprints
+- Configuration File | Added a config file to configure some parts of the mod

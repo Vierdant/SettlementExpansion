@@ -33,10 +33,11 @@ house1empty=7x7 Empty House
 house1=7x7 Furnished House
 house2empty=9x7 Empty House
 house2=9x7 Furnished House
-house2empty=12x10 Empty House
-house2=12x10 Furnished House
+house3empty=12x10 Empty House
+house3=12x10 Furnished House
 trainingarea=10x10 Training Area
 storageroom=11x11 Storage Room
+storageroombig=21x21 Big Storage Room
 
 
 [ui]
