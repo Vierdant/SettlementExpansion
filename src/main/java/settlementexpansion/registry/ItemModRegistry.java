@@ -55,6 +55,15 @@ public class ItemModRegistry {
         ));
 
         Recipes.registerModRecipe(new Recipe(
+                "glassbottle",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("glass", 1)
+                }
+        ).showAfter("dungeonmap"));
+
+        Recipes.registerModRecipe(new Recipe(
                 "glass",
                 2,
                 RecipeTechRegistry.FORGE,

@@ -7,7 +7,7 @@ plugins {
 
 project.ext.modID = "settlementexpansion" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Settlement Expansion" // The display name of your mod.
-project.ext.modVersion = "1.1" // Your current builds version. Must follow the xx.xx... format.
+project.ext.modVersion = "1.1.2" // Your current builds version. Must follow the xx.xx... format.
 project.ext.gameVersion = "0.22.1" // The target game version.
 project.ext.modDescription = "Aims to expand on the functionality of settlements, especially settlers related things." // Short description of what your mod is.
 project.ext.author = "Vierdant" // Your name
@@ -68,6 +68,9 @@ dependencies {
     implementation fileTree("./mods/")
     implementation 'org.jetbrains:annotations:24.0.0'// Add all mods located in local mods folder
 
+    libDepends("com.googlecode.json-simple:json-simple:1.1.1") {
+        exclude group: 'junit'
+    }
     // Add any third party library dependencies here. Remember to use libDepends, so that they will be added to your jar on build
     // These are some examples:
 //    libDepends group: 'com.google.guava', name: 'guava', version: '31.1-jre'

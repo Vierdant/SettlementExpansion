@@ -41,6 +41,7 @@ storageroombig=21x21 Big Storage Room
 
 
 [ui]
+updateavailable=§aSettlement Expansion is outdated!\n§aPlease update to <version>.
 drying=Drying...
 needdrymaterial=Needs material to dry
 lockedinventory=State: <state>
@@ -81,7 +82,7 @@ dryingracktip=Dries and tans leather to unlock more uses for it
 fishdisplaytip=Wall display for special fish
 safebox=Safe place to store private items
 geodeslot=Geode Slot
-geode=Hollow rock formation with possible valuables inside. A blacksmith might be able to open this
+geode=Hollow rock formation with possible valuables inside.\nA blacksmith might be able to open this
 alamite=A commonly seeked out shiny formations by rock collectors
 amethyst=Famous for its purple-ish color, referred to as raspberry
 calcite=Yellow crystal with odd shimmers to it
@@ -90,7 +91,7 @@ jagoite=Glittery little collection of look alike crystals
 malachite=Very sturdy, and commonly used in sculpture
 orpiment=Toxic gem, however its properties can be useful in the right hands
 earthcrystal=Energy that resonates with stone can be felt from it
-earthring=Utilizing the earth energy from a rare crystal, it is a miner's treasures
+earthring=Utilizing the earth energy from a rare crystal\nIt is a miner's treasures
 seedlingtabletip=Used to multiply seeds
 cannontrap=Loved by pirates, for obvious reasons
 

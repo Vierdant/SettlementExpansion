@@ -1,7 +1,10 @@
 package settlementexpansion;
 
+import necesse.engine.GameEvents;
+import necesse.engine.events.ServerClientConnectedEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
 import settlementexpansion.registry.*;
+import settlementexpansion.updater.UpdaterControlListener;
 
 @ModEntry
 public class SettlementExpansion {
@@ -10,6 +13,8 @@ public class SettlementExpansion {
 
     public void init() {
         System.out.println("Settlement Expansion was enabled!");
+
+        addListeners();
 
         RecipeTechModRegistry.registerModdedTech();
 
@@ -53,5 +58,9 @@ public class SettlementExpansion {
     public static Settings getSettings() {
         settings = new Settings();
         return settings;
+    }
+
+    private void addListeners() {
+        GameEvents.addListener(ServerClientConnectedEvent.class, new UpdaterControlListener());
     }
 }

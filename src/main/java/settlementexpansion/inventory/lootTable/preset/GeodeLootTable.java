@@ -15,7 +15,7 @@ public class GeodeLootTable extends LootTable {
             50, LootItem.between("goldore", 1, 4),
             25, new ConditionLootItem("quartz", (r, o) -> {
         ServerClient client = LootTable.expectExtra(ServerClient.class, o, 1);
-        return client.characterStats().mob_kills.getKills("evilsprotector") > 0;
+        return client != null && client.characterStats().mob_kills.getKills("evilsprotector") > 0;
     })
     };
     public static final Object[] casual = new Object[]{

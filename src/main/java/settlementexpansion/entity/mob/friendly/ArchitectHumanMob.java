@@ -66,7 +66,7 @@ public class ArchitectHumanMob extends HumanShop {
         int drawX = camera.getDrawX(x) - 22 - 10;
         int drawY = camera.getDrawY(y) - 44 - 7;
         Point sprite = this.getAnimSprite(x, y, this.dir);
-        HumanDrawOptions humanOptions = (new HumanDrawOptions(ModResources.architect)).helmet(this.getDisplayArmor(0, (String)null)).chestplate(this.getDisplayArmor(1, "businesssuit")).boots(this.getDisplayArmor(2, "businessshoes")).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.dir).light(light);
+        HumanDrawOptions humanOptions = (new HumanDrawOptions(ModResources.architect)).helmet(this.getDisplayArmor(0, (String)null)).chestplate(this.getDisplayArmor(1, "businesssuit")).boots(this.getDisplayArmor(2, "businesssuitshoes")).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.dir).light(light);
         humanDrawOptionsModifier.accept(humanOptions);
         DrawOptions drawOptions = humanOptions.pos(drawX, drawY);
         DrawOptions markerOptions = this.getMarkerDrawOptions(x, y, light, camera, 0, -45, perspective);
