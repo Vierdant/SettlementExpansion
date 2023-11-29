@@ -1,7 +1,10 @@
 [Version 1.1.3 Update]
 
+Added:
+-
+
 Changed:
-- Glass bottle recipe to show in the Workstation and Alchemy Table
+-
 
 Fixed:
-- Added new lines to some tooltips so they don't take half your screen
+- Some locale grammar issues
