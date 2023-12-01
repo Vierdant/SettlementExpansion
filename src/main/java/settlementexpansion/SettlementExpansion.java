@@ -3,8 +3,13 @@ package settlementexpansion;
 import necesse.engine.GameEvents;
 import necesse.engine.events.ServerClientConnectedEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
+import necesse.engine.registries.LevelDataRegistry;
+import necesse.gfx.forms.presets.containerComponent.settlement.SettlementContainerForm;
 import settlementexpansion.registry.*;
 import settlementexpansion.updater.UpdaterControlListener;
+
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 @ModEntry
 public class SettlementExpansion {
@@ -16,8 +21,12 @@ public class SettlementExpansion {
 
         addListeners();
 
+        LevelDataModRegistry.registerLevelData();
+        ContainerEventModRegistry.registerContainerEvents();
+
         RecipeTechModRegistry.registerModdedTech();
 
+        ObjectModRegistry.replaceObjects();
         ObjectModRegistry.registerObjects();
 
         BuffModRegistry.registerBuffs();

@@ -61,6 +61,8 @@ blueprintbuildconfirm=Construct Building
 blueprintwalls=Wall:
 blueprintfloor=Floor:
 blueprintfurniture=Wood:
+settlementenablepvp=Enable PvP
+settlementdisablepvp=Disable PvP
 
 [item]
 tannedleather=Tanned Leather
