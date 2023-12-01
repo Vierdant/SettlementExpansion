@@ -2,12 +2,22 @@ package settlementexpansion.patch;
 
 import necesse.engine.modLoader.annotations.ModConstructorPatch;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
+import necesse.engine.network.NetworkClient;
+import necesse.engine.network.client.ClientClient;
+import necesse.engine.network.server.ServerClient;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
+import necesse.entity.levelEvent.toolItemEvent.ToolItemEvent;
+import necesse.entity.mobs.Mob;
+import necesse.entity.mobs.buffs.BuffModifiers;
+import necesse.entity.mobs.friendly.CowMob;
+import necesse.entity.mobs.friendly.HusbandryMob;
 import necesse.entity.mobs.friendly.human.HumanMob;
+import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.job.StudyBookLevelJob;
 import settlementexpansion.entity.mob.friendly.HumanMobData;
+import settlementexpansion.map.settlement.SettlementModData;
 
 public class HumanMobPatch {
 
@@ -48,6 +58,82 @@ public class HumanMobPatch {
             HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
             if (humanMobData != null) {
                 humanMobData.applyLoadData(save);
+            }
+        }
+    }
+
+    @ModMethodPatch(target = HumanMob.class, name = "canBeTargeted", arguments = {Mob.class, NetworkClient.class})
+    public static class HumanMobTargetingPatch {
+        @Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
+        static boolean onEnter() {
+            return true;
+        }
+
+        @Advice.OnMethodExit
+        static boolean onExit(@Advice.This HumanMob humanMob, @Advice.Argument(0) Mob attacker, @Advice.Argument(1) NetworkClient client, @Advice.Return(readOnly = false) boolean out) {
+            if (client != null) {
+                if (humanMob.isFriendlyClient(client)) {
+                    out = false;
+                    return out;
+                }
+
+                if (!client.pvpEnabled()) {
+                    out = false;
+                    return out;
+                }
+
+                ClientClient partyOwner = humanMob.adventureParty.getClientClient();
+                if (humanMob.adventureParty.isInAdventureParty() && partyOwner != null && !partyOwner.pvpEnabled()) {
+                    out = false;
+                    return out;
+                }
+            } else if (attacker instanceof HumanMob) {
+                if (humanMob.isTravelingHuman()) {
+                    out = false;
+                    return out;
+                }
+
+                if (((HumanMob)attacker).isTravelingHuman()) {
+                    out = false;
+                    return out;
+                }
+            }
+
+            out = canBeTargeted(humanMob, attacker, client);
+            return out;
+        }
+
+        public static boolean canBeTargeted(HumanMob mob, Mob attacker, NetworkClient attackerClient) {
+            if (mob.buffManager.getModifier(BuffModifiers.UNTARGETABLE)) {
+                return false;
+            } else if (!mob.canTakeDmg()) {
+                return false;
+            } else if (mob.getUniqueID() == attacker.getUniqueID()) {
+                return false;
+            } else if (mob.getUniqueID() == attacker.mount) {
+                return false;
+            } else if (mob.isSameTeam(attacker)) {
+                return false;
+            } else if (!mob.isSamePlace(attacker)) {
+                return false;
+            } else if (attacker.isInAttackOwnerChain(mob)) {
+                return false;
+            } else if (!attacker.canTarget(mob)) {
+                return false;
+            } else {
+                NetworkClient fClient = null;
+                if (mob.getLevel().isServerLevel()) {
+                    fClient = mob.getFollowingServerClient();
+                } else if (mob.getLevel().isClientLevel()) {
+                    fClient = mob.getFollowingClientClient();
+                }
+
+                if (fClient != null && attacker == (fClient).playerMob) {
+                    return false;
+                } else {
+                    NetworkClient pvpOwner = mob.getPvPOwner();
+                    return pvpOwner == null || attackerClient == null || pvpOwner == attackerClient || pvpOwner.pvpEnabled() && attackerClient.pvpEnabled();
+                }
             }
         }
     }
