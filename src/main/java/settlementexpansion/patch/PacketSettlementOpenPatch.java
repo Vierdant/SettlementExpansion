@@ -12,6 +12,7 @@ import necesse.entity.objectEntity.SettlementFlagObjectEntity;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.SettlementExpansion;
 import settlementexpansion.registry.ContainerModRegistry;
 
 @ModMethodPatch(target = PacketSettlementOpen.class, name = "processServer", arguments = {NetworkPacket.class, Server.class, ServerClient.class})
@@ -30,7 +31,8 @@ public class PacketSettlementOpenPatch {
             if (settlementData != null) {
                 SettlementFlagObjectEntity oe = settlementData.getObjectEntity();
                 if (oe != null) {
-                    PacketOpenContainer p = PacketOpenContainer.ObjectEntity(ContainerModRegistry.SETTLEMENT_CONTAINER, oe, oe.getContainerContentPacket(client));
+                    boolean modEnabled = SettlementExpansion.getSettings().enableSettlementLevelModification;
+                    PacketOpenContainer p = PacketOpenContainer.ObjectEntity(modEnabled ? ContainerModRegistry.SETTLEMENT_CONTAINER : ContainerRegistry.SETTLEMENT_CONTAINER, oe, oe.getContainerContentPacket(client));
                     ContainerRegistry.openAndSendContainer(client, p);
                 } else {
                     client.sendChatMessage(new LocalMessage("ui", "settlementnone"));

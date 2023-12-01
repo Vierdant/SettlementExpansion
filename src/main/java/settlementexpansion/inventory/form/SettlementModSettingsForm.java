@@ -18,13 +18,14 @@ import necesse.gfx.forms.presets.containerComponent.settlement.SettlementSubForm
 import necesse.gfx.gameFont.FontOptions;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
 import settlementexpansion.inventory.container.SettlementModContainer;
-import settlementexpansion.map.settlement.SettlementModData;
 
 public class SettlementModSettingsForm<T extends SettlementModContainer> extends FormSwitcher implements SettlementSubForm {
     public final Client client;
     public final T container;
     public final SettlementModContainerForm<T> containerForm;
     protected Form name;
+    protected Form unclaim;
+    protected Form destroy;
     protected Form settings;
     protected FormTextInput nameInput;
 
@@ -32,8 +33,10 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
         this.client = client;
         this.container = container;
         this.containerForm = containerForm;
-        this.settings = this.addComponent(new Form("settings", 400, 50));
+        this.settings = this.addComponent(new Form("settings", 400, 60));
         this.name = this.addComponent(new Form("name", 400, 80));
+        this.unclaim = this.addComponent(new Form("unclaim", 400, 140));
+        this.destroy = this.addComponent(new Form("unclaim", 400, 140));
         this.nameInput = this.name.addComponent(new FormTextInput(4, 0, FormInputSize.SIZE_32_TO_40, this.name.getWidth() - 8, 40));
         this.nameInput.placeHolder = new LocalMessage("settlement", "defname", "biome", client.getLevel().biome.getLocalization());
         String preName = container.basics.settlementName.translate();
@@ -52,6 +55,33 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
             this.makeCurrent(this.settings);
         });
         this.name.addComponent(new FormLocalTextButton("ui", "backbutton", this.name.getWidth() / 2 + 2, 40, this.name.getWidth() / 2 - 6)).onClicked((e) -> {
+            this.makeCurrent(this.settings);
+        });
+
+
+        FormFlow flow = new FormFlow(5);
+        this.unclaim.addComponent(flow.next(new FormLocalLabel("ui", "settlementunclaimconfirm", new FontOptions(20), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 10));
+        this.unclaim.addComponent(flow.next(new FormLocalLabel("ui", "settlementunclaimexplain", new FontOptions(16), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 20));
+
+        this.unclaim.addComponent(new FormLocalTextButton("ui", "confirmbutton", 4, 100, this.unclaim.getWidth() / 2 - 6)).onClicked((e) -> {
+            this.playTickSound();
+            this.container.changeClaim.runAndSend(this.container.basics.ownerAuth != GameAuth.getAuthentication());
+            this.makeCurrent(this.settings);
+        });
+        this.unclaim.addComponent(new FormLocalTextButton("ui", "backbutton", this.unclaim.getWidth() / 2 + 2, 100, this.unclaim.getWidth() / 2 - 6)).onClicked((e) -> {
+            this.makeCurrent(this.settings);
+        });
+
+        flow = new FormFlow(5);
+        this.destroy.addComponent(flow.next(new FormLocalLabel("ui", "settlementunclaimconfirm", new FontOptions(20), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 10));
+        this.destroy.addComponent(flow.next(new FormLocalLabel("ui", "settlementundestroyexplain", new FontOptions(16), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 20));
+
+        this.destroy.addComponent(new FormLocalTextButton("ui", "settlementdestroybutton", 4, 100, this.destroy.getWidth() / 2 - 6)).onClicked((e) -> {
+            this.playTickSound();
+            this.container.destroyFlag.runAndSend();
+            this.makeCurrent(this.settings);
+        });
+        this.destroy.addComponent(new FormLocalTextButton("ui", "backbutton", this.destroy.getWidth() / 2 + 2, 100, this.destroy.getWidth() / 2 - 6)).onClicked((e) -> {
             this.makeCurrent(this.settings);
         });
         this.update(container.basics);
@@ -76,12 +106,14 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
             changeName.setLocalTooltip(new LocalMessage("ui", event.hasOwner() ? "settlementowneronly" : "settlementclaimfirst"));
         }
 
-        System.out.println(this.container.isPvpFlagged);
-
         FormLocalTextButton togglePvp = this.settings.addComponent(new FormLocalTextButton("ui", this.container.isPvpFlagged ? "settlementdisablepvp" : "settlementenablepvp", 40, flow.next(40), this.settings.getWidth() - 80));
-        togglePvp.setActive(event.isOwner(this.client));
+        togglePvp.setActive(event.isOwner(this.client) && !this.container.flagObjectEntity.onCooldown());
         if (!togglePvp.isActive()) {
-            togglePvp.setLocalTooltip(new LocalMessage("ui", event.hasOwner() ? "settlementowneronly" : "settlementclaimfirst"));
+            if (this.container.flagObjectEntity.onCooldown() && event.hasOwner()) {
+                togglePvp.setLocalTooltip(new LocalMessage("ui", "settlementactioncooldown", "time", this.container.flagObjectEntity.getCooldownTimeLeft() / 1000L));
+            } else {
+                togglePvp.setLocalTooltip(new LocalMessage("ui", event.hasOwner() ? "settlementowneronly" : "settlementclaimfirst"));
+            }
         }
         togglePvp.onClicked((e) -> {
             this.container.togglePvpFlag.runAndSend();
@@ -98,11 +130,30 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
 
         FormLocalTextButton changeClaim = this.settings.addComponent(new FormLocalTextButton("ui", event.isOwner(this.client) ? "settlementunclaim" : "settlementclaim", 40, flow.next(40), this.settings.getWidth() - 80));
         changeClaim.onClicked((e) -> {
-            this.container.changeClaim.runAndSend(this.container.basics.ownerAuth != GameAuth.getAuthentication());
+            if (event.hasOwner()) {
+                this.makeCurrent(this.unclaim);
+            } else {
+                this.container.changeClaim.runAndSend(this.container.basics.ownerAuth != GameAuth.getAuthentication());
+            }
+
         });
         changeClaim.setActive(!event.hasOwner() || event.isOwner(this.client));
         if (!changeClaim.isActive()) {
             changeClaim.setLocalTooltip(new LocalMessage("ui", "settlementowneronly"));
+        }
+
+        FormLocalTextButton destroyFlag = this.settings.addComponent(new FormLocalTextButton("ui", "settlementdestroyflag", 40, flow.next(40), this.settings.getWidth() - 80));
+        destroyFlag.onClicked((e) -> {
+            if (event.hasOwner()) {
+                this.makeCurrent(this.destroy);
+            } else {
+                this.container.destroyFlag.runAndSend();
+            }
+
+        });
+        destroyFlag.setActive(!event.hasOwner() || event.isOwner(this.client));
+        if (!destroyFlag.isActive()) {
+            destroyFlag.setLocalTooltip(new LocalMessage("ui", "settlementowneronly"));
         }
 
         flow.next(10);
@@ -132,6 +183,8 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
         super.onWindowResized();
         ContainerComponent.setPosInventory(this.settings);
         this.name.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        this.unclaim.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        this.destroy.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
     }
 
     public GameMessage getMenuButtonName() {

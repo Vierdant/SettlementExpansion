@@ -25,7 +25,9 @@ public class SettlementModData extends LevelData {
 
 
     public void togglePvpFlag() {
+        System.out.println("old data flag: " + this.isPvpFlagged);
         this.isPvpFlagged = !this.isPvpFlagged;
+        System.out.println("new data flag: " + this.isPvpFlagged);
     }
 
     public static void createSettlementModDataCreateIfNonExist(Level level) {

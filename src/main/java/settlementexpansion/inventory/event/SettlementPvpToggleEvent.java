@@ -10,20 +10,24 @@ public class SettlementPvpToggleEvent extends ContainerEvent {
 
     public final boolean isServerClient;
     public final boolean isPvpFlagged;
+    public final boolean shouldStartCooldown;
 
-    public SettlementPvpToggleEvent(SettlementModData data, ServerClient client) {
+    public SettlementPvpToggleEvent(SettlementModData data, ServerClient client, boolean shouldStartCooldown) {
         this.isServerClient = client.isServerClient();
         this.isPvpFlagged = data.isPvpFlagged;
+        this.shouldStartCooldown = shouldStartCooldown;
     }
 
     public SettlementPvpToggleEvent(PacketReader reader) {
         this.isServerClient = reader.getNextBoolean();
         this.isPvpFlagged = reader.getNextBoolean();
+        this.shouldStartCooldown = reader.getNextBoolean();
     }
 
     @Override
     public void write(PacketWriter writer) {
         writer.putNextBoolean(this.isServerClient);
         writer.putNextBoolean(this.isPvpFlagged);
+        writer.putNextBoolean(this.shouldStartCooldown);
     }
 }

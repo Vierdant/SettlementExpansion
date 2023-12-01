@@ -63,6 +63,12 @@ blueprintfloor=Floor:
 blueprintfurniture=Wood:
 settlementenablepvp=Enable PvP
 settlementdisablepvp=Disable PvP
+settlementactioncooldown=Action on cooldown\nTime left: <time>s
+settlementunclaimconfirm=Are you sure?
+settlementunclaimexplain=Unclaiming a settlement will leave it unmanaged, vulnerable to attacks and to everyone else to claim
+settlementundestroyexplain=Destroying a flag will remove your claim to the settlement and allow others to place their own flags
+settlementdestroyflag=Destroy Flag
+settlementdestroybutton=Destroy
 
 [item]
 tannedleather=Tanned Leather
@@ -121,3 +127,6 @@ architecttalk4=There has to be something you need from me
 architecttalk5=You know, I really like apples, they are easy to eat
 architectspecial1=If <stylist> allows it, a mansion would suit her
 architectspecial2=<elder>'s original house could use an upgrade
+
+[misc]
+maxsettlementsflagreached=§6Unable to place multiple flags in a single settlement

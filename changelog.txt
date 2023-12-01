@@ -1,4 +1,12 @@
-[Version 1.1.5 Update]
+[Version 1.2 Update]
+
+Added:
+- Added a button with a cooldown in the settlement settings menu to enable/disable settlement pvp
+- Added a config option to enable or disable new settlement level changes
 
 Changes:
 - Included a discord link in the mod description
+- A confirmation box will now appear when un-claiming a settlement to avoid miss clicks
+- The settlement flag is now unbreakable by normal means, only the settlement owner can break the flag through the settings menu
+- The placement of multiple flags in a single settlement is now disabled; This can be enabled again in the config file, but it's recommended to keep it the way it is
+- Settlement islands with pvp off will disable the ability to break and place things for non-settlement members

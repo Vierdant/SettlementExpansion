@@ -1,10 +1,19 @@
 package settlementexpansion;
 
 import necesse.engine.GameEvents;
+import necesse.engine.events.GameEvent;
 import necesse.engine.events.ServerClientConnectedEvent;
+import necesse.engine.events.players.DamageTileEvent;
+import necesse.engine.events.players.ItemPlaceEvent;
+import necesse.engine.events.players.MobInteractEvent;
+import necesse.engine.events.players.ObjectInteractEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.LevelDataRegistry;
 import necesse.gfx.forms.presets.containerComponent.settlement.SettlementContainerForm;
+import settlementexpansion.listener.DamageTileSettlementListener;
+import settlementexpansion.listener.ItemPlaceSettlementListener;
+import settlementexpansion.listener.MobInteractSettlementListener;
+import settlementexpansion.listener.ObjectInteractSettlementListener;
 import settlementexpansion.registry.*;
 import settlementexpansion.updater.UpdaterControlListener;
 
@@ -71,5 +80,9 @@ public class SettlementExpansion {
 
     private void addListeners() {
         GameEvents.addListener(ServerClientConnectedEvent.class, new UpdaterControlListener());
+        GameEvents.addListener(DamageTileEvent.class, new DamageTileSettlementListener());
+        GameEvents.addListener(ItemPlaceEvent.class, new ItemPlaceSettlementListener());
+        GameEvents.addListener(ObjectInteractEvent.class, new ObjectInteractSettlementListener());
+        GameEvents.addListener(MobInteractEvent.class, new MobInteractSettlementListener());
     }
 }
