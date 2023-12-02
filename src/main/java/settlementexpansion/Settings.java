@@ -9,6 +9,7 @@ public class Settings extends ModSettings {
     public boolean enableHappinessModifier = true;
     public boolean enableSettlementLevelModification = true;
     public boolean enableMultiFlagPerSettlement = false;
+    public boolean requireSettlerOwnerOnlineToKill = false;
 
     public Settings() {}
 
@@ -20,11 +21,15 @@ public class Settings extends ModSettings {
                 "Toggle the Settlement Level module, which modifies how settlements work to be more multiplayer friendly | Default: true");
         save.addBoolean("enableMultiFlagPerSettlement", enableMultiFlagPerSettlement,
                 "If true, allows the player to place multiple flags in a SINGLE settlement | Default: false");
+        save.addBoolean("requireSettlerOwnerOnlineToKill", requireSettlerOwnerOnlineToKill,
+                "If true, a player can't kill a settler owned by another player, unless the owner player is online | Default: false");
     }
 
     @Override
     public void applyLoadData(LoadData load) {
         enableHappinessModifier = load.getBoolean("enableHappinessModifier", true);
+        enableSettlementLevelModification = load.getBoolean("enableSettlementLevelModification", true);
         enableMultiFlagPerSettlement = load.getBoolean("enableMultiFlagPerSettlement", false);
+        requireSettlerOwnerOnlineToKill = load.getBoolean("requireSettlerOwnerOnlineToKill", false);
     }
 }

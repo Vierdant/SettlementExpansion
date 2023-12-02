@@ -117,6 +117,16 @@ public class ObjectModRegistry {
                 false
         ).showAfter("seedlingtable"));
 
+        Recipes.registerModRecipe(new Recipe(
+                "studytable",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("anylog", 20)
+                },
+                false
+        ).showAfter("blueprinttable"));
+
         for (String type : woodFurnitureTypes) {
             Recipes.registerModRecipe(new Recipe(
                     type + "leatherchair",

@@ -2,11 +2,12 @@ package settlementexpansion.inventory.container;
 
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
+import necesse.engine.network.server.ServerClient;
 import necesse.entity.TileDamageType;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.settlement.SettlementContainer;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
-import settlementexpansion.inventory.event.SettlementPvpToggleEvent;
+import settlementexpansion.inventory.event.SettlementModDataUpdateEvent;
 import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.object.entity.SettlementFlagModObjectEntity;
 
@@ -16,14 +17,16 @@ public class SettlementModContainer extends SettlementContainer {
     public EmptyCustomAction destroyFlag;
     public boolean isPvpFlagged;
     public SettlementFlagModObjectEntity flagObjectEntity;
+    public boolean settlementSafe;
 
     public SettlementModContainer(NetworkClient client, int uniqueSeed, SettlementFlagModObjectEntity objectEntity, Packet contentPacket) {
         super(client, uniqueSeed, objectEntity, contentPacket);
         this.flagObjectEntity = objectEntity;
 
-        this.subscribeEvent(SettlementPvpToggleEvent.class, (e) -> true, () -> true);
-        this.onEvent(SettlementPvpToggleEvent.class, (event) -> {
+        this.subscribeEvent(SettlementModDataUpdateEvent.class, (e) -> true, () -> true);
+        this.onEvent(SettlementModDataUpdateEvent.class, (event) -> {
            this.isPvpFlagged = event.isPvpFlagged;
+           this.settlementSafe = event.isSettlementSafe;
            if (this.isPvpFlagged && event.shouldStartCooldown) {
                this.flagObjectEntity.startCooldown();
            }
@@ -32,7 +35,9 @@ public class SettlementModContainer extends SettlementContainer {
 
         if (client.isServerClient()) {
             this.isPvpFlagged = getLevelModData().isPvpFlagged;
-            new SettlementPvpToggleEvent(getLevelModData(), client.getServerClient(), false).applyAndSendToClient(client.getServerClient());
+            this.settlementSafe = isSettlementSafe();
+
+            new SettlementModDataUpdateEvent(getLevelModData(), client.getServerClient(), false, this.settlementSafe).applyAndSendToClient(client.getServerClient());
             new SettlementBasicsEvent(getLevelData()).applyAndSendToClient(client.getServerClient());
         }
 
@@ -43,7 +48,7 @@ public class SettlementModContainer extends SettlementContainer {
                     getLevelModData().togglePvpFlag();
                     boolean shouldStartCooldown = getLevelModData().isPvpFlagged;
 
-                    new SettlementPvpToggleEvent(getLevelModData(), client.getServerClient(), shouldStartCooldown).applyAndSendToAllClients(client.getServerClient().getServer());
+                    new SettlementModDataUpdateEvent(getLevelModData(), client.getServerClient(), shouldStartCooldown, settlementSafe).applyAndSendToAllClients(client.getServerClient().getServer());
                     new SettlementBasicsEvent(getLevelData()).applyAndSendToClient(client.getServerClient());
                 }
             }
@@ -58,6 +63,19 @@ public class SettlementModContainer extends SettlementContainer {
                 close();
             }
         });
+    }
+
+    public boolean isSettlementSafe() {
+        if (!this.client.isServerClient()) {
+            throw new IllegalStateException("Cannot check settlement safety client side");
+        }
+        for (ServerClient c : getLevel().getServer().getClients()) {
+            if (c.getLevelIdentifier().equals(getLevel().getIdentifier())
+                    && c.pvpEnabled() && getLevelModData().isPvpFlagged && !getLevelLayer().doesClientHaveAccess(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public SettlementModData getLevelModData() {

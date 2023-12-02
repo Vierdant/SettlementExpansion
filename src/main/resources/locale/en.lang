@@ -61,12 +61,14 @@ blueprintbuildconfirm=Construct Building
 blueprintwalls=Wall:
 blueprintfloor=Floor:
 blueprintfurniture=Wood:
+settlementunsafe=§6Action is not available in unsafe conditions\n§6A hostile player is currently in the settlement
 settlementenablepvp=Enable PvP
 settlementdisablepvp=Disable PvP
 settlementactioncooldown=Action on cooldown\nTime left: <time>s
-settlementunclaimconfirm=Are you sure?
+settlementconfirmnotice=Are you sure?
 settlementunclaimexplain=Unclaiming a settlement will leave it unmanaged, vulnerable to attacks and to everyone else to claim
-settlementundestroyexplain=Destroying a flag will remove your claim to the settlement and allow others to place their own flags
+settlementdestroyexplain=Destroying a flag will remove your claim to the settlement and allow others to place their own flags
+settlementpvpexplain=Enabling Settlement PvP will allow all players to build, destroy and steal from your settlement\nYou can disable it only after 5 minutes
 settlementdestroyflag=Destroy Flag
 settlementdestroybutton=Destroy
 
@@ -127,6 +129,9 @@ architecttalk4=There has to be something you need from me
 architecttalk5=You know, I really like apples, they are easy to eat
 architectspecial1=If <stylist> allows it, a mansion would suit her
 architectspecial2=<elder>'s original house could use an upgrade
+
+[controls]
+takeovertip=Take over
 
 [misc]
 maxsettlementsflagreached=§6Unable to place multiple flags in a single settlement

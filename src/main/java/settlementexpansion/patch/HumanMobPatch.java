@@ -15,6 +15,7 @@ import necesse.entity.mobs.friendly.HusbandryMob;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.job.StudyBookLevelJob;
 import settlementexpansion.entity.mob.friendly.HumanMobData;
 import settlementexpansion.map.settlement.SettlementModData;
@@ -77,7 +78,10 @@ public class HumanMobPatch {
                     return out;
                 }
 
-                if (!client.pvpEnabled()) {
+                if (!client.pvpEnabled() && humanMob.owner.get() != -1L) {
+                    out = false;
+                    return out;
+                } else if (humanMob.owner.get() != -1L && SettlementExpansion.getSettings().requireSettlerOwnerOnlineToKill && humanMob.getLevel().getClient().getClientByAuth(humanMob.owner.get()) != null) {
                     out = false;
                     return out;
                 }

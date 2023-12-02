@@ -3,6 +3,7 @@
 Added:
 - Added a button with a cooldown in the settlement settings menu to enable/disable settlement pvp
 - Added a config option to enable or disable new settlement level changes
+- Added a config option to enable or disable the requirement of a settler owner being online in order to kill the settlers
 
 Changes:
 - Included a discord link in the mod description
@@ -10,3 +11,8 @@ Changes:
 - The settlement flag is now unbreakable by normal means, only the settlement owner can break the flag through the settings menu
 - The placement of multiple flags in a single settlement is now disabled; This can be enabled again in the config file, but it's recommended to keep it the way it is
 - Settlement islands with pvp off will disable the ability to break and place things for non-settlement members
+- Settlers that are a part of a player's settlement can not be killed by another player unless PLAYER pvp is toggled
+- If your settlement is pvp enabled and hostile players are in the settlement level, you won't be able to change settlement privacy, or unclaim/destroy the flag
+
+Fixes:
+- Fixed the study table recipe not appearing in the demonic workshop, thanks DecayedBit for the report

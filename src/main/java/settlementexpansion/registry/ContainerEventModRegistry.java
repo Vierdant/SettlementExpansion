@@ -1,11 +1,11 @@
 package settlementexpansion.registry;
 
 import necesse.inventory.container.events.ContainerEventRegistry;
-import settlementexpansion.inventory.event.SettlementPvpToggleEvent;
+import settlementexpansion.inventory.event.SettlementModDataUpdateEvent;
 
 public class ContainerEventModRegistry {
 
     public static void registerContainerEvents() {
-        ContainerEventRegistry.registerUpdate(SettlementPvpToggleEvent.class);
+        ContainerEventRegistry.registerUpdate(SettlementModDataUpdateEvent.class);
     }
 }

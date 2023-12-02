@@ -1,5 +1,6 @@
 package settlementexpansion.object;
 
+import necesse.engine.localization.Localization;
 import necesse.engine.network.packet.PacketOpenContainer;
 import necesse.engine.registries.ContainerRegistry;
 import necesse.entity.mobs.PlayerMob;
@@ -11,6 +12,7 @@ import necesse.level.gameObject.SettlementFlagObject;
 import necesse.level.maps.Level;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.item.placeable.SettlementFlagModObjectItem;
+import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.object.entity.SettlementFlagModObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
 
@@ -19,6 +21,10 @@ public class SettlementFlagModObject extends SettlementFlagObject {
     public SettlementFlagModObject() {
         super();
         this.toolType = SettlementExpansion.getSettings().enableSettlementLevelModification ? ToolType.NONE : ToolType.ALL;
+    }
+
+    public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
+        return Localization.translate("controls", "usetip");
     }
 
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
@@ -33,9 +39,17 @@ public class SettlementFlagModObject extends SettlementFlagObject {
         if (level.isServerLevel()) {
             SettlementFlagObjectEntity objectEntity = (SettlementFlagObjectEntity)level.entityManager.getObjectEntity(x, y);
             boolean modEnabled = SettlementExpansion.getSettings().enableSettlementLevelModification;
-            PacketOpenContainer p = PacketOpenContainer.ObjectEntity(modEnabled ? ContainerModRegistry.SETTLEMENT_CONTAINER : ContainerRegistry.SETTLEMENT_CONTAINER, objectEntity, objectEntity.getContainerContentPacket(player.getServerClient()));
+            int container = modEnabled ? ContainerModRegistry.SETTLEMENT_CONTAINER : ContainerRegistry.SETTLEMENT_CONTAINER;
+
+            if (level.settlementLayer.getOwnerAuth() != -1L && !level.settlementLayer.doesClientHaveAccess(player.getServerClient()) && modEnabled) {
+                SettlementModData modData = SettlementModData.getSettlementModDataCreateIfNonExist(level);
+                if (modData.isPvpFlagged) {
+                    container = -1;
+                }
+            }
+
+            PacketOpenContainer p = PacketOpenContainer.ObjectEntity(container, objectEntity, objectEntity.getContainerContentPacket(player.getServerClient()));
             ContainerRegistry.openAndSendContainer(player.getServerClient(), p);
         }
-
     }
 }
