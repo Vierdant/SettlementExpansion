@@ -8,7 +8,10 @@ import necesse.engine.network.server.ServerClient;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.levelEvent.toolItemEvent.ToolItemEvent;
+import necesse.entity.mobs.Attacker;
+import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
+import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.mobs.friendly.CowMob;
 import necesse.entity.mobs.friendly.HusbandryMob;
@@ -60,6 +63,28 @@ public class HumanMobPatch {
             if (humanMobData != null) {
                 humanMobData.applyLoadData(save);
             }
+        }
+    }
+
+    @ModMethodPatch(target = Mob.class, name = "isServerHit", arguments = {GameDamage.class, float.class, float.class, float.class, Attacker.class})
+    public static class MobIsServerHitPatch {
+        @Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
+        static boolean onEnter(@Advice.This Mob mob, @Advice.Argument(4) Attacker attacker) {
+            if (mob.removed()) {
+                return false;
+            } else if (!mob.canTakeDmg()) {
+                return false;
+            } else if (!SettlementExpansion.getSettings().allowOwnedSettlerKillsNoPvP) {
+                if (attacker.getAttackOwner().isPlayer && mob.isHuman) {
+                    SettlementLevelData data = SettlementLevelData.getSettlementData(mob.getLevel());
+                    if (data != null) {
+                        SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(mob.getLevel());
+                        ServerClient client = ((PlayerMob)attacker.getAttackOwner()).getServerClient();
+                        return !layerData.isPvpFlagged && !mob.getLevel().settlementLayer.doesClientHaveAccess(client);
+                    }
+                }
+            }
+            return false;
         }
     }
 

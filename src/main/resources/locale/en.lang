@@ -71,6 +71,9 @@ settlementdestroyexplain=Destroying a flag will remove your claim to the settlem
 settlementpvpexplain=Enabling Settlement PvP will allow all players to build, destroy and steal from your settlement\nYou can disable it only after 5 minutes
 settlementdestroyflag=Destroy Flag
 settlementdestroybutton=Destroy
+settlementtakeover=Take over Settlement
+settlementtakeoverexplain=Taking over this settlement requires all settlers to be dead, and the player taking over not being in combat!\nMust have 1x Claiming Scroll
+takeoverbutton=Claim<extra>
 
 [item]
 tannedleather=Tanned Leather
@@ -86,6 +89,7 @@ earthcrystal=Earth Crystal
 earthring=Earth Ring
 glass=Glass
 blueprintempty=Empty Blueprint
+claimingscroll=Claiming Scroll
 
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it
@@ -104,6 +108,7 @@ earthcrystal=Energy that resonates with stone can be felt from it
 earthring=Utilizing the earth energy from a rare crystal\nIt is a miner's treasures
 seedlingtabletip=Used to multiply seeds
 cannontrap=Loved by pirates, for obvious reasons
+claimingscroll=Allows you to claim an already claimed settlement with pvp enabled\n by approaching the settlement flag and interacting with it\n\nClaiming the settlement flag will only be done if\nclaiming conditions are met
 
 [itemcategory]
 processed=Processed goods

@@ -215,7 +215,7 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
 
     protected GameMessage getCurrentNameInput() {
         String text = this.nameInput.getText();
-        return (GameMessage)(text.isEmpty() ? this.nameInput.placeHolder : new StaticMessage(text));
+        return (text.isEmpty() ? this.nameInput.placeHolder : new StaticMessage(text));
     }
 
     public void onSetCurrent(boolean current) {

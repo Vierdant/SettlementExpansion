@@ -32,6 +32,7 @@ import necesse.entity.mobs.summon.summonFollowingMob.petFollowingMob.PetWalkingT
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 import settlementexpansion.entity.mob.friendly.MageModHumanMob;
+import settlementexpansion.entity.mob.friendly.TravelingMerchantModMob;
 
 @ModMethodPatch(target = MobRegistry.class, name = "registerCore", arguments = {})
 public class MobRegistryPatch {
@@ -88,7 +89,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("piratehuman", PirateHumanMob.class, true);
         MobRegistry.registerMob("explorerhuman", ExplorerHumanMob.class, true);
         MobRegistry.registerMob("minerhuman", MinerHumanMob.class, true);
-        MobRegistry.registerMob("travelingmerchant", TravelingMerchantMob.class, true);
+        MobRegistry.registerMob("travelingmerchant", TravelingMerchantModMob.class, true);
         MobRegistry.registerMob("zombie", ZombieMob.class, true);
         MobRegistry.registerMob("trapperzombie", TrapperZombieMob.class, true);
         MobRegistry.registerMob("goblin", GoblinMob.class, true);

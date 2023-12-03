@@ -49,7 +49,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     public int settlerBasicsSubscription = -1;
     public ArrayList<SettlementSettlerBasicData> settlers = new ArrayList<>();
     public ArrayList<SettlementLockedBedData> lockedBeds = new ArrayList<>();
-    private final SettlementCommandForm<T> commandForm;
+    private final SettlementModCommandForm<T> commandForm;
     public SettlementContainerGameTool tool;
     public HudDrawElement selectedSettlersHudElement;
 
@@ -62,7 +62,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         this.menus = new LinkedList<>();
         this.menus.add(new SettlementModSettingsForm<>(client, container, this));
         this.menus.add(new SettlementSettlersForm<>(client, container, this));
-        this.menus.add(this.commandForm = new SettlementCommandForm<>(client, container, this));
+        this.menus.add(this.commandForm = new SettlementModCommandForm<>(client, container, this));
         this.menus.add(new SettlementEquipmentForm<>(client, container, this));
         this.menus.add(new SettlementDietsForm<>(client, container, this));
         this.menus.add(new SettlementRestrictForm<>(client, container, this));

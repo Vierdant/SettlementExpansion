@@ -7,10 +7,7 @@ import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.gfx.forms.presets.containerComponent.settlement.SettlementContainerForm;
 import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.container.settlement.SettlementContainer;
-import settlementexpansion.inventory.container.BlacksmithContainer;
-import settlementexpansion.inventory.container.BlueprintContainer;
-import settlementexpansion.inventory.container.LockedInventoryContainer;
-import settlementexpansion.inventory.container.SettlementModContainer;
+import settlementexpansion.inventory.container.*;
 import settlementexpansion.inventory.form.*;
 import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 import settlementexpansion.object.entity.BlueprintObjectEntity;
@@ -25,6 +22,7 @@ public class ContainerModRegistry {
     public static int TOOLSRACK_CONTAINER;
     public static int BLUEPRINT_CONTAINER;
     public static int SETTLEMENT_CONTAINER;
+    public static int SETTLEMENT_CLAIM_CONTAINER;
 
     public static void registerContainers() {
         OE_LOCKED_INVENTORY_CONTAINER =
@@ -57,5 +55,9 @@ public class ContainerModRegistry {
                 new SettlementModContainerForm<>(client, new SettlementModContainer(client.getClient(), uniqueSeed, (SettlementFlagModObjectEntity)oe,
                         content)), (client, uniqueSeed, oe, content, serverObject) ->
                 new SettlementModContainer(client, uniqueSeed, (SettlementFlagModObjectEntity)oe, content));
+        SETTLEMENT_CLAIM_CONTAINER = ContainerRegistry.registerOEContainer((client, uniqueSeed, oe, content) ->
+                new SettlementClaimForm(client, new SettlementClaimContainer(client.getClient(), uniqueSeed, (SettlementFlagModObjectEntity)oe,
+                        content)), (client, uniqueSeed, oe, content, serverObject) ->
+                new SettlementClaimContainer(client, uniqueSeed, (SettlementFlagModObjectEntity)oe, content));
     }
 }

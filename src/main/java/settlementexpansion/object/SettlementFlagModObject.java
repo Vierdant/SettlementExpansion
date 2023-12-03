@@ -44,7 +44,7 @@ public class SettlementFlagModObject extends SettlementFlagObject {
             if (level.settlementLayer.getOwnerAuth() != -1L && !level.settlementLayer.doesClientHaveAccess(player.getServerClient()) && modEnabled) {
                 SettlementModData modData = SettlementModData.getSettlementModDataCreateIfNonExist(level);
                 if (modData.isPvpFlagged) {
-                    container = -1;
+                    container = ContainerModRegistry.SETTLEMENT_CLAIM_CONTAINER;
                 }
             }
 
