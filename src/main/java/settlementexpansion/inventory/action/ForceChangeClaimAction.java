@@ -2,6 +2,7 @@ package settlementexpansion.inventory.action;
 
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.server.ServerClient;
+import necesse.engine.registries.ItemRegistry;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
@@ -30,6 +31,8 @@ public class ForceChangeClaimAction extends EmptyCustomAction {
                     }
                 }
 
+                serverClient.playerMob.getInv().main.removeItems(serverClient.playerMob.getLevel(), serverClient.playerMob, ItemRegistry.getItem("claimingscroll"), 1, "forceclaim");
+                this.container.getLevelModData().setPvpFlagged(false);
                 this.container.getLevelLayer().setOwner(serverClient);
                 levelData.sendEvent(SettlementBasicsEvent.class);
             }

@@ -21,11 +21,26 @@ public class SettlementModData extends LevelData {
     public void applyLoadData(LoadData save) {
         super.applyLoadData(save);
         this.isPvpFlagged = save.getBoolean("settlementPvpFlagged");
+        if (this.level.getWorldSettings().forcedPvP) {
+            this.isPvpFlagged = true;
+        }
     }
 
 
     public void togglePvpFlag() {
-        this.isPvpFlagged = !this.isPvpFlagged;
+        if (!this.level.getWorldSettings().forcedPvP) {
+            this.isPvpFlagged = !this.isPvpFlagged;
+        } else {
+            this.isPvpFlagged = this.level.getWorldSettings().forcedPvP;
+        }
+    }
+
+    public void setPvpFlagged(boolean state) {
+        if (!this.level.getWorldSettings().forcedPvP) {
+            this.isPvpFlagged = state;
+        } else {
+            this.isPvpFlagged = this.level.getWorldSettings().forcedPvP;
+        }
     }
 
     public static void createSettlementModDataCreateIfNonExist(Level level) {

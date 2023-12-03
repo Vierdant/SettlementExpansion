@@ -140,3 +140,4 @@ takeovertip=Take over
 
 [misc]
 maxsettlementsflagreached=§6Unable to place multiple flags in a single settlement
+settlementhostileapproaching=§6<player> is approaching your settlement!

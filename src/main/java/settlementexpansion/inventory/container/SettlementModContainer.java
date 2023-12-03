@@ -2,6 +2,7 @@ package settlementexpansion.inventory.container;
 
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
+import necesse.engine.network.packet.PacketPlayerPvP;
 import necesse.engine.network.server.ServerClient;
 import necesse.entity.TileDamageType;
 import necesse.inventory.container.customAction.EmptyCustomAction;
@@ -10,6 +11,7 @@ import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
 import settlementexpansion.inventory.event.SettlementModDataUpdateEvent;
 import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.object.entity.SettlementFlagModObjectEntity;
+import settlementexpansion.packet.PacketPlayerEnablePvP;
 
 public class SettlementModContainer extends SettlementContainer {
 
@@ -47,6 +49,14 @@ public class SettlementModContainer extends SettlementContainer {
                 if (client.isServerClient()) {
                     getLevelModData().togglePvpFlag();
                     boolean shouldStartCooldown = getLevelModData().isPvpFlagged;
+                    if (shouldStartCooldown) {
+                        getLevel().settlementLayer.streamTeamMembersAndOnLevel().forEach((c) -> {
+                            if (!c.pvpEnabled()) {
+                                System.out.println("enabling");
+                                getLevel().getServer().network.sendPacket(new PacketPlayerEnablePvP(true), c);
+                            }
+                        });
+                    }
 
                     new SettlementModDataUpdateEvent(getLevelModData(), client.getServerClient(), shouldStartCooldown, settlementSafe).applyAndSendToAllClients(client.getServerClient().getServer());
                     new SettlementBasicsEvent(getLevelData()).applyAndSendToClient(client.getServerClient());

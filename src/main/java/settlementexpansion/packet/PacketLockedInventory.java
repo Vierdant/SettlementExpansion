@@ -8,9 +8,9 @@ import necesse.engine.network.client.Client;
 import settlementexpansion.object.entity.LockedInventoryObjectEntity;
 
 public class PacketLockedInventory extends Packet {
-    private int x;
-    private int y;
-    private Packet content;
+    private final int x;
+    private final int y;
+    private final Packet content;
 
     public PacketLockedInventory(byte[] data) {
         super(data);

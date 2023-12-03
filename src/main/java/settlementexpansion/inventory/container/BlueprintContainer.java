@@ -83,6 +83,16 @@ public class BlueprintContainer extends SettlementDependantContainer {
         return this.client.isServerClient() ? this.client.getServerClient().getLevel() : this.client.playerMob.getLevel();
     }
 
+    @Override
+    public boolean isValid(ServerClient client) {
+        if (!super.isValid(client)) {
+            return false;
+        } else {
+            Level level = client.getLevel();
+            return !this.objectEntity.removed() && level.getObject(this.objectEntity.getX(), this.objectEntity.getY()).inInteractRange(level, this.objectEntity.getX(), this.objectEntity.getY(), client.playerMob);
+        }
+    }
+
     public static void openAndSendContainer(int containerID, ServerClient client, Level level, int tileX, int tileY, Packet extraContent) {
         if (!level.isServerLevel()) {
             throw new IllegalStateException("Level must be a server level");

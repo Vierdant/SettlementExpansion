@@ -3,10 +3,12 @@ package settlementexpansion.inventory.container;
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
 import necesse.engine.network.server.ServerClient;
+import necesse.engine.registries.ItemRegistry;
 import necesse.inventory.container.settlement.SettlementDependantContainer;
 import necesse.level.maps.Level;
 import settlementexpansion.inventory.action.ForceChangeClaimAction;
 import settlementexpansion.inventory.event.SettlementClaimTickEvent;
+import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.object.entity.SettlementFlagModObjectEntity;
 
 public class SettlementClaimContainer extends SettlementDependantContainer {
@@ -56,11 +58,11 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
 
         if (this.client.isServerClient()) {
             if (this.timerStarted && !timerTicking() && !this.canClaim) {
-                this.canClaim = checkDeadSettlers();
+                this.canClaim = checkDeadSettlers() && hasRequiredItem();
                 new SettlementClaimTickEvent(this).applyAndSendToClient(this.client.getServerClient());
             }
 
-            if (checkDeadSettlers() && !timerTicking() && !this.canClaim) {
+            if (hasRequiredItem() && checkDeadSettlers() && !timerTicking() && !this.canClaim) {
                 startTimer();
                 new SettlementClaimTickEvent(this).applyAndSendToClient(this.client.getServerClient());
             }
@@ -75,7 +77,7 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
                 }
             }
 
-            if (this.timerStarted && this.canClaim && !checkDeadSettlers()) {
+            if (this.timerStarted && this.canClaim && (!checkDeadSettlers() || !hasRequiredItem())) {
                 this.canClaim = false;
                 startTimer();
                 new SettlementClaimTickEvent(this).applyAndSendToClient(this.client.getServerClient());
@@ -109,17 +111,30 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
         return this.getLevelData().settlers.isEmpty();
     }
 
+    public boolean hasRequiredItem() {
+        return 0 < this.client.playerMob.getInv().main.getAmount(this.client.playerMob.getLevel(), this.client.playerMob, ItemRegistry.getItem("claimingscroll"), "forceclaim");
+    }
+
     @Override
     public boolean isValid(ServerClient client) {
         if (!super.isValid(client)) {
             return false;
         } else {
-            return !this.objectEntity.removed();
+            Level level = client.getLevel();
+            return !this.objectEntity.removed() && level.getObject(this.objectEntity.getX(), this.objectEntity.getY()).inInteractRange(level, this.objectEntity.getX(), this.objectEntity.getY(), client.playerMob);
         }
     }
 
     @Override
     protected Level getLevel() {
         return this.objectEntity.getLevel();
+    }
+
+    public SettlementModData getLevelModData() {
+        if (!this.client.isServerClient()) {
+            throw new IllegalStateException("Cannot get level data client side");
+        } else {
+            return SettlementModData.getSettlementModData(this.getLevel());
+        }
     }
 }

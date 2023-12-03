@@ -15,7 +15,7 @@ public class SettlementClaimTickEvent extends ContainerEvent {
         this.canClaim = container.canClaim;
         this.shouldTimerTick = false;
         if (container.client.isServerClient()){
-            this.shouldTimerTick = container.checkDeadSettlers()  && !container.timerTicking() && !container.canClaim;
+            this.shouldTimerTick = container.checkDeadSettlers() && container.hasRequiredItem() && !container.timerStarted && !container.timerTicking() && !container.canClaim;
         }
     }
 
