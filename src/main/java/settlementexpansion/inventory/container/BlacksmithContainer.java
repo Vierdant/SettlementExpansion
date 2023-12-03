@@ -25,7 +25,7 @@ import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 import java.util.List;
 
 public class BlacksmithContainer extends ShopContainer {
-    public final EmptyCustomAction breakGeodeButton;
+    public final BooleanCustomAction breakGeodeButton;
     public final ContentCustomAction breakGeodeButtonResponse;
     public final BooleanCustomAction setIsBreakingGeode;
     public BlacksmithModHumanMob blacksmithMob;
@@ -34,6 +34,7 @@ public class BlacksmithContainer extends ShopContainer {
     public boolean isBreakingGeode;
     public final long breakCostSeed;
     public final PlayerTempInventory geodeBreakInv;
+    public boolean quickTransferToggled;
 
     public BlacksmithContainer(final NetworkClient client, int uniqueSeed, BlacksmithModHumanMob mob, PacketReader contentReader) {
         super(client, uniqueSeed, mob, contentReader.getNextContentPacket());
@@ -49,8 +50,8 @@ public class BlacksmithContainer extends ShopContainer {
         this.isBreakingGeode = false;
         this.breakCostSeed = this.priceSeed * (long) GameRandom.prime(28);
 
-        this.breakGeodeButton = this.registerAction(new EmptyCustomAction() {
-            public void run() {
+        this.breakGeodeButton = this.registerAction(new BooleanCustomAction() {
+            public void run(boolean value) {
                 if (client.isServerClient()) {
                     if (canBreak()) {
                         int breakCost = getBreakCost();
@@ -58,7 +59,15 @@ public class BlacksmithContainer extends ShopContainer {
                         InventoryItem result = getFocusedBreakResult(item);
 
                         geodeBreakInv.removeItems(client.playerMob.getLevel(), client.playerMob, item.item, 1, "break");
-                        getSlot(RESULT_SLOT).setItem(result);
+
+                        if (value) {
+                            boolean done = client.playerMob.getInv().main.addItem(client.playerMob.getLevel(), client.playerMob, result, "break", null);
+                            if (!done) {
+                                getSlot(RESULT_SLOT).setItem(result);
+                            }
+                        } else {
+                            getSlot(RESULT_SLOT).setItem(result);
+                        }
 
                         client.playerMob.getInv().main.removeItems(client.playerMob.getLevel(), client.playerMob, ItemRegistry.getItem("coin"), breakCost, "break");
                         Packet itemContent = InventoryItem.getContentPacket(result);
@@ -119,6 +128,10 @@ public class BlacksmithContainer extends ShopContainer {
             }
         }
         return check;
+    }
+
+    public void setQuickTransferToggle(boolean toggled) {
+        this.quickTransferToggled = toggled;
     }
 
     public static Packet getBlacksmithContainerContent(BlacksmithModHumanMob mob, ServerClient client) {

@@ -4,6 +4,7 @@ import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.LevelData;
+import settlementexpansion.SettlementExpansion;
 
 public class SettlementModData extends LevelData {
 
@@ -22,7 +23,7 @@ public class SettlementModData extends LevelData {
         super.applyLoadData(save);
         this.isPvpFlagged = save.getBoolean("settlementPvpFlagged");
         if (this.level.getWorldSettings().forcedPvP) {
-            this.isPvpFlagged = true;
+            this.isPvpFlagged = SettlementExpansion.getSettings().enableSettlementLevelModification;
         }
     }
 

@@ -100,6 +100,7 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
         super.draw(tickManager, perspective, renderBox);
         if (this.buildButton.isHovering()) {
             ListGameTooltips tooltips = new ListGameTooltips();
+            tooltips.add(new LocalMessage("ui", "blueprintrecipeheader"));
             tooltips.add(this.container.objectEntity.getPreset().getRecipe().getTooltip(this.client.getPlayer()));
             Screen.addTooltip(tooltips, GameBackground.getItemTooltipBackground(), TooltipLocation.FORM_FOCUS);
         }

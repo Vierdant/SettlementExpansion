@@ -10,6 +10,7 @@ import necesse.engine.network.server.Server;
 import necesse.engine.network.server.ServerClient;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
+import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.packet.PacketPlayerEnablePvP;
 
@@ -18,7 +19,7 @@ public class PacketLevelChangePatch {
 
     @Advice.OnMethodExit
     static void onExit(@Advice.This PacketPlayerLevelChange packet, @Advice.Argument(1) Server server, @Advice.Argument(2) ServerClient client) {
-        if (client.slot == packet.slot) {
+        if (client.slot == packet.slot && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(client.getLevel());
             if (data != null) {
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(data.getLevel());
