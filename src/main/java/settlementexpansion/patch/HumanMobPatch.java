@@ -7,15 +7,18 @@ import necesse.engine.network.client.ClientClient;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
+import necesse.engine.team.PlayerTeam;
 import necesse.entity.levelEvent.toolItemEvent.ToolItemEvent;
 import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.mobs.friendly.CowMob;
 import necesse.entity.mobs.friendly.HusbandryMob;
 import necesse.entity.mobs.friendly.human.HumanMob;
+import necesse.level.maps.levelData.settlementData.LevelSettler;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.SettlementExpansion;
@@ -74,17 +77,86 @@ public class HumanMobPatch {
                 return false;
             } else if (!mob.canTakeDmg()) {
                 return false;
-            } else if (!SettlementExpansion.getSettings().allowOwnedSettlerKillsNoPvP) {
-                if (attacker.getAttackOwner().isPlayer && mob.isHuman) {
+            } else {
+                Mob attackOwner = attacker.getAttackOwner();
+                if (attackOwner.isPlayer) {
                     SettlementLevelData data = SettlementLevelData.getSettlementData(mob.getLevel());
-                    if (data != null) {
+                    if (data != null && mob.isHuman) {
                         SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(mob.getLevel());
-                        ServerClient client = ((PlayerMob)attacker.getAttackOwner()).getServerClient();
-                        return !layerData.isPvpFlagged && !mob.getLevel().settlementLayer.doesClientHaveAccess(client);
+                        ServerClient client = ((PlayerMob)attackOwner).getServerClient();
+                        if (!layerData.isPvpFlagged && !mob.getLevel().settlementLayer.doesClientHaveAccess(client) && !SettlementExpansion.getSettings().allowOwnedSettlerKillsNoPvP) {
+                            return true;
+                        } else {
+                            setSettlerTarget(data, attackOwner);
+                        }
+                    } else if (data != null && mob.isPlayer) {
+                        Mob target = getTargetMob(attackOwner, mob);
+                        if (target != null) {
+                            setSettlerTarget(data, target);
+                        }
+                    }
+
+                    if (mob.isPlayer || mob.isHuman) {
+                        setAdventureTarget(attackOwner, mob);
                     }
                 }
             }
             return false;
+        }
+
+        public static void setAdventureTarget(Mob attackOwner, Mob mob) {
+            attackOwner.getLevel().entityManager.mobs.getInRegionByTileRange(attackOwner.getX() / 32, attackOwner.getY() / 32, 25).stream().filter((m) -> {
+                return m instanceof HumanMob && ((HumanMob) m).adventureParty.isInAdventureParty() && ((HumanMob) m).adventureParty.getServerClient() == ((PlayerMob)attackOwner).getServerClient();
+            }).forEach((m) -> {
+                HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)m.ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
+                if (humanAngerHandler != null) {
+                    humanAngerHandler.addEnemy(mob, 10F);
+                }
+
+                if (mob.isPlayer) {
+                    mob.getLevel().entityManager.mobs.getInRegionByTileRange(mob.getX() / 32, mob.getY() / 32, 25).stream().filter((h) -> {
+                        return h instanceof HumanMob && ((HumanMob) h).adventureParty.isInAdventureParty() && ((HumanMob) h).adventureParty.getServerClient() == ((PlayerMob)mob).getServerClient();
+                    }).forEach((h) -> {
+                        if (humanAngerHandler != null) {
+                            humanAngerHandler.addEnemy(h, 10F);
+                        }
+                    });
+                }
+            });
+        }
+
+        public static Mob getTargetMob(Mob mob, Mob other) {
+            if (!mob.getLevel().settlementLayer.doesClientHaveAccess(((PlayerMob)mob).getServerClient())) {
+                return mob;
+            }
+            if (!other.getLevel().settlementLayer.doesClientHaveAccess(((PlayerMob)other).getServerClient())) {
+                return other;
+            }
+            return null;
+        }
+
+        public static void setSettlerTarget(SettlementLevelData data, Mob mob) {
+            PlayerTeam team = ((PlayerMob)mob).getServerClient().getPlayerTeam();
+
+            if (team == null) {
+                for (LevelSettler settler : data.settlers) {
+                    HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)settler.getMob().getMob().ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
+                    if (humanAngerHandler != null) {
+                        humanAngerHandler.addEnemy(mob, 10F);
+                    }
+                }
+            } else {
+                ((PlayerMob)mob).getServerClient().getPlayerTeam().streamOnlineMembers(mob.getLevel().getServer()).filter((c) -> {
+                    return c.getLevelIdentifier().equals(mob.getLevel().getIdentifier());
+                }).forEach((c) -> {
+                    for (LevelSettler settler : data.settlers) {
+                        HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)settler.getMob().getMob().ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
+                        if (humanAngerHandler != null) {
+                            humanAngerHandler.addEnemy(c.playerMob, 10F);
+                        }
+                    }
+                });
+            }
         }
     }
 

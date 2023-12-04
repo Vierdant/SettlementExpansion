@@ -17,6 +17,9 @@ Changes:
 - Settlers that are a part of a player's settlement can not be killed by another player unless PLAYER pvp is toggled
 - If your settlement is pvp enabled and hostile players are in the settlement level, you won't be able to change settlement privacy, or unclaim/destroy the flag
 - Entering a settlement's island that has pvp toggled will automatically force you into pvp
+- Attacking a settler in a player settlement successfully makes ALL the settlers of that settlement angry at you and your WHOLE team. Yes, they will rush you.
+- Breaking an object that's not a tree or rocks, or opening chests in villages and pvp enabled settlements, will angry nearby settlers or villagers | this is configurable
+- Settlers in adventure parties *should* attack other players and their adventure party members if they attack you or you attack them
 
 Fixes:
 - Fixed the study table recipe not appearing in the demonic workshop, thanks DecayedBit for the report

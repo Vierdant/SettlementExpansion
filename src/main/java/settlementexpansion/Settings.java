@@ -11,6 +11,7 @@ public class Settings extends ModSettings {
     public boolean enableMultiFlagPerSettlement = false;
     public boolean allowOwnedSettlerKillsNoPvP = false;
     public boolean requireSettlerOwnerOnlineToKill = false;
+    public boolean enableHumansGetAngryOnBreakOrSteal = true;
 
     public Settings() {}
 
@@ -26,6 +27,8 @@ public class Settings extends ModSettings {
                 "If true, player will be able to kill owned settlers even while SETTLEMENT pvp is disabled | Default: false");
         save.addBoolean("requireSettlerOwnerOnlineToKill", requireSettlerOwnerOnlineToKill,
                 "If true, a player can't kill a settler owned by another player, unless the owner player is online | Default: false");
+        save.addBoolean("enableHumansGetAngryOnBreakOrSteal", enableHumansGetAngryOnBreakOrSteal,
+                "If true, when a player breaks an object or interacts with a chest, with settlers or villagers around, they will get hostile | Default: true");
     }
 
     @Override
@@ -35,5 +38,6 @@ public class Settings extends ModSettings {
         enableMultiFlagPerSettlement = load.getBoolean("enableMultiFlagPerSettlement", false);
         allowOwnedSettlerKillsNoPvP = load.getBoolean("allowOwnedSettlerKillsNoPvP", false);
         requireSettlerOwnerOnlineToKill = load.getBoolean("requireSettlerOwnerOnlineToKill", false);
+        enableHumansGetAngryOnBreakOrSteal = load.getBoolean("enableHumansGetAngryOnBreakOrSteal", true);
     }
 }
