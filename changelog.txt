@@ -6,6 +6,7 @@ Added:
 - Added a config option to enable or disable the requirement of a settler owner being online in order to kill the settlers
 - Added a take-over mechanic for settlements with pvp enabled. Requires all settlers to be dead and a claiming scroll in the player's inventory, who's trying to take over the settlement
 - Added a "Quick transfer to inventory" check box to the blacksmith's geode breaking menu, to transfer the result to the inventory directly so you don't have to perform 2 clicks per geode
+- Added a "Pin Required Items" button to blueprints in the menu, so you don't have to go back and forth constantly to see what's missing
 
 Changes:
 - Included a discord link in the mod description

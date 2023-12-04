@@ -35,7 +35,7 @@ public abstract class CurrentBlueprintRecipeForm extends Form {
         ListGameTooltips tooltips = new ListGameTooltips();
         if (objectEntity != null) {
 
-            tooltips.add(new LocalMessage("ui", "blueprintrecipeheader"));
+            tooltips.add(objectEntity.getObject().getLocalization());
             tooltips.add(objectEntity.getPreset().getRecipe().getTooltip(perspective));
         }
 

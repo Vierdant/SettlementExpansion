@@ -5,6 +5,7 @@ import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.engine.network.client.Client;
 import necesse.engine.state.MainGame;
 import necesse.engine.tickManager.TickManager;
+import necesse.gfx.forms.MainGameFormManager;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.ExpandedGame;
 import settlementexpansion.GlobalModData;
@@ -63,6 +64,17 @@ public class MainGamePatch {
             ExpandedGame game = GlobalModData.getExpandedGame(main);
             if (game != null) {
                 game.frameTick(tickManager);
+            }
+        }
+    }
+
+    @ModMethodPatch(target = MainGameFormManager.class, name = "updateActive", arguments = {boolean.class})
+    public static class MainGameFormManagerUpdateActivePatch {
+
+        @Advice.OnMethodExit
+        static void onExit(@Advice.This MainGameFormManager main, @Advice.Argument(0) boolean force) {
+            if (GlobalModData.getMainGame() != null && main == GlobalModData.getMainGame().formManager) {
+                GlobalModData.getExpandedGame(GlobalModData.getMainGame()).formManager.updateActive(force);
             }
         }
     }

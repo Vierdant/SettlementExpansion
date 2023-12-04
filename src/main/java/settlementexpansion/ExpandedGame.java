@@ -24,11 +24,6 @@ public class ExpandedGame {
     }
 
     public void frameTick(TickManager tickManager) {
-        Performance.record(tickManager, "controls", () -> {
-            Performance.record(tickManager, "formManagerModTick", () -> {
-                this.formManager.frameTick(tickManager);
-            });
-        });
     }
 
     public void setupFormManager() {

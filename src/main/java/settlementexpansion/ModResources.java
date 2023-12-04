@@ -12,11 +12,13 @@ public class ModResources {
     public static GameSound safe_close;
     public static ButtonIcon inventory_locked;
     public static ButtonIcon inventory_unlocked;
+    public static ButtonIcon pin_blueprint_icon;
     public static HumanTextureFull architect;
 
     public static void loadTextures() {
         inventory_locked = new ButtonIcon(Settings.UI, "inventory_locked");
         inventory_unlocked = new ButtonIcon(Settings.UI, "inventory_unlocked");
+        pin_blueprint_icon = new ButtonIcon(Settings.UI, "pin_blueprint_icon");
     }
 
     public static void loadMobTextures() {

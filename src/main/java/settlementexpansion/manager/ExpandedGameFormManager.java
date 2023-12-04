@@ -10,9 +10,13 @@ import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.FormManager;
+import necesse.gfx.forms.components.FormContentIconButton;
 import necesse.gfx.forms.components.FormIconButton;
+import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.controller.ControllerFocus;
+import necesse.gfx.ui.ButtonColor;
 import settlementexpansion.ExpandedGame;
+import settlementexpansion.ModResources;
 import settlementexpansion.inventory.form.CurrentBlueprintRecipeForm;
 import settlementexpansion.object.entity.BlueprintObjectEntity;
 
@@ -34,10 +38,6 @@ public class ExpandedGameFormManager {
     public ExpandedGameFormManager(ExpandedGame expanded, Client client) {
         this.expanded = expanded;
         this.client = client;
-    }
-
-    public void frameTick(TickManager tickManager) {
-        this.updateActive(false);
     }
 
     public void updateActive(boolean forceUpdate) {
@@ -78,9 +78,9 @@ public class ExpandedGameFormManager {
         }
     }
 
-    public FormIconButton getBlueprintButton(BlueprintObjectEntity objectEntity, int x, int y) {
+    public FormContentIconButton getBlueprintButton(BlueprintObjectEntity objectEntity, int x, int y) {
         this.lastBlueprintObjectEntity = objectEntity;
-        FormIconButton button = new FormIconButton(x, y, Settings.UI.button_moveup, new LocalMessage("ui", "blueprintpinbutton"));
+        FormContentIconButton button = new FormContentIconButton(x, y, FormInputSize.SIZE_32, ButtonColor.BASE, ModResources.pin_blueprint_icon, new LocalMessage("ui", "blueprintpinbutton"));
         button.onClicked((e) -> {
             if (this.currentBlueprintForm != null && this.currentBlueprintForm.objectEntity == objectEntity) {
                 this.expanded.mainGame.formManager.removeComponent(this.currentBlueprintForm);
