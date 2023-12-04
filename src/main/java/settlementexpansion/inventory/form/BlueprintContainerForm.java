@@ -19,6 +19,7 @@ import necesse.gfx.gameFont.FontOptions;
 import necesse.gfx.gameTooltips.*;
 import necesse.gfx.ui.ButtonColor;
 import necesse.level.gameLogicGate.entities.SoundLogicGateEntity;
+import settlementexpansion.GlobalModData;
 import settlementexpansion.inventory.container.BlueprintContainer;
 import settlementexpansion.map.preset.BlueprintHelper;
 import settlementexpansion.registry.ObjectModRegistry;
@@ -74,10 +75,12 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
             });
         }
 
-        this.buildButton = this.buildForm.addComponent(heightFlow.next(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, this.buildForm.getHeight() / 2, 200, FormInputSize.SIZE_24, ButtonColor.BASE), 10));
+        int buttonY = heightFlow.next(30);
+        this.buildButton = this.buildForm.addComponent(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, buttonY, 200, FormInputSize.SIZE_24, ButtonColor.BASE), 10);
         this.buildButton.onClicked((e) -> {
             container.buildAction.runAndSend();
         });
+        this.buildForm.addComponent(GlobalModData.getExpandedGame(GlobalModData.getMainGame()).formManager.getBlueprintButton(this.container.objectEntity, this.buildForm.getWidth() / 4 - 50, buttonY));
 
         this.settlementObjectFormManager = container.settlementObjectManager.getFormManager(this, this.buildForm, client);
         this.makeCurrent(this.buildForm);
