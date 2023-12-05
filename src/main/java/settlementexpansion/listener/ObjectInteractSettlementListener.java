@@ -34,6 +34,9 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
                 if (!event.isPrevented() && (event.level.biome.hasVillage() || data != null)) {
                     GameObject object = event.level.getObject(event.tileX, event.tileY);
                     if (object instanceof InventoryObject) {
+                        if (data != null && event.level.settlementLayer.doesClientHaveAccess(event.player.getServerClient())) {
+                            return;
+                        }
                         player.getLevel().entityManager.mobs.getInRegionByTileRange(player.getX() / 32, player.getY() / 32, 25).stream().filter((m) -> {
                             return m instanceof HumanMob && !m.isSameTeam(player);
                         }).forEach((m) -> {

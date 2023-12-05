@@ -2,6 +2,7 @@ package settlementexpansion.registry;
 
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.registries.RecipeTechRegistry;
+import necesse.inventory.item.toolItem.ToolType;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
@@ -29,6 +30,15 @@ public class ObjectModRegistry {
         ObjectRegistry.registerObject("safebox", new SafeBoxInventoryObject("safebox", 40, new Color(49, 52, 70)), 40, true);
         ObjectRegistry.registerObject("cannontrap", new CannonTrapObject(), 50F, true);
 
+        ObjectRegistry.registerObject("reinforcedouterwoodwall", new ReinforcedOuterWallObject("reinforcedouterwoodwall", 100, ToolType.ALL, new Color(86, 69, 40)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedouterpinewall", new ReinforcedOuterWallObject("reinforcedouterpinewall", 100, ToolType.ALL, new Color(104, 69, 34)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedouterpalmwall", new ReinforcedOuterWallObject("reinforcedouterpalmwall", 100, ToolType.ALL, new Color(104, 79, 39)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedouterstonewall", new ReinforcedOuterWallObject("reinforcedouterstonewall", 100, ToolType.PICKAXE, new Color(105, 105, 105)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedoutersandstonewall", new ReinforcedOuterWallObject("reinforcedoutersandstonewall", 100, ToolType.PICKAXE, new Color(215, 215, 125)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedouterswampstonewall", new ReinforcedOuterWallObject("reinforcedouterswampstonewall", 100, ToolType.PICKAXE, new Color(56, 69, 53)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedoutersnowstonewall", new ReinforcedOuterWallObject("reinforcedoutersnowstonewall", 100, ToolType.PICKAXE, new Color(207, 207, 207)), 2F, true);
+        ObjectRegistry.registerObject("reinforcedouterobsidianwall", new ReinforcedOuterWallObject("reinforcedouterobsidianwall", 100, ToolType.PICKAXE, new Color(37, 27, 40)), 2F, true);
+
         SeedlingTableObject.registerSeedlingTable();
         StudyTableObject.registerSeedlingTable();
         ToolsRackObject.registerToolsRack();
@@ -41,6 +51,94 @@ public class ObjectModRegistry {
     }
 
     public static void registerRecipes() {
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterwoodwall",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("anylog", 2),
+                        new Ingredient("stone", 2),
+                },
+                false
+        ).showAfter("woodwall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterpinewall",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("pinelog", 2),
+                        new Ingredient("stone", 2),
+                },
+                false
+        ).showAfter("pinewall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterpalmwall",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("palmlog", 2),
+                        new Ingredient("stone", 2),
+                },
+                false
+        ).showAfter("palmwall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterstonewall",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("stone", 2),
+                        new Ingredient("ironbar", 1),
+                },
+                false
+        ).showAfter("stonewall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedoutersandstonewall",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("sandstone", 2),
+                        new Ingredient("ironbar", 1),
+                },
+                false
+        ).showAfter("sandstonewall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterswampstonewall",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("swampstone", 2),
+                        new Ingredient("ironbar", 1),
+                },
+                false
+        ).showAfter("swampstonewall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedoutersnowstonewall",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("snowstone", 2),
+                        new Ingredient("ironbar", 1),
+                },
+                false
+        ).showAfter("snowstonewall"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "reinforcedouterobsidianwall",
+                1,
+                RecipeTechRegistry.ADVANCED_WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("obsidian", 2),
+                        new Ingredient("goldbar", 1),
+                },
+                false
+        ).showAfter("obsidianwall"));
 
         Recipes.registerModRecipe(new Recipe(
                 "cannontrap",
@@ -57,7 +155,7 @@ public class ObjectModRegistry {
         Recipes.registerModRecipe(new Recipe(
                 "dryingrack",
                 1,
-                RecipeTechRegistry.WORKSTATION,
+                RecipeTechRegistry.DEMONIC,
                 new Ingredient[]{
                         new Ingredient("anylog", 20)
                 },

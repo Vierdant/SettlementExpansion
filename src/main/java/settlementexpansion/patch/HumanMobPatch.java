@@ -79,7 +79,7 @@ public class HumanMobPatch {
                 return false;
             } else {
                 Mob attackOwner = attacker.getAttackOwner();
-                if (attackOwner.isPlayer) {
+                if (attackOwner != null && attackOwner.isPlayer) {
                     SettlementLevelData data = SettlementLevelData.getSettlementData(mob.getLevel());
                     if (data != null && mob.isHuman) {
                         SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(mob.getLevel());

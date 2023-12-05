@@ -30,6 +30,9 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
                 if (!event.isPrevented() && player != null && (event.level.biome.hasVillage() || data != null) && event.type == TileDamageType.Object) {
+                    if (data != null && event.level.settlementLayer.doesClientHaveAccess(player.getServerClient())) {
+                        return;
+                    }
                     DamagedObjectEntity objectDamage = event.level.entityManager.getDamagedObjectEntity(event.tileX, event.tileY);
                     GameObject object = event.level.getObject(event.tileX, event.tileY);
                     LevelObject master = object.isMultiTileMaster() ? null : object.getMultiTile(event.level, event.tileX, event.tileY).getMasterLevelObject(event.level, event.tileX, event.tileY).orElse(null);

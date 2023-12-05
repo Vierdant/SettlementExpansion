@@ -38,6 +38,14 @@ house3=12x10 Furnished House
 trainingarea=10x10 Training Area
 storageroom=11x11 Storage Room
 storageroombig=21x21 Big Storage Room
+reinforcedouterwoodwall=Reinforced Outer Wood Wall
+reinforcedouterpinewall=Reinforced Outer Pine Wall
+reinforcedouterpalmwall=Reinforced Outer Palm Wall
+reinforcedouterstonewall=Reinforced Outer Stone Wall
+reinforcedoutersandstonewall=Reinforced Outer Sandstone Wall
+reinforcedouterswampstonewall=Reinforced Outer Swamp Stone Wall
+reinforcedoutersnowstonewall=Reinforced Outer Snow Stone Wall
+reinforcedouterobsidianwall=Reinforced Outer Obsidian Wall
 
 
 [ui]
