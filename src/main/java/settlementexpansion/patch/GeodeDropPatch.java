@@ -29,7 +29,7 @@ public class GeodeDropPatch {
 
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) LootTable out) {
-            out.items.add(new ChanceLootItem(0.1f, "geode", 1));
+            out.items.add(new ChanceLootItem(0.05f, "geode", 1));
         }
     }
 
@@ -38,7 +38,7 @@ public class GeodeDropPatch {
 
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) LootTable out) {
-            out.items.add(new ChanceLootItem(0.1f, "geode", 1));
+            out.items.add(new ChanceLootItem(0.05f, "geode", 1));
         }
     }
 
@@ -47,7 +47,7 @@ public class GeodeDropPatch {
 
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) LootTable out) {
-            out.items.add(new ChanceLootItem(0.05f, "geode", 1));
+            out.items.add(new ChanceLootItem(0.025f, "geode", 1));
         }
     }
 

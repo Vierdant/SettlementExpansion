@@ -8,6 +8,7 @@ Added:
 - Added a "Quick transfer to inventory" check box to the blacksmith's geode breaking menu, to transfer the result to the inventory directly, so you don't have to perform 2 clicks per geode
 - Added a "Pin Required Items" button to blueprints in the menu, so you don't have to go back and forth constantly to see what's missing
 - Added a reinforced outer version of some walls that take more time to break from one side than the other
+- Added a room furniture type debug section to the room analyzer cheat tool
 
 Changes:
 - Included a discord link in the mod description
@@ -21,6 +22,7 @@ Changes:
 - Attacking a settler in a player settlement successfully makes ALL the settlers of that settlement angry at you and your WHOLE team. Yes, they will rush you.
 - Breaking an object that's not a tree or rocks, or opening chests in villages and pvp enabled settlements, will angry nearby settlers or villagers | this is configurable
 - Settlers in adventure parties *should* attack other players and their adventure party members if they attack you or you attack them
+- Changed the drop chance of geodes so they drop less frequently
 
 Fixes:
 - Fixed the study table recipe not appearing in the demonic workshop, thanks DecayedBit for the report

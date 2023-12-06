@@ -5,8 +5,10 @@ import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.levelData.settlementData.SettlementRoomsManager;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.settlement.SettlementRoomData;
+import settlementexpansion.util.FurnitureType;
 
 import java.awt.*;
+import java.util.List;
 
 public class SettlementRoomDataPatch {
 
@@ -42,6 +44,22 @@ public class SettlementRoomDataPatch {
 
             if (roomEx != null) {
                 roomEx.recalculateStats();
+            }
+        }
+    }
+
+    @ModMethodPatch(target = SettlementRoom.class, name = "getDebugTooltips", arguments = {})
+    public static class SettlementRoomDebugToolPatch {
+        @Advice.OnMethodExit
+        static void onExit(@Advice.This SettlementRoom room, @Advice.Return(readOnly = false)List<String> list) {
+            Point point = new Point(room.tileX, room.tileY);
+            SettlementRoomData roomEx = SettlementRoomData.storage.get(point);
+
+            if (roomEx != null) {
+                FurnitureType type = roomEx.getFurnitureMajority();
+                if (type != null) {
+                    list.add("Furniture Wood: " + type.string);
+                }
             }
         }
     }
