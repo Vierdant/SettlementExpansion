@@ -2,46 +2,50 @@ package settlementexpansion.map.settlement;
 
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.RoomFurniture;
+import necesse.level.maps.Level;
+import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.regionSystem.SemiRegion;
 import settlementexpansion.util.FurnitureWoodType;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class SettlementRoomData {
-
-    public static HashMap<Point, SettlementRoomData> storage = new HashMap<>();
+    public final SettlementModData data;
+    private final HashMap<Point, SettlementRoomData> roomsMap;
     private boolean calculatedStats;
+    private boolean invalidated;
 
     public final int tileX;
     public final int tileY;
-    private final SettlementRoom room;
     private FurnitureWoodType furnitureMajority;
-    private HashMap<String, Integer> objectTypes = new HashMap<>();
+    private final HashMap<String, Integer> objectTypes = new HashMap<>();
 
-    public SettlementRoomData(SettlementRoom room, Point point) {
+    public SettlementRoomData(SettlementModData data, HashMap<Point, SettlementRoomData> roomsMap, Point point) {
         this.tileX = point.x;
         this.tileY = point.y;
-        this.room = room;
-
-        if (!SettlementRoomData.storage.containsKey(point)) {
-            SettlementRoomData.storage.put(point, this);
-        }
+        this.data = data;
+        this.roomsMap = roomsMap;
     }
 
     public void calculateStats() {
 
         try {
+            if (this.calculatedStats) {
+                return;
+            }
+
             this.objectTypes.clear();
 
-            HashSet<SemiRegion> semiRegions = (HashSet<SemiRegion>) room.getSemiRegions();
+            HashSet<SemiRegion> semiRegions = (HashSet<SemiRegion>) this.getSemiRegions();
 
             for (SemiRegion roomSr : semiRegions) {
                 HashMap<String, Integer> majorityMap = new HashMap<>();
 
                 for (Point point : roomSr.getLevelTiles()) {
-                    GameObject object = room.getLevel().getObject(point.x, point.y);
+                    GameObject object = this.getLevel().getObject(point.x, point.y);
                     String id = object.getStringID();
                     this.addObjectType(id, 1);
 
@@ -56,6 +60,10 @@ public class SettlementRoomData {
                                 majorityMap.put(set.getString(), addition + 1);
                             }
                         }
+                    }
+
+                    if (this.roomsMap != null) {
+                        this.roomsMap.put(point, this);
                     }
                 }
 
@@ -72,8 +80,14 @@ public class SettlementRoomData {
         finally {
             this.calculatedStats = true;
         }
+    }
 
+    public void invalidate() {
+        this.invalidated = true;
+    }
 
+    public boolean isInvalidated() {
+        return this.invalidated;
     }
 
     private FurnitureWoodType getFurnitureSet(String id) {
@@ -110,4 +124,31 @@ public class SettlementRoomData {
         this.calculatedStats = false;
     }
 
+    public Level getLevel() {
+        return this.data.getLevel();
+    }
+
+    public Collection<SemiRegion> getSemiRegions() {
+        if (this.getLevel().isOutside(this.tileX, this.tileY)) {
+            return new HashSet<>();
+        } else {
+            SemiRegion semiRegion = this.data.getLevel().regionManager.getSemiRegion(this.tileX, this.tileY);
+            return semiRegion == null ? new HashSet<>() : semiRegion.getAllConnected((sr) ->
+                    sr.getType().roomInt == SemiRegion.RegionType.OPEN.roomInt);
+        }
+    }
+
+    public List<String> getDebugTooltips() {
+        if (!this.calculatedStats) {
+            this.calculateStats();
+        }
+
+        LinkedList<String> list = new LinkedList<>();
+        FurnitureWoodType type = this.getFurnitureMajority();
+        if (type != null) {
+            list.add("Furniture Wood: " + type.string);
+        }
+
+        return list;
+    }
 }

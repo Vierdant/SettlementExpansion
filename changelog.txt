@@ -1,6 +1,5 @@
-[Version 1.2.4 Update]
+[Version 1.2.5 Update]
 
 Fixes:
-- Removed some missed debug messages
-- Cleaned up now unused code
-- Fixed config settings not updating properly in-game, thanks @Ten Said Yes
+- Removed some missed debug messages, again :')
+- Optimized the refresh rate of room scans, so new room properties don't update faster than vanilla ones

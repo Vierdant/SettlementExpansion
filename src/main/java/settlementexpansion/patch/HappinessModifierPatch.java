@@ -9,6 +9,8 @@ import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.SettlementExpansion;
+import settlementexpansion.map.settlement.SettlementModData;
+import settlementexpansion.map.settlement.SettlementModRoomsManager;
 import settlementexpansion.map.settlement.SettlementRoomData;
 import settlementexpansion.entity.mob.friendly.HumanMobData;
 import settlementexpansion.entity.mob.friendly.SettlerPersonalObjects;
@@ -26,14 +28,12 @@ public class HappinessModifierPatch {
             if (mob.levelSettler != null) {
                 if (mob.levelSettler.getBed() != null) {
                     SettlementRoom room = mob.levelSettler.getBed().getRoom();
-                    if (room != null) {
-                        SettlementRoomData roomData = SettlementRoomData
-                                .storage.get(new Point(room.tileX, room.tileY));
+                    SettlementModData data = SettlementModData.getSettlementModDataCreateIfNonExist(mob.getSettlementLevelData().getLevel());
+                    SettlementRoomData roomData = room != null ? data.rooms.getRoom(room.tileX, room.tileY) : null;
+                    if (roomData != null) {
                         List<String> objectsList = SettlerPersonalObjects.getSettler(mob.settlerStringID).getObjects();
                         if (!objectsList.isEmpty()) {
                             StringJoiner joiner = new StringJoiner(", ");
-
-
 
                             int objectScore = 0;
                             for (String entry : objectsList) {
@@ -64,7 +64,7 @@ public class HappinessModifierPatch {
                         }
 
                         HumanMobData humanMobData = HumanMobData.storage.get(mob.idData);
-                        if (humanMobData != null && roomData != null) {
+                        if (humanMobData != null) {
                             if (roomData.getFurnitureMajority() != null &&
                                     humanMobData.preferredFurnitureWoodType == roomData.getFurnitureMajority()) {
                                 modifiers.add(new HappinessModifier(+10, new GameMessageBuilder()

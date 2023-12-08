@@ -28,7 +28,6 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
                 }
             }
 
-            System.out.println("can pass? " + SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal);
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
                 if (!event.isPrevented() && player != null && (event.level.biome.hasVillage() || data != null) && event.type == TileDamageType.Object) {

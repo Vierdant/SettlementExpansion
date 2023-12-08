@@ -4,14 +4,19 @@ import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.LevelData;
+import necesse.level.maps.levelData.settlementData.storage.SettlementStorageRecords;
 import settlementexpansion.SettlementExpansion;
+
+import java.awt.*;
 
 public class SettlementModData extends LevelData {
 
     public boolean isPvpFlagged;
+    public SettlementModRoomsManager rooms;
 
     public SettlementModData() {
         this.isPvpFlagged = false;
+        this.rooms = new SettlementModRoomsManager(this);
     }
 
     public void addSaveData(SaveData save) {
@@ -75,6 +80,8 @@ public class SettlementModData extends LevelData {
         return data instanceof SettlementModData ? (SettlementModData)data : null;
     }
 
-
+    public void setLevel(Level level) {
+        super.setLevel(level);
+    }
 
 }
