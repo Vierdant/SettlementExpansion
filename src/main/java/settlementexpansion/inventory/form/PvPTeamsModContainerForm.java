@@ -4,7 +4,6 @@ import necesse.engine.GameAuth;
 import necesse.engine.GlobalData;
 import necesse.engine.Screen;
 import necesse.engine.Settings;
-import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.localization.message.StaticMessage;
@@ -54,9 +53,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
         this.joinTeam.addComponent(joinTeamFlow.next(new FormLocalLabel("ui", "teamjoinateam", new FontOptions(20), 0, this.joinTeam.getWidth() / 2, 0, this.joinTeam.getWidth() - 20), 10));
         this.joinTeamContent = this.joinTeam.addComponent(new FormContentBox(0, joinTeamFlow.next(350), this.joinTeam.getWidth(), 350));
         this.joinTeamContent.alwaysShowVerticalScrollBar = true;
-        (this.joinTeam.addComponent(new FormLocalTextButton("ui", "backbutton", 4, joinTeamFlow.next(40), this.joinTeam.getWidth() - 8, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE))).onClicked((e) -> {
-            this.makeCurrent(this.main);
-        });
+        (this.joinTeam.addComponent(new FormLocalTextButton("ui", "backbutton", 4, joinTeamFlow.next(40), this.joinTeam.getWidth() - 8, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE))).onClicked((e) ->
+                this.makeCurrent(this.main));
         this.joinTeam.setHeight(joinTeamFlow.next());
         this.confirmForm = this.addComponent(new ConfirmationForm("teamconfirm"));
         this.changeName = this.addComponent(new Form(300, 110));
@@ -66,24 +64,18 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             container.changeTeamNameAction.runAndSend(this.changeNameInput.getText());
             this.makeCurrent(this.main);
         });
-        (this.changeName.addComponent(new FormLocalTextButton("ui", "backbutton", this.changeName.getWidth() / 2 + 2, this.changeName.getHeight() - 40, this.changeName.getWidth() / 2 - 6))).onClicked((e) -> {
-            this.makeCurrent(this.main);
-        });
-        container.onEvent(PvPCurrentTeamUpdateEvent.class, (e) -> {
-            this.onFullUpdate();
-        });
-        container.onEvent(PvPOwnerUpdateEvent.class, (e) -> {
-            this.onOwnerUpdate();
-        });
-        container.onEvent(PvPPublicUpdateEvent.class, (e) -> {
-            this.onPublicUpdate();
-        });
-        container.onEvent(PvPMemberUpdateEvent.class, (e) -> {
-            this.updateMembersContent();
-        });
-        container.onEvent(PvPJoinRequestUpdateEvent.class, (e) -> {
-            this.updateMembersContent();
-        });
+        (this.changeName.addComponent(new FormLocalTextButton("ui", "backbutton", this.changeName.getWidth() / 2 + 2, this.changeName.getHeight() - 40, this.changeName.getWidth() / 2 - 6))).onClicked((e) ->
+                this.makeCurrent(this.main));
+        container.onEvent(PvPCurrentTeamUpdateEvent.class, (e) ->
+                this.onFullUpdate());
+        container.onEvent(PvPOwnerUpdateEvent.class, (e) ->
+                this.onOwnerUpdate());
+        container.onEvent(PvPPublicUpdateEvent.class, (e) ->
+                this.onPublicUpdate());
+        container.onEvent(PvPMemberUpdateEvent.class, (e) ->
+                this.updateMembersContent());
+        container.onEvent(PvPJoinRequestUpdateEvent.class, (e) ->
+                this.updateMembersContent());
         container.onEvent(PvPAllTeamsUpdateEvent.class, this::updateJoinTeamsContent);
         this.makeCurrent(this.main);
     }
@@ -107,9 +99,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
         this.main.addComponent(new FormLocalLabel("ui", "pvplabel", new FontOptions(16), 0, this.main.getWidth() / 2, flow.next(20)));
         this.pvpToggle = this.main.addComponent(new FormHorizontalToggle(this.main.getWidth() / 2 - 16, flow.next(30)));
         this.pvpToggle.setToggled(this.client.pvpEnabled());
-        this.pvpToggle.onToggled((e) -> {
-            this.client.setPvP(e.from.isToggled());
-        });
+        this.pvpToggle.onToggled((e) ->
+                this.client.setPvP(e.from.isToggled()));
         this.pvpToggle.setCooldown(5000);
         long pvpCooldown = System.currentTimeMillis() - this.client.pvpChangeTime;
         if (pvpCooldown < 5000L) {
@@ -150,10 +141,9 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             if (this.isOwner) {
                 flow.next(5);
                 membersLabel = this.main.addComponent(flow.next(new FormLocalLabel("ui", "teamcanselfjoin", new FontOptions(16), -1, 28, 0, this.main.getWidth() - 32), 10));
-                this.isPublicButton = this.main.addComponent(new FormContentIconButton(4, membersLabel.getY() + membersLabel.getHeight() / 2 - 10, FormInputSize.SIZE_20, ButtonColor.BASE, Settings.UI.button_checked_20, new GameMessage[0]));
-                this.isPublicButton.onClicked((e) -> {
-                    this.container.setPublicAction.runAndSend(!this.container.data.currentTeam.isPublic);
-                });
+                this.isPublicButton = this.main.addComponent(new FormContentIconButton(4, membersLabel.getY() + membersLabel.getHeight() / 2 - 10, FormInputSize.SIZE_20, ButtonColor.BASE, Settings.UI.button_checked_20));
+                this.isPublicButton.onClicked((e) ->
+                        this.container.setPublicAction.runAndSend(!this.container.data.currentTeam.isPublic));
                 this.onPublicUpdate();
                 (this.main.addComponent(new FormLocalTextButton("ui", "teamchangename", 4, flow.next(40), this.main.getWidth() - 8))).onClicked((e) -> {
                     this.changeNameInput.setText(team.name);
@@ -161,9 +151,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
                 });
             }
 
-            (this.main.addComponent(new FormLocalTextButton("ui", "teaminvite", 4, flow.next(40), this.main.getWidth() - 8))).onClicked((e) -> {
-                this.openInvites();
-            });
+            (this.main.addComponent(new FormLocalTextButton("ui", "teaminvite", 4, flow.next(40), this.main.getWidth() - 8))).onClicked((e) ->
+                    this.openInvites());
             flow.next(5);
             membersLabel = this.main.addComponent(new FormLocalLabel("ui", "teammembers", new FontOptions(20), 0, this.main.getWidth() / 2, flow.next(), this.main.getWidth() - 10));
             flow.next(membersLabel.getHeight() + 10);
@@ -179,9 +168,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
                     this.container.leaveTeamButton.runAndSend();
                     this.setupMainForm();
                     this.makeCurrent(this.main);
-                }, () -> {
-                    this.makeCurrent(this.main);
-                });
+                }, () ->
+                        this.makeCurrent(this.main));
                 this.makeCurrent(this.confirmForm);
             });
         }
@@ -244,7 +232,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
 
             for (PvPTeamsContainer.TeamData team : event.teams) {
                 this.joinTeamContent.addComponent(flow.next(new FormLabel(team.name, new FontOptions(20), -1, 5, 0), 2));
-                this.joinTeamContent.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "teammembercount", new Object[]{"count", team.memberCount}), new FontOptions(16), -1, 5, 0), 2));
+                this.joinTeamContent.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "teammembercount", "count", team.memberCount), new FontOptions(16), -1, 5, 0), 2));
                 if (team.isPublic) {
                     this.joinTeamContent.addComponent(flow.next(new FormLocalLabel("ui", "teampublic", new FontOptions(16), -1, 5, 0), 2));
                     (this.joinTeamContent.addComponent(flow.next(new FormLocalTextButton("ui", "teamjoin", 4, 0, this.joinTeamContent.getWidth() - 8 - this.joinTeamContent.getScrollBarWidth(), FormInputSize.SIZE_24, ButtonColor.BASE)))).onClicked((e) -> {
@@ -274,7 +262,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             FormFlow membersFlow = new FormFlow();
             int colorCounter = 0;
 
-            Iterator var3;
+            Iterator<?> var3;
             PvPTeamsContainer.MemberData request;
             Color color;
             for(var3 = this.container.data.members.iterator(); var3.hasNext(); ++colorCounter) {

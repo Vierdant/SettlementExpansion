@@ -26,7 +26,7 @@ public class ForceChangeClaimAction extends EmptyCustomAction {
                 if (max > 0) {
                     long current = serverClient.getServer().levelCache.getSettlements().stream().filter((s) -> s.ownerAuth == serverClient.authentication).count();
                     if (current >= (long) max) {
-                        serverClient.sendChatMessage(new LocalMessage("misc", "maxsettlementsreached", new Object[]{"count", max}));
+                        serverClient.sendChatMessage(new LocalMessage("misc", "maxsettlementsreached", "count", max));
                         return;
                     }
                 }

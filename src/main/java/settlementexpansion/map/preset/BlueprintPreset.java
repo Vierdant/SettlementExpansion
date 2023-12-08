@@ -191,6 +191,7 @@ public class BlueprintPreset extends Preset {
         return -1;
     }
 
+    @Override
     public LinkedList<UndoLogic> applyToLevel(Level level, int levelX, int levelY) {
         LinkedList<UndoLogic> undoLogics = new LinkedList<>();
 
@@ -270,6 +271,7 @@ public class BlueprintPreset extends Preset {
         return undoLogics;
     }
 
+    @Override
     public boolean canApplyToLevel(Level level, int tileX, int tileY) {
         int endX = tileX + width - 1;
         int endY = tileY + height - 1;
@@ -308,6 +310,7 @@ public class BlueprintPreset extends Preset {
         this.wireApplyListeners.addAll(from.wireApplyListeners);
     }
 
+    @Override
     public BlueprintPreset rotate(PresetRotation rotation) throws PresetRotateException {
         Point dim = PresetUtils.getRotatedPoint(this.width, this.height, 0, 0, rotation);
         BlueprintPreset preset = this.newObject(Math.abs(dim.x), Math.abs(dim.y));
@@ -368,6 +371,7 @@ public class BlueprintPreset extends Preset {
         this.wireApplyListeners.addAll(from.wireApplyListeners);
     }
 
+    @Override
     public BlueprintPreset mirrorX() throws PresetMirrorException {
         BlueprintPreset preset = this.newObject(this.width, this.height);
         preset.mirrorXData(this);
@@ -428,6 +432,7 @@ public class BlueprintPreset extends Preset {
         this.wireApplyListeners.addAll(from.wireApplyListeners);
     }
 
+    @Override
     public BlueprintPreset mirrorY() throws PresetMirrorException {
         BlueprintPreset preset = this.newObject(this.width, this.height);
         preset.mirrorYData(this);
@@ -488,6 +493,7 @@ public class BlueprintPreset extends Preset {
         this.wireApplyListeners.addAll(from.wireApplyListeners);
     }
 
+    @Override
     protected BlueprintPreset newObject(int width, int height) {
         return new BlueprintPreset(width, height, id, recipe, furnitureType, currentWallId, canChangeWalls, currentFloorId, canChangeFloor, canPlaceOnShore, canPlaceOnLiquid);
     }

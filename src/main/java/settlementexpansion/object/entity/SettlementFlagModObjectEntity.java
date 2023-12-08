@@ -29,21 +29,25 @@ public class SettlementFlagModObjectEntity extends SettlementFlagObjectEntity {
         return this.startCooldownTime + this.cooldown - this.getWorldEntity().getTime();
     }
 
+    @Override
     public void setupContentPacket(PacketWriter writer) {
         super.setupContentPacket(writer);
         writer.putNextLong(this.startCooldownTime);
     }
 
+    @Override
     public void applyContentPacket(PacketReader reader) {
         super.applyContentPacket(reader);
         this.startCooldownTime = reader.getNextLong();
     }
 
+    @Override
     public void addSaveData(SaveData save) {
         super.addSaveData(save);
         save.addLong("startCoolDownTime", this.startCooldownTime);
     }
 
+    @Override
     public void applyLoadData(LoadData save) {
         super.applyLoadData(save);
         this.startCooldownTime = save.getLong("startCoolDownTime");

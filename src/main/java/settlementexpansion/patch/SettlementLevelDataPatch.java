@@ -1,9 +1,6 @@
 package settlementexpansion.patch;
 
 import necesse.engine.modLoader.annotations.ModMethodPatch;
-import necesse.engine.save.LoadData;
-import necesse.engine.save.SaveData;
-import necesse.inventory.lootTable.LootTable;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
@@ -35,24 +32,4 @@ public class SettlementLevelDataPatch {
             }
         }
     }
-
-//    @ModMethodPatch(target = SettlementLevelData.class, name = "addSaveData", arguments = {SaveData.class})
-//    public static class SettlementLevelDataSavePatch {
-//
-//        @Advice.OnMethodExit
-//        static void onExit(@Advice.Argument(0) SaveData save, @Advice.This SettlementLevelData data) {
-//            SettlementModData mod = SettlementModData.getSettlementModDataCreateIfNonExist(data.getLevel());
-//            mod.addSaveData(save);
-//        }
-//    }
-//
-//    @ModMethodPatch(target = SettlementLevelData.class, name = "applyLoadData", arguments = {LoadData.class})
-//    public static class SettlementLevelDataLoadPatch {
-//
-//        @Advice.OnMethodExit
-//        static void onExit(@Advice.Argument(0) LoadData save, @Advice.This SettlementLevelData data) {
-//            SettlementModData mod = SettlementModData.getSettlementModDataCreateIfNonExist(data.getLevel());
-//            mod.applyLoadData(save);
-//        }
-//    }
 }

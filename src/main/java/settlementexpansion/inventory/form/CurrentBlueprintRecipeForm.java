@@ -2,7 +2,6 @@ package settlementexpansion.inventory.form;
 
 import necesse.engine.Screen;
 import necesse.engine.control.InputEvent;
-import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.tickManager.TickManager;
 import necesse.engine.util.GameMath;
 import necesse.entity.mobs.PlayerMob;

@@ -3,7 +3,6 @@ package settlementexpansion.inventory.container;
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
 import necesse.engine.network.PacketReader;
-import necesse.engine.network.PacketWriter;
 import necesse.engine.network.server.Server;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.team.PlayerTeam;
@@ -34,14 +33,12 @@ public class PvPTeamsModContainer extends Container {
         this.data = new PvPCurrentTeamUpdateEvent(reader);
         this.isSettlementFlagged = false;
         this.subscribeEvent(PvPSettlementFlaggedEvent.class, (e) -> true, () -> true);
-        this.onEvent(PvPSettlementFlaggedEvent.class, (e) -> {
-            this.isSettlementFlagged = e.isFlagged;
-        });
+        this.onEvent(PvPSettlementFlaggedEvent.class, (e) ->
+                this.isSettlementFlagged = e.isFlagged);
 
         this.subscribeEvent(PvPCurrentTeamUpdateEvent.class, (e) -> true, () -> true);
-        this.onEvent(PvPCurrentTeamUpdateEvent.class, (e) -> {
-            this.data = e;
-        });
+        this.onEvent(PvPCurrentTeamUpdateEvent.class, (e) ->
+                this.data = e);
         this.subscribeEvent(PvPOwnerUpdateEvent.class, (e) -> true, () -> true);
         this.onEvent(PvPOwnerUpdateEvent.class, (e) -> {
             if (this.data.currentTeam != null) {
@@ -188,110 +185,6 @@ public class PvPTeamsModContainer extends Container {
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(data.getLevel());
                 new PvPSettlementFlaggedEvent(layerData.isPvpFlagged).applyAndSendToClient(this.client.getServerClient());
             }
-        }
-    }
-
-    public static Packet getContainerContent(ServerClient client) {
-        Packet packet = new Packet();
-        PacketWriter writer = new PacketWriter(packet);
-        (new PvPCurrentTeamUpdateEvent(client)).write(writer);
-        return packet;
-    }
-
-    public static void sendSingleUpdate(ServerClient client) {
-        (new PvPCurrentTeamUpdateEvent(client)).applyAndSendToClient(client);
-    }
-
-    public static void sendUpdates(ServerClient client, PlayerTeam team) {
-        client.getServer().streamClients().filter((c) -> {
-            return c == client || c.getTeamID() == team.teamID;
-        }).forEach((c) -> {
-            (new PvPCurrentTeamUpdateEvent(c)).applyAndSendToClient(c);
-        });
-    }
-
-    public static void sendUpdates(Server server, PlayerTeam team) {
-        server.streamClients().filter((c) -> {
-            return c.getTeamID() == team.teamID;
-        }).forEach((c) -> {
-            (new PvPCurrentTeamUpdateEvent(c)).applyAndSendToClient(c);
-        });
-    }
-
-    public static class MemberData {
-        public long auth;
-        public String name;
-
-        public MemberData(PacketReader reader) {
-            this.auth = reader.getNextLong();
-            this.name = reader.getNextString();
-        }
-
-        public MemberData(long auth, String name) {
-            this.auth = auth;
-            this.name = name;
-        }
-
-        public MemberData(Server server, long auth) {
-            this.auth = auth;
-            this.name = server.getNameByAuth(auth, "Unknown");
-        }
-
-        public void writeToPacket(PacketWriter writer) {
-            writer.putNextLong(this.auth);
-            writer.putNextString(this.name);
-        }
-    }
-
-    public static class TeamData {
-        public int teamID;
-        public String name;
-        public long owner;
-        public boolean isPublic;
-        public int memberCount;
-
-        public TeamData(PlayerTeam team) {
-            this.teamID = team.teamID;
-            this.name = team.getName();
-            this.owner = team.getOwner();
-            this.isPublic = team.isPublic();
-            this.memberCount = team.getMemberCount();
-        }
-
-        public TeamData(PacketReader reader) {
-            this.teamID = reader.getNextShort();
-            this.name = reader.getNextString();
-            this.owner = reader.getNextLong();
-            this.isPublic = reader.getNextBoolean();
-            this.memberCount = reader.getNextInt();
-        }
-
-        public void writeToPacket(PacketWriter writer) {
-            writer.putNextShort((short)this.teamID);
-            writer.putNextString(this.name);
-            writer.putNextLong(this.owner);
-            writer.putNextBoolean(this.isPublic);
-            writer.putNextInt(this.memberCount);
-        }
-    }
-
-    public static class InviteData {
-        public int teamID;
-        public String teamName;
-
-        public InviteData(PlayerTeam team) {
-            this.teamID = team.teamID;
-            this.teamName = team.getName();
-        }
-
-        public InviteData(PacketReader reader) {
-            this.teamID = reader.getNextShort();
-            this.teamName = reader.getNextString();
-        }
-
-        public void writeToPacket(PacketWriter writer) {
-            writer.putNextShort((short)this.teamID);
-            writer.putNextString(this.teamName);
         }
     }
 }

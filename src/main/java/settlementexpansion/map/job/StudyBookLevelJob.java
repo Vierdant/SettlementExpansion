@@ -30,6 +30,7 @@ public class StudyBookLevelJob extends LevelJob {
         super(save);
     }
 
+    @Override
     public boolean isValid() {
         StudyTableObjectEntity ent = this.getObjectEntity();
         return ent != null && ent.getMaterialCount() > 0;
@@ -45,6 +46,7 @@ public class StudyBookLevelJob extends LevelJob {
         return list;
     }
 
+    @Override
     public boolean shouldSave() {
         return false;
     }

@@ -9,7 +9,7 @@ import settlementexpansion.util.gitcheck.github.GitHubReleaseProvider;
 import settlementexpansion.util.gitcheck.shared.Preconditions;
 
 /**
- * Service for checking if the latest release is up to date.
+ * Service for checking if the latest release is up-to-date.
  * <p>
  *     This service uses {@link GitReleaseProvider} to get the latest release and compares it with the current tag.
  *     The current tag is provided by {@link GitTag#of(String)}

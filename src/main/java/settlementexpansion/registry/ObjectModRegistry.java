@@ -15,7 +15,6 @@ import java.awt.*;
 public class ObjectModRegistry {
 
     public static String[] woodFurnitureTypes = new String[]{"oak", "spruce", "pine", "palm", "deadwood"};
-    public static String[] woodTypes = new String[]{"oak", "spruce", "pine", "palm", "deadwood", "willow"};
 
     public static void registerObjects() {
         Color woodFurniture = new Color(150, 119, 70);

@@ -23,18 +23,22 @@ public class SettlementFlagModObject extends SettlementFlagObject {
         this.toolType = SettlementExpansion.getSettings().enableSettlementLevelModification ? ToolType.NONE : ToolType.ALL;
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "usetip");
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new SettlementFlagModObjectEntity(level, x, y);
     }
 
+    @Override
     public Item generateNewObjectItem() {
         return new SettlementFlagModObjectItem(this);
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         if (level.isServerLevel()) {
             SettlementFlagObjectEntity objectEntity = (SettlementFlagObjectEntity)level.entityManager.getObjectEntity(x, y);

@@ -4,7 +4,7 @@ import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.RoomFurniture;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.regionSystem.SemiRegion;
-import settlementexpansion.util.FurnitureType;
+import settlementexpansion.util.FurnitureWoodType;
 
 import java.awt.*;
 import java.util.*;
@@ -17,7 +17,7 @@ public class SettlementRoomData {
     public final int tileX;
     public final int tileY;
     private final SettlementRoom room;
-    private FurnitureType furnitureMajority;
+    private FurnitureWoodType furnitureMajority;
     private HashMap<String, Integer> objectTypes = new HashMap<>();
 
     public SettlementRoomData(SettlementRoom room, Point point) {
@@ -47,7 +47,7 @@ public class SettlementRoomData {
 
                     // determine furniture majority type
                     if (object instanceof RoomFurniture) {
-                        for (FurnitureType set : FurnitureType.values()) {
+                        for (FurnitureWoodType set : FurnitureWoodType.values()) {
                             if (id.contains(set.getString())) {
                                 int addition = 0;
                                 if (majorityMap.containsKey(set.getString())) {
@@ -76,17 +76,17 @@ public class SettlementRoomData {
 
     }
 
-    private FurnitureType getFurnitureSet(String id) {
-        for (FurnitureType set : FurnitureType.values()) {
+    private FurnitureWoodType getFurnitureSet(String id) {
+        for (FurnitureWoodType set : FurnitureWoodType.values()) {
             if (set.getString().equalsIgnoreCase(id)) {
                 return set;
             }
         }
 
-        return FurnitureType.OAK;
+        return FurnitureWoodType.OAK;
     }
 
-    public FurnitureType getFurnitureMajority() {
+    public FurnitureWoodType getFurnitureMajority() {
         if (!this.calculatedStats) {
             this.calculateStats();
         }

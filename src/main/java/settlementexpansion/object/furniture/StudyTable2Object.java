@@ -37,6 +37,7 @@ public class StudyTable2Object extends FurnitureObject {
         this.toolType = ToolType.ALL;
     }
 
+    @Override
     public MultiTile getMultiTile(int rotation) {
         return new SideMultiTile(1, 0, 2, 1, rotation, false, this.counterID, this.getID());
     }
@@ -47,6 +48,7 @@ public class StudyTable2Object extends FurnitureObject {
         this.texture = GameTexture.fromFile("objects/studytable");
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32, y * 32 + 6, 20, 20);
@@ -57,6 +59,7 @@ public class StudyTable2Object extends FurnitureObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
@@ -67,6 +70,7 @@ public class StudyTable2Object extends FurnitureObject {
         return list;
     }
 
+    @Override
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
@@ -99,14 +103,17 @@ public class StudyTable2Object extends FurnitureObject {
         });
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }
 
+    @Override
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
         return true;
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         this.getMultiTile(level.getObjectRotation(x, y)).getMasterLevelObject(level, x, y).ifPresent((e) -> {
             e.interact(player);

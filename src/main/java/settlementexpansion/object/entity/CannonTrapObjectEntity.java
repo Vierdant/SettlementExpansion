@@ -15,6 +15,7 @@ public class CannonTrapObjectEntity extends TrapObjectEntity {
         super(level, x, y, cooldownInMs);
     }
 
+    @Override
     public void triggerTrap(int wireID, int dir) {
         if (!this.getLevel().isClientLevel() && !this.onCooldown()) {
             if (!this.otherWireActive(wireID)) {
@@ -41,7 +42,7 @@ public class CannonTrapObjectEntity extends TrapObjectEntity {
                 float x = (float)xPos;
                 float y = (float)yPos;
                 float target = (float)(xPos + targetDir.x);
-                this.getLevel().entityManager.projectiles.add(new TrapCannonBallProjectile(x, y, target, (float)(yPos + targetDir.y), 2, 5, damage, 10, (Mob)null));
+                this.getLevel().entityManager.projectiles.add(new TrapCannonBallProjectile(x, y, target, (float)(yPos + targetDir.y), damage, (Mob)null));
                 this.startCooldown();
             }
         }

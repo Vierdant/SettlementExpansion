@@ -15,7 +15,7 @@ import java.util.List;
 public class GeodeItem extends Item {
     private final String tooltipKey;
     private final int breakCost;
-    private float maxMultiplier;
+    private final float maxMultiplier;
     private float multiplier;
 
     public GeodeItem(Rarity rarity, String tooltipKey, int breakCost, float maxMultiplier) {
@@ -34,6 +34,7 @@ public class GeodeItem extends Item {
         this(Rarity.NORMAL, tooltipKey, breakCost, maxMultiplier);
     }
 
+    @Override
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getTooltips(item, perspective);
         if (this.tooltipKey != null) {
@@ -60,6 +61,4 @@ public class GeodeItem extends Item {
         LootTableModPresets.geode.addItems(list, GameRandom.globalRandom, 1f);
         return list;
     }
-
-
 }

@@ -38,21 +38,18 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
         super(client, container, width, height, maxExpeditionsHeight);
         FormFlow heightFlow = new FormFlow(5);
 
-        this.breakForm = this.addComponent(new Form("breakgeode", width, height), (form, active) -> {
-            container.setIsBreakingGeode.runAndSend(active);
-        });
+        this.breakForm = this.addComponent(new Form("breakgeode", width, height), (form, active) ->
+                container.setIsBreakingGeode.runAndSend(active));
 
-        this.breakForm.addComponent(new FormLocalTextButton("ui", "backbutton", this.breakForm.getWidth() - 104, 4, 100, FormInputSize.SIZE_20, ButtonColor.BASE)).onClicked((e) -> {
-            this.makeCurrent(this.dialogueForm);
-        });
+        this.breakForm.addComponent(new FormLocalTextButton("ui", "backbutton", this.breakForm.getWidth() - 104, 4, 100, FormInputSize.SIZE_20, ButtonColor.BASE)).onClicked((e) ->
+                this.makeCurrent(this.dialogueForm));
         this.breakForm.addComponent(new FormLocalLabel("ui", "blacksmithbreak", new FontOptions(20), -1, 4, heightFlow.next(40)));
         int geodeSlotY = heightFlow.next(50);
         this.breakForm.addComponent(new FormContainerGeodeSlot(client, container.GEODE_SLOT, 40, geodeSlotY));
         this.breakForm.addComponent(new FormContainerSlot(client, container.RESULT_SLOT, 250, geodeSlotY));
         this.breakButton = this.breakForm.addComponent(new FormLocalTextButton("ui", "blacksmithbreakconfirm", 90, geodeSlotY + 10, 150, FormInputSize.SIZE_24, ButtonColor.BASE));
-        this.breakButton.onClicked((e) -> {
-            container.breakGeodeButton.runAndSend(this.container.quickTransferToggled);
-        });
+        this.breakButton.onClicked((e) ->
+                container.breakGeodeButton.runAndSend(this.container.quickTransferToggled));
         this.costLabel = this.breakForm.addComponent(new FormLocalLabel("ui", "blacksmithcost", new FontOptions(16), -1, 310, geodeSlotY - 4));
         this.preview = this.breakForm.addComponent(new FormItemPreview(300, geodeSlotY + 10, "coin"));
         this.costText = this.breakForm.addComponent(new FormLabel("x " + container.getBreakCost(), new FontOptions(16), -1, this.preview.getX() + 30, geodeSlotY + 20));
@@ -66,9 +63,8 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
 
         FormCheckBox checkTransferToggle = this.breakForm.addComponent(new FormLocalCheckBox("ui", "blacksmithquicktransfer", 5, heightFlow.next(20)));
         checkTransferToggle.checked = this.container.quickTransferToggled;
-        checkTransferToggle.onClicked((e) -> {
-            this.container.setQuickTransferToggle(e.from.checked);
-        });
+        checkTransferToggle.onClicked((e) ->
+                this.container.setQuickTransferToggle(e.from.checked));
 
         this.breakForm.setHeight(heightFlow.next());
         this.updateBreakActive();
@@ -95,9 +91,8 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
     public void setupExtraDialogueOptions() {
         super.setupExtraDialogueOptions();
         if (this.container.humanShop instanceof BlacksmithModHumanMob && this.container.items != null) {
-            this.dialogueForm.addDialogueOption(new LocalMessage("ui", "blacksmithwantbreakgeode"), () -> {
-                this.makeCurrent(this.breakForm);
-            });
+            this.dialogueForm.addDialogueOption(new LocalMessage("ui", "blacksmithwantbreakgeode"), () ->
+                    this.makeCurrent(this.breakForm));
         }
     }
 

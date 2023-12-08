@@ -7,21 +7,15 @@ import necesse.inventory.InventoryItem;
 import necesse.inventory.item.trinketItem.SimpleTrinketItem;
 
 public class SimpleTippedTrinketItem extends SimpleTrinketItem {
-    private final String tooltipKey;
 
-    public SimpleTippedTrinketItem(Rarity rarity, String[] buffStringIDs, String tooltipKey, int enchantCost) {
+    public SimpleTippedTrinketItem(Rarity rarity, String buffStringIDs, int enchantCost) {
         super(rarity, buffStringIDs, enchantCost);
-        this.tooltipKey = tooltipKey;
     }
 
-    public SimpleTippedTrinketItem(Rarity rarity, String buffStringID, String tooltipKey, int enchantCost) {
-        super(rarity, buffStringID, enchantCost);
-        this.tooltipKey = tooltipKey;
-    }
-
+    @Override
     public ListGameTooltips getTrinketTooltips(InventoryItem item, PlayerMob perspective, boolean equipped) {
         ListGameTooltips tooltips = super.getTrinketTooltips(item, perspective, equipped);
-        tooltips.add(Localization.translate("itemtooltip", this.tooltipKey));
+        tooltips.add(Localization.translate("itemtooltip", this.getStringID()));
         return tooltips;
     }
 }

@@ -4,14 +4,14 @@ import necesse.engine.registries.IDData;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
-import settlementexpansion.util.FurnitureType;
+import settlementexpansion.util.FurnitureWoodType;
 
 import java.util.HashMap;
 
 public class HumanMobData {
 
     public static HashMap<IDData, HumanMobData> storage = new HashMap<>();
-    public FurnitureType preferredFurnitureType;
+    public FurnitureWoodType preferredFurnitureWoodType;
     public IDData idData;
     public HumanMob humanMob;
 
@@ -23,21 +23,21 @@ public class HumanMobData {
     }
 
     public void setPreferredFurnitureSet() {
-        this.preferredFurnitureType = FurnitureType.weightedSelection(humanMob.settlerStringID);
+        this.preferredFurnitureWoodType = FurnitureWoodType.weightedSelection(humanMob.settlerStringID);
     }
 
 
     public SaveData getSaveData() {
         SaveData save = new SaveData("EXPANDED");
-        save.addEnum("preferredFurnitureSet", this.preferredFurnitureType);
+        save.addEnum("preferredFurnitureSet", this.preferredFurnitureWoodType);
         return save;
     }
 
     public void applyLoadData(LoadData load) {
         for (LoadData data : load.getLoadDataByName("EXPANDED")) {
-            FurnitureType furnitureType = data.getEnum(FurnitureType.class, "preferredFurnitureSet");
-            if (furnitureType != null) {
-                this.preferredFurnitureType = furnitureType;
+            FurnitureWoodType furnitureWoodType = data.getEnum(FurnitureWoodType.class, "preferredFurnitureSet");
+            if (furnitureWoodType != null) {
+                this.preferredFurnitureWoodType = furnitureWoodType;
             }
         }
     }

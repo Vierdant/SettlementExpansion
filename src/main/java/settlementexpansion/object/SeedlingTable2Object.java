@@ -41,15 +41,18 @@ public class SeedlingTable2Object extends GameObject {
         this.isLightTransparent = true;
     }
 
+    @Override
     public MultiTile getMultiTile(int rotation) {
         return new SideMultiTile(0, 0, 1, 2, rotation, false, new int[]{this.getID(), this.counterID});
     }
 
+    @Override
     public void loadTextures() {
         super.loadTextures();
         this.texture = GameTexture.fromFile("objects/seedlingtable");
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32 + 5, y * 32 + 16, 22, 16);
@@ -60,6 +63,7 @@ public class SeedlingTable2Object extends GameObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
@@ -70,6 +74,7 @@ public class SeedlingTable2Object extends GameObject {
         return list;
     }
 
+    @Override
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
@@ -99,14 +104,17 @@ public class SeedlingTable2Object extends GameObject {
         });
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }
 
+    @Override
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
         return true;
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         this.getMultiTile(level.getObjectRotation(x, y)).getMasterLevelObject(level, x, y).ifPresent((e) -> {
             e.interact(player);

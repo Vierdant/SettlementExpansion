@@ -13,8 +13,4 @@ public class LitFloorTile extends SimpleFloorTile {
         this.lightSat = lightSat;
         this.roomProperties.add("lights");
     }
-
-
-
-
 }

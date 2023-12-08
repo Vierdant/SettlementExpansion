@@ -2,13 +2,8 @@ package settlementexpansion.registry;
 
 import necesse.engine.network.PacketReader;
 import necesse.engine.registries.ContainerRegistry;
-import necesse.entity.objectEntity.SettlementFlagObjectEntity;
 import necesse.entity.objectEntity.interfaces.OEInventory;
-import necesse.gfx.forms.presets.containerComponent.PvPTeamsContainerForm;
-import necesse.gfx.forms.presets.containerComponent.settlement.SettlementContainerForm;
 import necesse.inventory.container.object.OEInventoryContainer;
-import necesse.inventory.container.settlement.SettlementContainer;
-import necesse.inventory.container.teams.PvPTeamsContainer;
 import settlementexpansion.inventory.container.*;
 import settlementexpansion.inventory.form.*;
 import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
@@ -58,9 +53,9 @@ public class ContainerModRegistry {
                         content)), (client, uniqueSeed, oe, content, serverObject) ->
                 new SettlementModContainer(client, uniqueSeed, (SettlementFlagModObjectEntity)oe, content));
         SETTLEMENT_CLAIM_CONTAINER = ContainerRegistry.registerOEContainer((client, uniqueSeed, oe, content) ->
-                new SettlementClaimForm(client, new SettlementClaimContainer(client.getClient(), uniqueSeed, (SettlementFlagModObjectEntity)oe,
-                        content)), (client, uniqueSeed, oe, content, serverObject) ->
-                new SettlementClaimContainer(client, uniqueSeed, (SettlementFlagModObjectEntity)oe, content));
+                new SettlementClaimForm(client, new SettlementClaimContainer(client.getClient(), uniqueSeed, (SettlementFlagModObjectEntity)oe
+                )), (client, uniqueSeed, oe, content, serverObject) ->
+                new SettlementClaimContainer(client, uniqueSeed, (SettlementFlagModObjectEntity)oe));
 
         ContainerRegistry.PVP_TEAMS_CONTAINER = ContainerRegistry.registerContainer((client, uniqueSeed, content) ->
                 new PvPTeamsModContainerForm(client,

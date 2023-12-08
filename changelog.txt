@@ -1,29 +1,6 @@
-[Version 1.2 Update]
-
-Added:
-- Added a button with a cooldown in the settlement settings menu to enable/disable settlement pvp
-- Added a config option to enable or disable new settlement level changes
-- Added a config option to enable or disable the requirement of a settler owner being online in order to kill the settlers
-- Added a take-over mechanic for settlements with pvp enabled. Requires all settlers to be dead and a claiming scroll in the player's inventory, who's trying to take over the settlement
-- Added a "Quick transfer to inventory" check box to the blacksmith's geode breaking menu, to transfer the result to the inventory directly, so you don't have to perform 2 clicks per geode
-- Added a "Pin Required Items" button to blueprints in the menu, so you don't have to go back and forth constantly to see what's missing
-- Added a reinforced outer version of some walls that take more time to break from one side than the other
-- Added a room furniture type debug section to the room analyzer cheat tool
-
-Changes:
-- Included a discord link in the mod description
-- A confirmation box will now appear when un-claiming a settlement to avoid miss clicks
-- The settlement flag is now unbreakable by normal means, only the settlement owner can break the flag through the settings menu
-- The placement of multiple flags in a single settlement is now disabled; This can be enabled again in the config file, but it's recommended to keep it the way it is
-- Settlement islands with pvp off will disable the ability to break and place things for non-settlement members
-- Settlers that are a part of a player's settlement can not be killed by another player unless PLAYER pvp is toggled
-- If your settlement is pvp enabled and hostile players are in the settlement level, you won't be able to change settlement privacy, or unclaim/destroy the flag
-- Entering a settlement's island that has pvp toggled will automatically force you into pvp
-- Attacking a settler in a player settlement successfully makes ALL the settlers of that settlement angry at you and your WHOLE team. Yes, they will rush you.
-- Breaking an object that's not a tree or rocks, or opening chests in villages and pvp enabled settlements, will angry nearby settlers or villagers | this is configurable
-- Settlers in adventure parties *should* attack other players and their adventure party members if they attack you or you attack them
-- Changed the drop chance of geodes so they drop less frequently
+[Version 1.2.4 Update]
 
 Fixes:
-- Fixed the study table recipe not appearing in the demonic workshop, thanks DecayedBit for the report
-- Fixed drying rack recipe showing in workstation instead of demonic station
+- Removed some missed debug messages
+- Cleaned up now unused code
+- Fixed config settings not updating properly in-game, thanks @Ten Said Yes

@@ -7,7 +7,6 @@ import necesse.engine.network.client.ClientClient;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.team.PlayerTeam;
 import necesse.inventory.container.customAction.ContainerCustomAction;
-import necesse.inventory.container.teams.PvPTeamsContainer;
 import settlementexpansion.inventory.container.PvPTeamsModContainer;
 
 public class InviteMembersModAction extends ContainerCustomAction {
@@ -21,11 +20,8 @@ public class InviteMembersModAction extends ContainerCustomAction {
         Packet customContent = new Packet();
         PacketWriter writer = new PacketWriter(customContent);
         writer.putNextShortUnsigned(clients.length);
-        ClientClient[] var4 = clients;
-        int var5 = clients.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
-            ClientClient client = var4[var6];
+        for (ClientClient client : clients) {
             writer.putNextByteUnsigned(client.slot);
         }
 

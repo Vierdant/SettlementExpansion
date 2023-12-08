@@ -23,10 +23,7 @@ import java.util.List;
 public class TrapCannonBallProjectile extends Projectile {
     private long spawnTime;
 
-    public TrapCannonBallProjectile() {
-    }
-
-    public TrapCannonBallProjectile(float x, float y, float targetX, float targetY, float speed, int distance, GameDamage damage, int knockback, Mob owner) {
+    public TrapCannonBallProjectile(float x, float y, float targetX, float targetY, GameDamage damage, Mob owner) {
         this.x = x;
         this.y = y;
         this.setTarget(targetX, targetY);
@@ -35,6 +32,8 @@ public class TrapCannonBallProjectile extends Projectile {
         this.setOwner(owner);
         this.setDistance(400);
     }
+
+    public TrapCannonBallProjectile() {}
 
     public void init() {
         super.init();

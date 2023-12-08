@@ -63,19 +63,23 @@ public class BlueprintObject extends GameObject {
         this.canPlaceOnLiquid = canPlaceOnLiquid;
     }
 
+    @Override
     public void loadTextures() {
         super.loadTextures();
         this.texture = GameTexture.fromFile("objects/blueprint");
     }
 
+    @Override
     public GameMessage getNewLocalization() {
         return new LocalMessage("object", blueprintKey);
     }
 
+    @Override
     public GameTexture generateItemTexture() {
         return GameTexture.fromFile("items/blueprint");
     }
 
+    @Override
     public void addDrawables(java.util.List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
@@ -93,12 +97,14 @@ public class BlueprintObject extends GameObject {
         });
     }
 
+    @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
         this.texture.initDraw().sprite(rotation % 4, 0, 32, this.texture.getHeight()).alpha(alpha).draw(drawX, drawY - this.texture.getHeight() + 32);
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32 + 8, y * 32 + 18, 16, 6);
@@ -111,16 +117,19 @@ public class BlueprintObject extends GameObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
         return list;
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }
 
+    @Override
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
         return true;
     }
@@ -131,10 +140,12 @@ public class BlueprintObject extends GameObject {
         }
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new BlueprintObjectEntity(level, presetId, x, y, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnLiquid, canPlaceOnShore);
     }
 
+    @Override
     public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
         ObjectLootTableDropsEvent dropsEvent;
         if (itemsDropped != null && client != null) {

@@ -68,7 +68,6 @@ public class SettlementExpansion {
     }
 
     public static Settings getSettings() {
-        settings = new Settings();
         return settings;
     }
 

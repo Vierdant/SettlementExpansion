@@ -38,7 +38,7 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("orpiment", (new MatItem(100, Item.Rarity.UNCOMMON, "orpiment").setItemCategory("materials", "minerals", "gems")), 80, true);
         ItemRegistry.registerItem("earthcrystal", (new MatItem(100, Item.Rarity.UNCOMMON, "earthcrystal").setItemCategory("materials", "minerals", "gems")), 350, true);
 
-        ItemRegistry.registerItem("earthring", (new SimpleTippedTrinketItem(Item.Rarity.UNCOMMON, "earthringtrinket", "earthring", 200)), 300, true);
+        ItemRegistry.registerItem("earthring", (new SimpleTippedTrinketItem(Item.Rarity.UNCOMMON, "earthringtrinket", 200)), 300, true);
 
 
         ItemRegistry.registerItem("businesssuit", new ChestArmorItem(0, 0, Item.Rarity.COMMON, "businesssuit", "businesssuitarms"), 50.0F, false);

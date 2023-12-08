@@ -5,7 +5,7 @@ import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.levelData.settlementData.SettlementRoomsManager;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.settlement.SettlementRoomData;
-import settlementexpansion.util.FurnitureType;
+import settlementexpansion.util.FurnitureWoodType;
 
 import java.awt.*;
 import java.util.List;
@@ -56,7 +56,7 @@ public class SettlementRoomDataPatch {
             SettlementRoomData roomEx = SettlementRoomData.storage.get(point);
 
             if (roomEx != null) {
-                FurnitureType type = roomEx.getFurnitureMajority();
+                FurnitureWoodType type = roomEx.getFurnitureMajority();
                 if (type != null) {
                     list.add("Furniture Wood: " + type.string);
                 }

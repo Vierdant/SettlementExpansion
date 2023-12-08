@@ -18,14 +18,12 @@ import necesse.gfx.forms.presets.containerComponent.settlement.SettlementObjectS
 import necesse.gfx.gameFont.FontOptions;
 import necesse.gfx.gameTooltips.*;
 import necesse.gfx.ui.ButtonColor;
-import necesse.level.gameLogicGate.entities.SoundLogicGateEntity;
 import settlementexpansion.GlobalModData;
 import settlementexpansion.inventory.container.BlueprintContainer;
 import settlementexpansion.map.preset.BlueprintHelper;
 import settlementexpansion.registry.ObjectModRegistry;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class BlueprintContainerForm<T extends BlueprintContainer> extends ContainerFormSwitcher<T> {
     public Form buildForm;
@@ -51,9 +49,8 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
             this.buildForm.addComponent(new FormLocalLabel(new LocalMessage("ui", "blueprintwalls"), new FontOptions(16), 0, this.buildForm.getWidth() / 4, height + 18));
             this.wallTypes = this.buildForm.addComponent(new FormStringSelectList(this.buildForm.getWidth() / 4, height, 200, 50, BlueprintHelper.wallTypes));
             this.wallTypes.setSelected(0);
-            this.wallTypes.onSelect((e) -> {
-                container.setWallType.runAndSend(e.str);
-            });
+            this.wallTypes.onSelect((e) ->
+                    container.setWallType.runAndSend(e.str));
         }
 
         if (container.objectEntity.getPreset().canChangeWalls) {
@@ -61,9 +58,8 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
             this.buildForm.addComponent(new FormLocalLabel(new LocalMessage("ui", "blueprintfloor"), new FontOptions(16), 0, this.buildForm.getWidth() / 4, height + 18));
             this.floorTypes = this.buildForm.addComponent(new FormStringSelectList(this.buildForm.getWidth() / 4, height, 200, 50, BlueprintHelper.floorTypes));
             this.floorTypes.setSelected(0);
-            this.floorTypes.onSelect((e) -> {
-                container.setFloorType.runAndSend(e.str);
-            });
+            this.floorTypes.onSelect((e) ->
+                    container.setFloorType.runAndSend(e.str));
         }
 
         if (container.objectEntity.getPreset().isFurnished()) {
@@ -71,16 +67,14 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
             this.buildForm.addComponent(new FormLocalLabel(new LocalMessage("ui", "blueprintfurniture"), new FontOptions(16), 0, this.buildForm.getWidth() / 4, height + 18));
             this.woodTypes = this.buildForm.addComponent(new FormStringSelectList(this.buildForm.getWidth() / 4, height, 200, 50, ObjectModRegistry.woodFurnitureTypes));
             this.woodTypes.setSelected(1);
-            this.woodTypes.onSelect((e) -> {
-                container.setWoodType.runAndSend(e.str);
-            });
+            this.woodTypes.onSelect((e) ->
+                    container.setWoodType.runAndSend(e.str));
         }
 
         int buttonY = heightFlow.next(30);
         this.buildButton = this.buildForm.addComponent(new FormLocalTextButton("ui", "blueprintbuildconfirm", this.buildForm.getWidth() / 4, buttonY, 200, FormInputSize.SIZE_24, ButtonColor.BASE), 10);
-        this.buildButton.onClicked((e) -> {
-            container.buildAction.runAndSend();
-        });
+        this.buildButton.onClicked((e) ->
+                container.buildAction.runAndSend());
 
         this.settlementObjectFormManager = container.settlementObjectManager.getFormManager(this, this.buildForm, client);
         this.makeCurrent(this.buildForm);

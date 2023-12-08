@@ -1,7 +1,6 @@
 package settlementexpansion.inventory.container;
 
 import necesse.engine.network.NetworkClient;
-import necesse.engine.network.Packet;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ItemRegistry;
 import necesse.inventory.container.settlement.SettlementDependantContainer;
@@ -22,7 +21,7 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
     public long timerStartPoint;
     public long timerPeriod;
 
-    public SettlementClaimContainer(final NetworkClient client, int uniqueSeed, SettlementFlagModObjectEntity objectEntity, Packet contentPacket) {
+    public SettlementClaimContainer(final NetworkClient client, int uniqueSeed, SettlementFlagModObjectEntity objectEntity) {
         super(client, uniqueSeed);
         this.objectEntity = objectEntity;
         this.timerPeriod = 5000L;

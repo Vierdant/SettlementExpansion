@@ -18,6 +18,7 @@ public class SettlementFlagModObjectItem extends SettlementFlagObjectItem {
         super(object);
     }
 
+    @Override
     public String canPlace(Level level, int x, int y, PlayerMob player, InventoryItem item, PacketReader contentReader) {
         if (level.isServerLevel() && player != null) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(level);
@@ -31,6 +32,7 @@ public class SettlementFlagModObjectItem extends SettlementFlagObjectItem {
         return super.canPlace(level, x, y, player, item, contentReader);
     }
 
+    @Override
     public InventoryItem onAttemptPlace(Level level, int x, int y, PlayerMob player, InventoryItem item, PacketReader contentReader, String error) {
         if (error.equals("maxsettlementflags")) {
             player.getServerClient().sendChatMessage(new LocalMessage("misc", "maxsettlementsflagreached"));

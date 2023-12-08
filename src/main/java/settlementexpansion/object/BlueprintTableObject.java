@@ -33,19 +33,23 @@ public class BlueprintTableObject extends CraftingStationObject {
         this.isLightTransparent = true;
     }
 
+    @Override
     public MultiTile getMultiTile(int rotation) {
         return new SideMultiTile(0, 1, 1, 2, rotation, true, this.counterID, this.getID());
     }
 
+    @Override
     public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
         return Math.floorMod(super.getPlaceRotation(level, levelX, levelY, player, playerDir) - 1, 4);
     }
 
+    @Override
     public void loadTextures() {
         super.loadTextures();
         this.texture = GameTexture.fromFile("objects/blueprinttable");
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32 + 5, y * 32, 22, 26);
@@ -56,6 +60,7 @@ public class BlueprintTableObject extends CraftingStationObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
@@ -66,6 +71,7 @@ public class BlueprintTableObject extends CraftingStationObject {
         return list;
     }
 
+    @Override
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
@@ -95,6 +101,7 @@ public class BlueprintTableObject extends CraftingStationObject {
         });
     }
 
+    @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
@@ -118,6 +125,7 @@ public class BlueprintTableObject extends CraftingStationObject {
 
     }
 
+    @Override
     public Tech[] getCraftingTechs() {
         return new Tech[]{RecipeTechModRegistry.BLUEPRINTTABLE};
     }

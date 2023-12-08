@@ -41,6 +41,7 @@ public class StudyTableObject extends FurnitureObject {
         this.toolType = ToolType.ALL;
     }
 
+    @Override
     public MultiTile getMultiTile(int rotation) {
         return new SideMultiTile(0, 0, 2, 1, rotation, true, this.getID(), this.counterID);
     }
@@ -51,6 +52,7 @@ public class StudyTableObject extends FurnitureObject {
         this.texture = GameTexture.fromFile("objects/studytable");
     }
 
+    @Override
     public void addDrawables(java.util.List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
@@ -82,6 +84,7 @@ public class StudyTableObject extends FurnitureObject {
         });
     }
 
+    @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
@@ -105,6 +108,7 @@ public class StudyTableObject extends FurnitureObject {
 
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32 + 12, y * 32 + 6, 20, 20);
@@ -115,6 +119,7 @@ public class StudyTableObject extends FurnitureObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
@@ -125,24 +130,29 @@ public class StudyTableObject extends FurnitureObject {
         return list;
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }
 
+    @Override
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
         return true;
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         if (level.isServerLevel()) {
             OEInventoryContainer.openAndSendContainer(ContainerModRegistry.STUDYTABLE_CONTAINER, player.getServerClient(), level, x, y);
         }
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new StudyTableObjectEntity(level, x, y);
     }
 
+    @Override
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
         tooltips.add(Localization.translate("itemtooltip", "dressertip"));

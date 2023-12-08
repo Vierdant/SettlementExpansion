@@ -1,76 +1,27 @@
 package settlementexpansion.patch;
 
-import necesse.engine.modLoader.annotations.ModConstructorPatch;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.client.ClientClient;
 import necesse.engine.network.server.ServerClient;
-import necesse.engine.save.LoadData;
-import necesse.engine.save.SaveData;
 import necesse.engine.team.PlayerTeam;
-import necesse.entity.levelEvent.toolItemEvent.ToolItemEvent;
 import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.buffs.BuffModifiers;
-import necesse.entity.mobs.friendly.CowMob;
-import necesse.entity.mobs.friendly.HusbandryMob;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.LevelSettler;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.SettlementExpansion;
-import settlementexpansion.map.job.StudyBookLevelJob;
-import settlementexpansion.entity.mob.friendly.HumanMobData;
 import settlementexpansion.map.settlement.SettlementModData;
 
-public class HumanMobPatch {
-
-    @ModConstructorPatch(target = HumanMob.class, arguments = {int.class, int.class, String.class})
-    public static class HumanMobConstructPatch {
-        @Advice.OnMethodExit
-        static void onExit(@Advice.This HumanMob humanMob) {
-            setJobHandlers(humanMob);
-
-            if (!humanMob.getStringID().equalsIgnoreCase("travelingmerchant")) {
-                HumanMobData.storage.put(humanMob.idData,
-                        new HumanMobData(humanMob));
-            }
-        }
-
-        public static void setJobHandlers(HumanMob humanMob) {
-            humanMob.jobTypeHandler.setJobHandler(StudyBookLevelJob.class, 3000, 10000, 0, 4000, () ->
-                            (!humanMob.isSettler() || humanMob.isSettlerOnCurrentLevel()) && !humanMob.getWorkInventory().isFull(),
-                    (foundJob) -> StudyBookLevelJob.getJobSequence(humanMob, foundJob));
-        }
-    }
-
-    @ModMethodPatch(target = HumanMob.class, name = "addSaveData", arguments = {SaveData.class})
-    public static class HumanMobSavePatch {
-        @Advice.OnMethodEnter
-        static void onEnter(@Advice.This HumanMob humanMob, @Advice.Argument(0) SaveData save) {
-            HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
-            if (humanMobData != null) {
-                save.addSaveData(humanMobData.getSaveData());
-            }
-        }
-    }
-
-    @ModMethodPatch(target = HumanMob.class, name = "applyLoadData", arguments = {LoadData.class})
-    public static class HumanMobLoadPatch {
-        @Advice.OnMethodEnter
-        static void onEnter(@Advice.This HumanMob humanMob, @Advice.Argument(0) LoadData save) {
-            HumanMobData humanMobData = HumanMobData.storage.get(humanMob.idData);
-            if (humanMobData != null) {
-                humanMobData.applyLoadData(save);
-            }
-        }
-    }
+public class HumanMobHitPatch {
 
     @ModMethodPatch(target = Mob.class, name = "isServerHit", arguments = {GameDamage.class, float.class, float.class, float.class, Attacker.class})
-    public static class MobIsServerHitPatch {
+    public static class HumanMobIsServerHitPatch {
         @Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
         static boolean onEnter(@Advice.This Mob mob, @Advice.Argument(4) Attacker attacker) {
             if (mob.removed()) {

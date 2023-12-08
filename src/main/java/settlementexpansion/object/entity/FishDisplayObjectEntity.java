@@ -8,18 +8,22 @@ public class FishDisplayObjectEntity extends InventoryObjectEntity {
         super(level, x, y, 1);
     }
 
+    @Override
     public boolean canQuickStackInventory() {
         return false;
     }
 
+    @Override
     public boolean canRestockInventory() {
         return false;
     }
 
+    @Override
     public boolean canSortInventory() {
         return false;
     }
 
+    @Override
     public boolean canUseForNearbyCrafting() {
         return false;
     }

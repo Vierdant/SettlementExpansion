@@ -15,10 +15,12 @@ public class DryingRackObjectEntity extends ProcessingTechInventoryObjectEntity 
         super(level, "dryingrack", x, y, 2, 2, RecipeTechModRegistry.DRYINGRACK);
     }
 
+    @Override
     public int getProcessTime() {
         return 8000;
     }
 
+    @Override
     public void onMouseHover(PlayerMob perspective, boolean debug) {
         super.onMouseHover(perspective, debug);
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());

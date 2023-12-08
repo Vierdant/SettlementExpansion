@@ -11,6 +11,7 @@ public class ToolsRackObjectEntity extends InventoryObjectEntity {
         super(level, x, y, 10);
     }
 
+    @Override
     public boolean isItemValid(int slot, InventoryItem item) {
         if (item != null) {
             return item.item.isToolItem();
@@ -28,22 +29,27 @@ public class ToolsRackObjectEntity extends InventoryObjectEntity {
         return true;
     }
 
+    @Override
     public boolean isSettlementStorageItemDisabled(Item item) {
         return !item.isToolItem();
     }
 
+    @Override
     public boolean canQuickStackInventory() {
         return false;
     }
 
+    @Override
     public boolean canRestockInventory() {
         return false;
     }
 
+    @Override
     public boolean canSortInventory() {
         return false;
     }
 
+    @Override
     public boolean canUseForNearbyCrafting() {
         return false;
     }

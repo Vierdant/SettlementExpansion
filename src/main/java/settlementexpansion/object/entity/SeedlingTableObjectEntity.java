@@ -11,6 +11,7 @@ public class SeedlingTableObjectEntity extends ProcessingTechInventoryObjectEnti
         super(level, "seedlingtable", x, y, 1, 2, RecipeTechModRegistry.SEEDLINGTABLE);
     }
 
+    @Override
     public int getProcessTime() {
         return 54000;
     }

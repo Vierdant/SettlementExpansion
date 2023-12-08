@@ -24,6 +24,7 @@ public class LitPathTiledTile extends PathTiledTile {
         this(textureName, mapColor, lightLevel, lightHue, lightSat, null);
     }
 
+    @Override
     protected boolean isMergeTile(Level level, int tileX, int tileY) {
         if (super.isMergeTile(level, tileX, tileY)) {
             return true;

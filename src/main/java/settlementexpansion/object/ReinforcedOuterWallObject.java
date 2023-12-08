@@ -32,6 +32,7 @@ public class ReinforcedOuterWallObject extends GameObject {
         this.texturePath = texturePath;
     }
 
+    @Override
     public void loadTextures() {
         super.loadTextures();
         this.texture = GameTexture.fromFile("objects/" + texturePath);
@@ -95,8 +96,8 @@ public class ReinforcedOuterWallObject extends GameObject {
         return rotation == compareTo.rotation && this.getStringID().equals(compareTo.object.getStringID());
     }
 
-    private boolean isDiagonalSame(LevelObject compareTo){
-        return this.getStringID().equals(compareTo.object.getStringID());
+    private boolean isNotSameId(LevelObject compareTo){
+        return !this.getStringID().equals(compareTo.object.getStringID());
     }
 
     private boolean canApplyDamage(int rotation, Point origin, ServerClient client) {
@@ -113,20 +114,20 @@ public class ReinforcedOuterWallObject extends GameObject {
         Rectangle out = super.getCollision(level, x, y, rotation);
         LevelObject[] adj = level.getAdjacentLevelObjects(x, y);
         if (rotation == 0) {
-            if (!isDiagonalSame(adj[0]) && !isDiagonalSame(adj[2])) {
+            if (isNotSameId(adj[0]) && isNotSameId(adj[2])) {
                 out.height -= 16;
                 out.y += 16;
             }
         } else if (rotation == 2) {
-            if (!isDiagonalSame(adj[5]) && !isDiagonalSame(adj[7])) {
+            if (isNotSameId(adj[5]) && isNotSameId(adj[7])) {
                 out.height -= 16;
             }
         } else if (rotation == 1) {
-            if (!isDiagonalSame(adj[2]) && !isDiagonalSame(adj[6])) {
+            if (isNotSameId(adj[2]) && isNotSameId(adj[6])) {
                 out.width -= 16;
             }
         } else {
-            if (!isDiagonalSame(adj[0]) && !isDiagonalSame(adj[5])) {
+            if (isNotSameId(adj[0]) && isNotSameId(adj[5])) {
                 out.width -= 16;
                 out.x += 16;
             }

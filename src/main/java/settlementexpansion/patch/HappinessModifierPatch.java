@@ -3,6 +3,7 @@ package settlementexpansion.patch;
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
+import necesse.engine.util.GameUtils;
 import necesse.entity.mobs.friendly.human.HappinessModifier;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.maps.levelData.settlementData.SettlementRoom;
@@ -11,7 +12,6 @@ import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementRoomData;
 import settlementexpansion.entity.mob.friendly.HumanMobData;
 import settlementexpansion.entity.mob.friendly.SettlerPersonalObjects;
-import settlementexpansion.util.StringUtil;
 
 import java.awt.*;
 import java.util.List;
@@ -66,13 +66,13 @@ public class HappinessModifierPatch {
                         HumanMobData humanMobData = HumanMobData.storage.get(mob.idData);
                         if (humanMobData != null && roomData != null) {
                             if (roomData.getFurnitureMajority() != null &&
-                                    humanMobData.preferredFurnitureType == roomData.getFurnitureMajority()) {
+                                    humanMobData.preferredFurnitureWoodType == roomData.getFurnitureMajority()) {
                                 modifiers.add(new HappinessModifier(+10, new GameMessageBuilder()
                                         .append("ui", "preferredfurniturewoodtype")));
                             } else {
-                                String choice = humanMobData.preferredFurnitureType.getString();
+                                String choice = humanMobData.preferredFurnitureWoodType.getString();
                                 modifiers.add(new HappinessModifier(-10, new GameMessageBuilder().append(
-                                        new LocalMessage("ui", "notfurniturewoodtype", "wood", StringUtil.capitalize(choice)))));
+                                        new LocalMessage("ui", "notfurniturewoodtype", "wood", GameUtils.capitalize(choice)))));
                             }
                         }
                     }

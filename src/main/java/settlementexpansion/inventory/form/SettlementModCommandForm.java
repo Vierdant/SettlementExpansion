@@ -12,7 +12,6 @@ import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.FormSwitcher;
-import necesse.gfx.forms.components.FormCheckBox;
 import necesse.gfx.forms.components.FormFlow;
 import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.components.localComponents.FormLocalCheckBox;
@@ -148,11 +147,9 @@ public class SettlementModCommandForm<T extends SettlementModContainer> extends 
         this.selectedForm.addComponent(flow.next(new FormLocalLabel(subtitle, new FontOptions(16), 0, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() - 20), 8));
         boolean allHideInside = mobs.stream().allMatch(CommandMob::getHideOnLowHealth);
         this.selectedForm.addComponent(flow.next(new FormLocalCheckBox("ui", "settlementcommandhidelowhealth", 4, 0, allHideInside, this.selectedForm.getWidth() - 8), 4)).onClicked((e) -> {
-            mobs.forEach((m) -> {
-                m.setHideOnLowHealth(e.from.checked);
-            });
+            mobs.forEach((m) -> m.setHideOnLowHealth(e.from.checked));
             synchronized(this.containerForm.selectedSettlers) {
-                this.container.commandSettlersSetHideOnLowHealth.runAndSend(this.containerForm.selectedSettlers, ((FormCheckBox)e.from).checked);
+                this.container.commandSettlersSetHideOnLowHealth.runAndSend(this.containerForm.selectedSettlers, e.from.checked);
             }
         });
         this.selectedForm.addComponent(flow.next(new FormLocalTextButton("ui", "settlementcommandfollow", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {

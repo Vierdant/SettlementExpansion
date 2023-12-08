@@ -29,7 +29,6 @@ import necesse.inventory.container.settlement.data.SettlementSettlerBasicData;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
 import necesse.inventory.container.settlement.events.SettlementSettlerBasicsEvent;
 import necesse.inventory.container.settlement.events.SettlementSettlersChangedEvent;
-import necesse.inventory.container.settlement.events.SettlementSingleStorageEvent;
 import necesse.level.maps.hudManager.HudDrawElement;
 import necesse.level.maps.levelData.settlementData.settler.CommandMob;
 import settlementexpansion.inventory.container.SettlementModContainer;
@@ -71,9 +70,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         this.menus.add(new SettlementAssignWorkForm<>(client, container, this));
 
         for (SettlementSubForm menu : this.menus) {
-            this.contentSwitcher.addComponent((FormComponent) menu, (c, active) -> {
-                ((SettlementSubForm) c).onSetCurrent(active);
-            });
+            this.contentSwitcher.addComponent((FormComponent) menu, (c, active) ->
+                    ((SettlementSubForm) c).onSetCurrent(active));
         }
 
         this.updateMenuBar();
@@ -82,9 +80,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     }
 
     protected void init() {
-        this.container.onEvent(SettlementBasicsEvent.class, (e) -> {
-            this.updatePrivateForm();
-        });
+        this.container.onEvent(SettlementBasicsEvent.class, (e) ->
+                this.updatePrivateForm());
         this.container.onEvent(SettlementSettlersChangedEvent.class, (event) -> {
             if (this.container.basics.hasAccess(this.client)) {
                 this.container.requestSettlerBasics.runAndSend();
@@ -336,9 +333,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     }
 
     public void deselectSettlers(boolean switchToCommandForm, Integer... mobUniqueIDs) {
-        this.deselectSettlers(switchToCommandForm, () -> {
-            return GameUtils.arrayIterator(mobUniqueIDs);
-        });
+        this.deselectSettlers(switchToCommandForm, () ->
+                GameUtils.arrayIterator(mobUniqueIDs));
     }
 
     public void deselectSettlers(Iterable<Integer> mobUniqueIDs) {
@@ -350,8 +346,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
             boolean update = false;
 
             int uniqueID;
-            for(Iterator<Integer> var5 = mobUniqueIDs.iterator(); var5.hasNext(); update = this.selectedSettlers.remove(uniqueID) || update) {
-                uniqueID = (Integer)var5.next();
+            for(Iterator<Integer> settler = mobUniqueIDs.iterator(); settler.hasNext(); update = this.selectedSettlers.remove(uniqueID) || update) {
+                uniqueID = settler.next();
             }
 
             if (update) {
@@ -366,9 +362,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     }
 
     public void selectSettlers(boolean switchToCommandForm, Integer... mobUniqueIDs) {
-        this.selectSettlers(switchToCommandForm, () -> {
-            return GameUtils.arrayIterator(mobUniqueIDs);
-        });
+        this.selectSettlers(switchToCommandForm, () ->
+                GameUtils.arrayIterator(mobUniqueIDs));
     }
 
     public void selectSettlers(Iterable<Integer> mobUniqueIDs) {

@@ -33,6 +33,7 @@ public class CannonTrapObject extends TrapObject {
         this.texture = GameTexture.fromFile("objects/cannontrap");
     }
 
+    @Override
     public void addDrawables(java.util.List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
@@ -50,12 +51,14 @@ public class CannonTrapObject extends TrapObject {
         });
     }
 
+    @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
         this.texture.initDraw().sprite(rotation % 4, 0, 32, this.texture.getHeight()).alpha(alpha).draw(drawX, drawY - this.texture.getHeight() + 32);
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         if (rotation == 0) {
             return new Rectangle(x * 32 + 8, y * 32 + 18, 16, 6);
@@ -68,16 +71,19 @@ public class CannonTrapObject extends TrapObject {
         }
     }
 
+    @Override
     public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
         return list;
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new CannonTrapObjectEntity(level, x, y, 10000L);
     }
 
+    @Override
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
         tooltips.add(Localization.translate("itemtooltip", "cannontrap"));

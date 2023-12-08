@@ -4,7 +4,6 @@ import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.registries.JobTypeRegistry;
 import necesse.engine.registries.LevelJobRegistry;
 import necesse.entity.mobs.job.JobType;
-import necesse.level.maps.levelData.jobs.HuntMobLevelJob;
 import settlementexpansion.map.job.StudyBookLevelJob;
 
 public class JobModRegistry {

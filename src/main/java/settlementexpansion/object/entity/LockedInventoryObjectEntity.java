@@ -29,23 +29,24 @@ public class LockedInventoryObjectEntity extends InventoryObjectEntity implement
         this.loadDirty = false;
     }
 
+    @Override
     public void serverTick() {
         super.serverTick();
-        serverTickTradesSync(getLevel().getServer());
+        serverTickLockedSync(getLevel().getServer());
     }
 
-    private void serverTickTradesSync(Server server) {
+    private void serverTickLockedSync(Server server) {
         if (server == null) {
             return;
         }
 
         if (this.loadDirty) {
-            System.out.println("Sent");
             getLevel().getServer().network.sendToClientsAt(new PacketLockedInventory(this), getLevel());
             markLoadClean();
         }
     }
 
+    @Override
     public void onMouseHover(PlayerMob perspective, boolean debug) {
         super.onMouseHover(perspective, debug);
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
@@ -56,26 +57,10 @@ public class LockedInventoryObjectEntity extends InventoryObjectEntity implement
 
     public void markLoadDirty() {
         this.loadDirty = true;
-        System.out.println("Marking");
     }
 
     public void markLoadClean() {
         this.loadDirty = false;
-    }
-
-    public void addSaveData(SaveData save) {
-        super.addSaveData(save);
-        SaveData state = new SaveData("LOCKSTATE");
-        state.addLong("owner", this.ownerAuth);
-        state.addBoolean("lockedstate", this.locked);
-        save.addSaveData(state);
-    }
-
-    public void applyLoadData(LoadData save) {
-        super.applyLoadData(save);
-        LoadData state = save.getFirstLoadDataByName("LOCKSTATE");
-        this.ownerAuth = state.getLong("owner", 0);
-        this.locked = state.getBoolean("lockedstate", false);
     }
 
     public long getCurrentOwner() {
@@ -95,24 +80,43 @@ public class LockedInventoryObjectEntity extends InventoryObjectEntity implement
         markLoadDirty();
     }
 
-    public Packet getContentPacket() {
-        Packet packet = new Packet();
-        PacketWriter writer = new PacketWriter(packet);
-        writer.putNextBoolean(this.locked);
-        writer.putNextLong(this.ownerAuth);
-        return packet;
+    @Override
+    public void addSaveData(SaveData save) {
+        super.addSaveData(save);
+        SaveData state = new SaveData("LOCKSTATE");
+        state.addLong("owner", this.ownerAuth);
+        state.addBoolean("lockedstate", this.locked);
+        save.addSaveData(state);
     }
 
+    @Override
+    public void applyLoadData(LoadData save) {
+        super.applyLoadData(save);
+        LoadData state = save.getFirstLoadDataByName("LOCKSTATE");
+        this.ownerAuth = state.getLong("owner", 0);
+        this.locked = state.getBoolean("lockedstate", false);
+    }
+
+    @Override
     public void setupContentPacket(PacketWriter writer) {
         super.setupContentPacket(writer);
         writer.putNextBoolean(this.locked);
         writer.putNextLong(this.ownerAuth);
     }
 
+    @Override
     public void applyContentPacket(PacketReader reader) {
         super.applyContentPacket(reader);
         this.locked = reader.getNextBoolean();
         this.ownerAuth = reader.getNextLong();
+    }
+
+    public Packet getContentPacket() {
+        Packet packet = new Packet();
+        PacketWriter writer = new PacketWriter(packet);
+        writer.putNextBoolean(this.locked);
+        writer.putNextLong(this.ownerAuth);
+        return packet;
     }
 
     public void applyContentPacket(Packet packet) {

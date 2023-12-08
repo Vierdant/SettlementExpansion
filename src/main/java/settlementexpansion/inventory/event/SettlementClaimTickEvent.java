@@ -1,6 +1,5 @@
 package settlementexpansion.inventory.event;
 
-import necesse.engine.localization.message.GameMessage;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.PacketWriter;
 import necesse.inventory.container.events.ContainerEvent;

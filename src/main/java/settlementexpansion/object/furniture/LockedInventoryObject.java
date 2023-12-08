@@ -25,6 +25,7 @@ public class LockedInventoryObject extends InventoryObject {
         super(textureName, slots, collision, mapColor);
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         if (level.isServerLevel()) {
             ObjectEntity entity = level.entityManager.getObjectEntity(x, y);
@@ -37,6 +38,7 @@ public class LockedInventoryObject extends InventoryObject {
         }
     }
 
+    @Override
     public void playOpenSound(Level level, int tileX, int tileY) {
         if (this.openTexture != null) {
             Screen.playSound(ModResources.safe_open, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
@@ -44,6 +46,7 @@ public class LockedInventoryObject extends InventoryObject {
 
     }
 
+    @Override
     public void playCloseSound(Level level, int tileX, int tileY) {
         if (this.openTexture != null) {
             Screen.playSound(ModResources.safe_close, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
@@ -51,10 +54,12 @@ public class LockedInventoryObject extends InventoryObject {
 
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new LockedInventoryObjectEntity(level, x, y, this.slots);
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }

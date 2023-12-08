@@ -55,6 +55,7 @@ public class FishDisplayObject extends FurnitureObject {
         this(textureName, ToolType.ALL, new Color(153, 127, 98), fishHeight);
     }
 
+    @Override
     public void loadTextures() {
         super.loadTextures();
         this.texture = GameTexture.fromFile("objects/" + this.textureName);
@@ -63,6 +64,7 @@ public class FishDisplayObject extends FurnitureObject {
         }
     }
 
+    @Override
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
@@ -125,6 +127,7 @@ public class FishDisplayObject extends FurnitureObject {
         });
     }
 
+    @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha, PlayerMob player, GameCamera camera) {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
@@ -168,6 +171,7 @@ public class FishDisplayObject extends FurnitureObject {
         }
     }
 
+    @Override
     public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
         if (playerDir == 1) {
             return 3;
@@ -176,6 +180,7 @@ public class FishDisplayObject extends FurnitureObject {
         }
     }
 
+    @Override
     public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
         List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
@@ -189,6 +194,7 @@ public class FishDisplayObject extends FurnitureObject {
         return list;
     }
 
+    @Override
     public String canPlace(Level level, int x, int y, int rotation) {
         if (level.getObjectID(x, y) != 0 && !level.getObject(x, y).isGrass) {
             return "occupied";
@@ -197,6 +203,7 @@ public class FishDisplayObject extends FurnitureObject {
         }
     }
 
+    @Override
     public boolean isValid(Level level, int x, int y) {
         boolean hasWall = false;
         if (level.getObject(x - 1, y).isWall && !level.getObject(x - 1, y).isDoor) {
@@ -212,14 +219,17 @@ public class FishDisplayObject extends FurnitureObject {
         return hasWall;
     }
 
+    @Override
     public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
         return Localization.translate("controls", "opentip");
     }
 
+    @Override
     public boolean canInteract(Level level, int x, int y, PlayerMob player) {
         return true;
     }
 
+    @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         if (level.isServerLevel()) {
             OEInventoryContainer.openAndSendContainer(ContainerRegistry.OE_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
@@ -227,10 +237,12 @@ public class FishDisplayObject extends FurnitureObject {
 
     }
 
+    @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
         return new FishDisplayObjectEntity(level, x, y);
     }
 
+    @Override
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
         tooltips.add(Localization.translate("itemtooltip", "fishdisplaytip"));
@@ -243,6 +255,7 @@ public class FishDisplayObject extends FurnitureObject {
                 .anyMatch((c) -> level.wireManager.isWireActiveAny(c.tileX, c.tileY));
     }
 
+    @Override
     public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
         if (level.isClientLevel()) {
             playSwitchSound(x, y);

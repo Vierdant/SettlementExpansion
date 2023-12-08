@@ -37,59 +37,44 @@ public class TravelingMerchantModMob extends TravelingMerchantMob {
         out.add(ShopItem.item("rope", random.getIntBetween(150, 200)));
         out.add(ShopItem.item("piratemap", random.getIntBetween(180, 220)));
         out.add(ShopItem.item("brainonastick", random.getIntBetween(800, 1200)));
-        conditionSection(random, random.getChance(4), (r) -> {
-            out.add(ShopItem.item("binoculars", r.getIntBetween(200, 300)));
-        });
-        conditionSection(random, random.getChance(4), (r) -> {
-            out.add(ShopItem.item("recipebook", r.getIntBetween(500, 800)));
-        });
+        conditionSection(random, random.getChance(4), (r) ->
+                out.add(ShopItem.item("binoculars", r.getIntBetween(200, 300))));
+        conditionSection(random, random.getChance(4), (r) ->
+                out.add(ShopItem.item("recipebook", r.getIntBetween(500, 800))));
         boolean modActive = SettlementExpansion.getSettings().enableSettlementLevelModification;
-        conditionSection(random,modActive && random.getChance(2), (r) -> {
-            out.add(ShopItem.item("claimingscroll", r.getIntBetween(3000, 5000)));
-        });
+        conditionSection(random,modActive && random.getChance(2), (r) ->
+                out.add(ShopItem.item("claimingscroll", r.getIntBetween(3000, 5000))));
         out.add(ShopItem.item("potionpouch", random.getIntBetween(1000, 1200)));
-        conditionSection(random, client.characterStats().mob_kills.getKills("piratecaptain") > 0, (r) -> {
-            out.add(ShopItem.item("ninjasmark", r.getIntBetween(800, 1200)));
-        });
+        conditionSection(random, client.characterStats().mob_kills.getKills("piratecaptain") > 0, (r) ->
+                out.add(ShopItem.item("ninjasmark", r.getIntBetween(800, 1200))));
         conditionSection(random, settlement != null, (r) -> {
             if (settlement == null) return;
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("evilsprotector"), (r2) -> {
-                out.add(ShopItem.item("ammopouch", r2.getIntBetween(400, 500)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("queenspider"), (r2) -> {
-                out.add(ShopItem.item("lunchbox", r2.getIntBetween(500, 600)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("voidwizard"), (r2) -> {
-                out.add(ShopItem.item("voidpouch", r2.getIntBetween(600, 800)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("ancientvulture"), (r2) -> {
-                out.add(ShopItem.item("recallflask", r2.getIntBetween(1000, 1200)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("piratecaptain"), (r2) -> {
-                out.add(ShopItem.item("coinpouch", r2.getIntBetween(1200, 1500)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("reaper"), (r2) -> {
-                out.add(ShopItem.item("hoverboard", r2.getIntBetween(1500, 1800)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("cryoqueen"), (r2) -> {
-                out.add(ShopItem.item("bannerstand", r2.getIntBetween(250, 350)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("pestwarden"), (r2) -> {
-                out.add(ShopItem.item("portalflask", r2.getIntBetween(1600, 2400)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("sageandgrit"), (r2) -> {
-                out.add(ShopItem.item("blinkscepter", r2.getIntBetween(1700, 2400)));
-            });
-            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("fallenwizard"), (r2) -> {
-                out.add(ShopItem.item("voidbag", r2.getIntBetween(1900, 2600)));
-            });
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("evilsprotector"), (r2) ->
+                    out.add(ShopItem.item("ammopouch", r2.getIntBetween(400, 500))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("queenspider"), (r2) ->
+                    out.add(ShopItem.item("lunchbox", r2.getIntBetween(500, 600))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("voidwizard"), (r2) ->
+                    out.add(ShopItem.item("voidpouch", r2.getIntBetween(600, 800))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("ancientvulture"), (r2) ->
+                    out.add(ShopItem.item("recallflask", r2.getIntBetween(1000, 1200))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("piratecaptain"), (r2) ->
+                    out.add(ShopItem.item("coinpouch", r2.getIntBetween(1200, 1500))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("reaper"), (r2) ->
+                    out.add(ShopItem.item("hoverboard", r2.getIntBetween(1500, 1800))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("cryoqueen"), (r2) ->
+                    out.add(ShopItem.item("bannerstand", r2.getIntBetween(250, 350))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("pestwarden"), (r2) ->
+                    out.add(ShopItem.item("portalflask", r2.getIntBetween(1600, 2400))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("sageandgrit"), (r2) ->
+                    out.add(ShopItem.item("blinkscepter", r2.getIntBetween(1700, 2400))));
+            conditionSection(r, settlement.getQuestTiersCompleted() > SettlementQuestTier.getTierIndex("fallenwizard"), (r2) ->
+                    out.add(ShopItem.item("voidbag", r2.getIntBetween(1900, 2600))));
         });
         conditionSection(random, random.getChance(4), (r) -> {
             out.add(ShopItem.item("importedcow", r.getIntBetween(200, 300)));
             out.add(ShopItem.item("importedsheep", r.getIntBetween(200, 300)));
-            conditionSection(random, client.characterStats().mob_kills.getKills("piratecaptain") > 0, (r2) -> {
-                out.add(ShopItem.item("importedpig", r2.getIntBetween(500, 600)));
-            });
+            conditionSection(random, client.characterStats().mob_kills.getKills("piratecaptain") > 0, (r2) ->
+                    out.add(ShopItem.item("importedpig", r2.getIntBetween(500, 600))));
         });
         TicketSystemList<Consumer<GameRandom>> cosmetics = getCosmeticShopItems(out);
         GameRandom sRandom = random.nextSeeded();
@@ -116,15 +101,12 @@ public class TravelingMerchantModMob extends TravelingMerchantMob {
 
     private TicketSystemList<Consumer<GameRandom>> getCosmeticShopItems(ArrayList<ShopItem> out) {
         TicketSystemList<Consumer<GameRandom>> cosmetics = new TicketSystemList<>();
-        cosmetics.addObject(100, (r) -> {
-            out.add(ShopItem.item("jumpingball", r.getIntBetween(600, 800)));
-        });
-        cosmetics.addObject(50, (r) -> {
-            out.add(ShopItem.item("weticicle", r.getIntBetween(350, 650)));
-        });
-        cosmetics.addObject(100, (r) -> {
-            out.add(ShopItem.item("sunglasses", r.getIntBetween(300, 600)));
-        });
+        cosmetics.addObject(100, (r) ->
+                out.add(ShopItem.item("jumpingball", r.getIntBetween(600, 800))));
+        cosmetics.addObject(50, (r) ->
+                out.add(ShopItem.item("weticicle", r.getIntBetween(350, 650))));
+        cosmetics.addObject(100, (r) ->
+                out.add(ShopItem.item("sunglasses", r.getIntBetween(300, 600))));
         cosmetics.addObject(100, (r) -> {
             out.add(ShopItem.item("hulahat", r.getIntBetween(200, 400)));
             out.add(ShopItem.item("hulaskirtwithtop", r.getIntBetween(200, 400)));

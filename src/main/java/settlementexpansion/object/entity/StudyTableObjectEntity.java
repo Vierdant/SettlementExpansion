@@ -14,6 +14,7 @@ public class StudyTableObjectEntity extends InventoryObjectEntity {
         super(level, x, y, 1);
     }
 
+    @Override
     public boolean isItemValid(int slot, InventoryItem item) {
         if (item != null) {
             return isItemStudyMaterial(item.item);
@@ -22,6 +23,7 @@ public class StudyTableObjectEntity extends InventoryObjectEntity {
         return true;
     }
 
+    @Override
     public void serverTick() {
         super.serverTick();
         if (this.getMaterialCount() > 0) {
@@ -35,22 +37,27 @@ public class StudyTableObjectEntity extends InventoryObjectEntity {
         return item != null ? item.getAmount() : 0;
     }
 
+    @Override
     public boolean isSettlementStorageItemDisabled(Item item) {
         return !isItemStudyMaterial(item);
     }
 
+    @Override
     public boolean canQuickStackInventory() {
         return false;
     }
 
+    @Override
     public boolean canRestockInventory() {
         return false;
     }
 
+    @Override
     public boolean canSortInventory() {
         return false;
     }
 
+    @Override
     public boolean canUseForNearbyCrafting() {
         return false;
     }

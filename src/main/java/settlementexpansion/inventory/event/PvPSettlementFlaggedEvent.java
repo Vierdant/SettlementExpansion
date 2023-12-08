@@ -4,8 +4,6 @@ import necesse.engine.network.PacketReader;
 import necesse.engine.network.PacketWriter;
 import necesse.inventory.container.events.ContainerEvent;
 
-import java.awt.*;
-
 public class PvPSettlementFlaggedEvent extends ContainerEvent {
 
     public boolean isFlagged;

@@ -1,11 +1,6 @@
 package settlementexpansion.util;
 
-import necesse.level.maps.presets.set.FurnitureSet;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-public enum FurnitureType {
+public enum FurnitureWoodType {
      OAK("oak"),
     SPRUCE("spruce"),
     PINE("pine"),
@@ -16,7 +11,7 @@ public enum FurnitureType {
      public final String string;
 
 
-    FurnitureType(String string) {
+    FurnitureWoodType(String string) {
         this.string = string;
     }
 
@@ -24,9 +19,9 @@ public enum FurnitureType {
         return string;
     }
 
-    public static FurnitureType weightedSelection(String id) {
-        FurnitureType[] sets = values();
-        double[] weights = FurnitureSetChances.getSettler(id).getWeights();
+    public static FurnitureWoodType weightedSelection(String id) {
+        FurnitureWoodType[] sets = values();
+        double[] weights = SetChances.getSettler(id).getWeights();
 
         double totalWeight = 0.0;
         for (double entry : weights) {
@@ -43,7 +38,7 @@ public enum FurnitureType {
 
 
 
-    public enum FurnitureSetChances {
+    public enum SetChances {
         // oak, spruce, pine, palm, dungeon, deadwood
         HUNTER(new double[]{0.25, 0.75, 0.0, 0.0, 0.0, 0.0}),
         ANGLER(new double[]{0.75, 0.25, 0.25, 0.0, 0.0, 0.0}),
@@ -64,7 +59,7 @@ public enum FurnitureType {
         public final double[] weights;
 
 
-        FurnitureSetChances(double[] weights) {
+        SetChances(double[] weights) {
             this.weights = weights;
         }
 
@@ -72,7 +67,7 @@ public enum FurnitureType {
             return weights;
         }
 
-        public static FurnitureSetChances getSettler(String id) {
+        public static SetChances getSettler(String id) {
             switch (id) {
                 case "hunter": return HUNTER;
                 case "angler": return ANGLER;

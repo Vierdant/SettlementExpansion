@@ -18,10 +18,12 @@ public class SafeBoxInventoryObject extends LockedInventoryObject {
         super(textureName, slots, new Rectangle(32, 32), mapColor);
     }
 
+    @Override
     public Rectangle getCollision(Level level, int x, int y, int rotation) {
         return rotation % 2 == 0 ? new Rectangle(x * 32 + 3, y * 32 + 6, 26, 20) : new Rectangle(x * 32 + 6, y * 32 + 4, 20, 24);
     }
 
+    @Override
     public ListGameTooltips getItemTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getItemTooltips(item, perspective);
         tooltips.add(Localization.translate("itemtooltip", "safebox"));
