@@ -2,6 +2,9 @@ package settlementexpansion.listener;
 
 import necesse.engine.GameEventListener;
 import necesse.engine.events.players.DamageTileEvent;
+import necesse.engine.localization.message.GameMessage;
+import necesse.engine.network.packet.PacketMobChat;
+import necesse.engine.util.GameRandom;
 import necesse.entity.DamagedObjectEntity;
 import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
@@ -42,12 +45,32 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
                         if (!(object instanceof TreeObject) && !(object instanceof SingleRockObject) && !(object instanceof SingleRockSmall) && !(object instanceof GrassObject)) {
                             int damage = objectDamage.objectDamage + event.damage;
                             if (damage >= object.objectHealth) {
-                                player.getLevel().entityManager.mobs.getInRegionByTileRange(player.getX() / 32, player.getY() / 32, 25).stream().filter((m) -> {
-                                    return m instanceof HumanMob && !m.isSameTeam(player);
-                                }).forEach((m) -> {
+                                player.getLevel().entityManager.mobs.getInRegionByTileRange(player.getX() / 32, player.getY() / 32, 25).stream().filter((m) ->
+                                        m instanceof HumanMob && !m.isSameTeam(player)).forEach((m) -> {
                                     HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)m.ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
                                     if (humanAngerHandler != null) {
-                                        humanAngerHandler.addEnemy(player, 20F);
+                                        if (data != null && !event.level.biome.hasVillage()) {
+                                            humanAngerHandler.addEnemy(player, 20F);
+                                        } else if (event.level.biome.hasVillage()) {
+                                            float oldAnger = humanAngerHandler.anger;
+                                            humanAngerHandler.anger += 0.4F;
+                                            if (humanAngerHandler.anger >= 1.0F) {
+                                                humanAngerHandler.anger += 19F;
+                                                if (oldAnger < 1.0F && !m.removed()) {
+                                                    GameMessage attackMessage = ((HumanMob) m).getRandomAttackMessage();
+                                                    if (attackMessage != null) {
+                                                        m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), attackMessage), m.getLevel());
+                                                    }
+                                                }
+
+                                                humanAngerHandler.addEnemy(player, humanAngerHandler.anger);
+                                            } else if (!m.removed()) {
+                                                GameMessage angryMessage = ((HumanMob) m).getRandomAngryMessage();
+                                                if (angryMessage != null) {
+                                                    m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), angryMessage), m.getLevel());
+                                                }
+                                            }
+                                        }
                                     }
                                 });
                             }

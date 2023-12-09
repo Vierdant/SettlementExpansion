@@ -2,10 +2,13 @@ package settlementexpansion.listener;
 
 import necesse.engine.GameEventListener;
 import necesse.engine.events.players.ObjectInteractEvent;
+import necesse.engine.localization.message.GameMessage;
+import necesse.engine.network.packet.PacketMobChat;
 import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.friendly.human.HumanMob;
+import necesse.level.gameObject.DoorObject;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.InventoryObject;
 import necesse.level.gameObject.furniture.StorageBoxInventoryObject;
@@ -24,7 +27,8 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
             if (data != null) {
                 SettlementLevelLayer layer = event.level.settlementLayer;
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.level);
-                if (!layer.doesClientHaveAccess(event.player.getServerClient()) && !layerData.isPvpFlagged) {
+                GameObject object = event.level.getObject(event.tileX, event.tileY);
+                if (!layer.doesClientHaveAccess(event.player.getServerClient()) && !layerData.isPvpFlagged && !(object instanceof DoorObject)) {
                     event.preventDefault();
                 }
             }
@@ -42,6 +46,10 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
                         }).forEach((m) -> {
                             HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)m.ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
                             if (humanAngerHandler != null) {
+                                GameMessage attackMessage = ((HumanMob) m).getRandomAttackMessage();
+                                if (attackMessage != null) {
+                                    m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), attackMessage), m.getLevel());
+                                }
                                 humanAngerHandler.addEnemy(player, 20F);
                             }
                         });
