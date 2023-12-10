@@ -1,6 +1,7 @@
 package settlementexpansion.object;
 
 import necesse.engine.GameEvents;
+import necesse.engine.GameLog;
 import necesse.engine.events.loot.ObjectLootTableDropsEvent;
 import necesse.engine.localization.Localization;
 import necesse.engine.localization.message.GameMessage;
@@ -27,9 +28,12 @@ import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
 import necesse.level.maps.LevelObject;
 import necesse.level.maps.light.GameLight;
+import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.preset.BlueprintPresetID;
+import settlementexpansion.map.preset.CustomBlueprintSettings;
 import settlementexpansion.object.entity.BlueprintObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
+import settlementexpansion.registry.ObjectModRegistry;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
 import java.awt.*;
@@ -39,7 +43,7 @@ import java.util.List;
 public class BlueprintObject extends GameObject {
 
     public GameTexture texture;
-    private final BlueprintPresetID presetId;
+    private final String script;
     private final String blueprintKey;
     private final String furnitureType;
     private final boolean canChangeWalls;
@@ -47,20 +51,24 @@ public class BlueprintObject extends GameObject {
     private final boolean canPlaceOnLiquid;
     private final boolean canPlaceOnShore;
 
-    public BlueprintObject(BlueprintPresetID presetId, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+    public BlueprintObject(String script, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
         super(new Rectangle(32, 32));
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(42, 59, 171);
         this.objectHealth = 50;
         this.drawDmg = false;
         this.isLightTransparent = true;
-        this.presetId = presetId;
+        this.script = script;
         this.blueprintKey = blueprintKey;
         this.furnitureType = furnitureType;
         this.canChangeWalls = canChangeWalls;
         this.canChangeFloor = canChangeFloor;
         this.canPlaceOnShore = canPlaceOnShore;
         this.canPlaceOnLiquid = canPlaceOnLiquid;
+    }
+
+    public BlueprintObject(BlueprintPresetID script, String blueprintKey, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnShore, boolean canPlaceOnLiquid) {
+        this(script.getScript(), blueprintKey, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnShore, canPlaceOnLiquid);
     }
 
     @Override
@@ -142,7 +150,7 @@ public class BlueprintObject extends GameObject {
 
     @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        return new BlueprintObjectEntity(level, presetId, x, y, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnLiquid, canPlaceOnShore);
+        return new BlueprintObjectEntity(level, script, x, y, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnLiquid, canPlaceOnShore);
     }
 
     @Override
@@ -187,6 +195,43 @@ public class BlueprintObject extends GameObject {
         ObjectRegistry.registerObject("trainingarea", new BlueprintObject(BlueprintPresetID.TRAINING_AREA, "trainingarea", null, false, false, false, false), 5, true);
         ObjectRegistry.registerObject("storageroom", new BlueprintObject(BlueprintPresetID.STORAGE_ROOM, "storageroom", null, true, true, false, false), 5, true);
         ObjectRegistry.registerObject("storageroombig", new BlueprintObject(BlueprintPresetID.STORAGE_ROOM_BIG, "storageroombig", null, true, true, false, false), 5, true);
+
+        if (SettlementExpansion.getSettings().enableCustomBlueprints) {
+            List<String> customBlueprintSettings = SettlementExpansion.getSettings().customBlueprintIDSettings;
+            List<String> customBlueprints = SettlementExpansion.getSettings().customBlueprintIDPresets;
+
+            System.out.println(customBlueprintSettings.size());
+            System.out.println(customBlueprints.size());
+
+            if (customBlueprintSettings.size() != customBlueprints.size()) {
+                GameLog.err.print("Halted custom blueprint registration due to missing elements in one of the lists");
+                ObjectModRegistry.registeredCustomBlueprints = false;
+                return;
+            }
+
+            for (int i = 0; i < customBlueprintSettings.size(); i++) {
+                CustomBlueprintSettings settings = new CustomBlueprintSettings(customBlueprintSettings.get(i));
+                String preset = customBlueprints.get(i);
+                ObjectRegistry.registerObject(settings.blueprintName, new BlueprintObject(
+                        preset,
+                        settings.blueprintName,
+                        settings.furnitureType,
+                        settings.canChangeWalls,
+                        settings.canChangeFloor,
+                        settings.canPlaceOnShore,
+                        settings.canPlaceOnLiquid
+                ), 5, true);
+
+                Recipes.registerModRecipe(new Recipe(
+                        settings.blueprintName,
+                        1,
+                        RecipeTechModRegistry.BLUEPRINTTABLE,
+                        new Ingredient[]{
+                                new Ingredient("blueprintempty", 1)
+                        }
+                ));
+            }
+        }
     }
 
     public static void registerBlueprintRecipes() {
@@ -203,7 +248,6 @@ public class BlueprintObject extends GameObject {
                     RecipeTechModRegistry.BLUEPRINTTABLE,
                     new Ingredient[]{
                             new Ingredient("blueprintempty", 1)
-
                     }
             ));
         }
