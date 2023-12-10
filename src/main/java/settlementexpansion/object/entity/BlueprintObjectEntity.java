@@ -33,9 +33,9 @@ public class BlueprintObjectEntity extends ObjectEntity {
     private HudDrawElement hudElement;
     private boolean rotated;
 
-    public BlueprintObjectEntity(Level level, String script, int x, int y, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnSore, boolean canPlaceOnLiquid) {
+    public BlueprintObjectEntity(Level level, BlueprintPresetID presetId, int x, int y, String furnitureType, boolean canChangeWalls, boolean canChangeFloor, boolean canPlaceOnSore, boolean canPlaceOnLiquid) {
         super(level, "blueprint", x, y);
-        this.preset = new BlueprintPreset(script, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnSore, canPlaceOnLiquid);
+        this.preset = new BlueprintPreset(presetId, furnitureType, canChangeWalls, canChangeFloor, canPlaceOnSore, canPlaceOnLiquid);
         this.hudElement = null;
     }
 

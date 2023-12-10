@@ -15,9 +15,6 @@ public class Settings extends ModSettings {
     public boolean allowOwnedSettlerKillsNoPvP;
     public boolean requireSettlerOwnerOnlineToKill;
     public boolean enableHumansGetAngryOnBreakOrSteal;
-    public boolean enableCustomBlueprints;
-    public List<String> customBlueprintIDSettings;
-    public List<String> customBlueprintIDPresets;
 
     public Settings() {
         this.enableHappinessModifier = true;
@@ -26,9 +23,6 @@ public class Settings extends ModSettings {
         this.allowOwnedSettlerKillsNoPvP = false;
         this.requireSettlerOwnerOnlineToKill = false;
         this.enableHumansGetAngryOnBreakOrSteal = true;
-        this.enableCustomBlueprints = false;
-        this.customBlueprintIDSettings = new ArrayList<>();
-        this.customBlueprintIDPresets = new ArrayList<>();
     }
 
     @Override
@@ -45,12 +39,6 @@ public class Settings extends ModSettings {
                 "If true, a player can't kill a settler owned by another player, unless the owner player is online | Default: false");
         save.addBoolean("enableHumansGetAngryOnBreakOrSteal", this.enableHumansGetAngryOnBreakOrSteal,
                 "If true, when a player breaks an object or interacts with a chest, with settlers or villagers around, they will get hostile | Default: true");
-        save.addBoolean("enableCustomBlueprints", enableCustomBlueprints,
-                "Enable this to be able to use the custom blueprints related settings. If it's false, the mod will not attempt registering the custom blueprints. | Default: false");
-        save.addStringList("customBlueprintIDSettings", customBlueprintIDSettings,
-                "The settings of the custom blueprint presets you provided in customBlueprintIDPresets. Add the names in the same order you added the presets, so first name is for first preset, etc.");
-        save.addStringList("customBlueprintIDPresets", customBlueprintIDPresets,
-                "Custom blueprint presets. Look up how to save presets using dev tools in Necesse, or ask in the discord server for instructions.");
     }
 
     @Override
@@ -61,8 +49,5 @@ public class Settings extends ModSettings {
         this.allowOwnedSettlerKillsNoPvP = load.getBoolean("allowOwnedSettlerKillsNoPvP", false);
         this.requireSettlerOwnerOnlineToKill = load.getBoolean("requireSettlerOwnerOnlineToKill", false);
         this.enableHumansGetAngryOnBreakOrSteal = load.getBoolean("enableHumansGetAngryOnBreakOrSteal", true);
-        this.enableCustomBlueprints = load.getBoolean("enableCustomBlueprints", false);
-        this.customBlueprintIDSettings = load.getStringList("customBlueprintIDSettings", new ArrayList<>());
-        this.customBlueprintIDPresets = load.getStringList("customBlueprintIDPresets", new ArrayList<>());
     }
 }
