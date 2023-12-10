@@ -129,7 +129,7 @@ public class HumanMobHitPatch {
                 if (!client.pvpEnabled() && humanMob.owner.get() != -1L) {
                     out = false;
                     return out;
-                } else if (humanMob.owner.get() != -1L && SettlementExpansion.getSettings().requireSettlerOwnerOnlineToKill && humanMob.getLevel().getClient().getClientByAuth(humanMob.owner.get()) != null) {
+                } else if (humanMob.owner.get() != -1L && SettlementExpansion.getSettings().requireSettlerOwnerOnlineToKill && humanMob.getLevel().getClient().getClientByAuth(humanMob.owner.get()) == null) {
                     out = false;
                     return out;
                 }
@@ -147,6 +147,12 @@ public class HumanMobHitPatch {
 
                 if (((HumanMob)attacker).isTravelingHuman()) {
                     out = false;
+                    return out;
+                }
+
+                HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)attacker.ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
+                if (humanAngerHandler.enemies.contains(humanMob)) {
+                    out = true;
                     return out;
                 }
             }
