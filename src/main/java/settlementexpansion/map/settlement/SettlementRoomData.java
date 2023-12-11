@@ -3,8 +3,6 @@ package settlementexpansion.map.settlement;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.RoomFurniture;
 import necesse.level.maps.Level;
-import necesse.level.maps.levelData.settlementData.SettlementLevelData;
-import necesse.level.maps.levelData.settlementData.SettlementRoom;
 import necesse.level.maps.regionSystem.SemiRegion;
 import settlementexpansion.util.FurnitureWoodType;
 

@@ -14,7 +14,6 @@ import necesse.level.maps.levelData.villageShops.VillageShopsData;
 import settlementexpansion.SettlementExpansion;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class TravelingMerchantModMob extends TravelingMerchantMob {
@@ -84,7 +83,7 @@ public class TravelingMerchantModMob extends TravelingMerchantMob {
             out.add(ShopItem.item("portablemusicplayer", r.getIntBetween(800, 1200)));
             out.add(ShopItem.item("adventurebeginsvinyl", r.getIntBetween(75, 125)));
             out.add(ShopItem.item("homevinyl", r.getIntBetween(75, 125)));
-            List<GameMusic> currentMusic = this.getLevel().biome.getLevelMusic(this.getLevel(), client.playerMob);
+            Iterable<GameMusic> currentMusic = this.getLevel().biome.getLevelMusic(this.getLevel(), client.playerMob).getMusicInList();
 
             for (GameMusic gameMusic : currentMusic) {
                 String itemStringID = gameMusic.getStringID() + "vinyl";

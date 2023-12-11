@@ -4,7 +4,6 @@ import necesse.engine.GameEventListener;
 import necesse.engine.events.players.DamageTileEvent;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.network.packet.PacketMobChat;
-import necesse.engine.util.GameRandom;
 import necesse.entity.DamagedObjectEntity;
 import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
@@ -21,7 +20,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
 
     @Override
     public void onEvent(DamageTileEvent event) {
-        if (event.client != null && event.client.isServerClient() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
+        if (event.client != null && event.client.isServer() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(event.level);
             if (data != null) {
                 SettlementLevelLayer layer = event.level.settlementLayer;
@@ -59,7 +58,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
                                                 if (oldAnger < 1.0F && !m.removed()) {
                                                     GameMessage attackMessage = ((HumanMob) m).getRandomAttackMessage();
                                                     if (attackMessage != null) {
-                                                        m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), attackMessage), m.getLevel());
+                                                        m.getLevel().getServer().network.sendToClientsWithEntity(new PacketMobChat(m.getUniqueID(), attackMessage), m);
                                                     }
                                                 }
 
@@ -67,7 +66,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
                                             } else if (!m.removed()) {
                                                 GameMessage angryMessage = ((HumanMob) m).getRandomAngryMessage();
                                                 if (angryMessage != null) {
-                                                    m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), angryMessage), m.getLevel());
+                                                    m.getLevel().getServer().network.sendToClientsWithEntity(new PacketMobChat(m.getUniqueID(), angryMessage), m);
                                                 }
                                             }
                                         }

@@ -4,19 +4,16 @@ import necesse.engine.GameEventListener;
 import necesse.engine.events.players.ObjectInteractEvent;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.network.packet.PacketMobChat;
-import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.gameObject.DoorObject;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.InventoryObject;
-import necesse.level.gameObject.furniture.StorageBoxInventoryObject;
 import necesse.level.maps.layers.SettlementLevelLayer;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;
-import settlementexpansion.object.furniture.LockedInventoryObject;
 
 public class ObjectInteractSettlementListener extends GameEventListener<ObjectInteractEvent> {
 
@@ -48,7 +45,7 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
                             if (humanAngerHandler != null) {
                                 GameMessage attackMessage = ((HumanMob) m).getRandomAttackMessage();
                                 if (attackMessage != null) {
-                                    m.getLevel().getServer().network.sendToClientsAt(new PacketMobChat(m.getUniqueID(), attackMessage), m.getLevel());
+                                    m.getLevel().getServer().network.sendToClientsWithEntity(new PacketMobChat(m.getUniqueID(), attackMessage), m);
                                 }
                                 humanAngerHandler.addEnemy(player, 20F);
                             }

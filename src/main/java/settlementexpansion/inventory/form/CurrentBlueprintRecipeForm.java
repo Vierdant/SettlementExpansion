@@ -6,6 +6,7 @@ import necesse.engine.tickManager.TickManager;
 import necesse.engine.util.GameMath;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
+import necesse.gfx.GameColor;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.controller.ControllerFocus;
 import necesse.gfx.forms.controller.ControllerNavigationHandler;
@@ -98,7 +99,7 @@ public abstract class CurrentBlueprintRecipeForm extends Form {
         super.drawComponents(tickManager, perspective, renderBox);
         if (this.tooltips != null) {
             int padding = GameBackground.itemTooltip.getContentPadding();
-            this.tooltips.draw(padding, padding);
+            this.tooltips.draw(padding, padding, GameColor.DEFAULT_COLOR);
         }
 
     }

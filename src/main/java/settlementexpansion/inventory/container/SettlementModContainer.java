@@ -34,7 +34,7 @@ public class SettlementModContainer extends SettlementContainer {
         });
 
 
-        if (client.isServerClient()) {
+        if (client.isServer()) {
             this.isPvpFlagged = getLevelModData().isPvpFlagged;
             this.settlementSafe = isSettlementSafe();
 
@@ -45,7 +45,7 @@ public class SettlementModContainer extends SettlementContainer {
         this.togglePvpFlag = this.registerAction(new EmptyCustomAction() {
             @Override
             protected void run() {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     getLevelModData().togglePvpFlag();
                     boolean shouldStartCooldown = getLevelModData().isPvpFlagged;
                     if (shouldStartCooldown) {
@@ -75,7 +75,7 @@ public class SettlementModContainer extends SettlementContainer {
     }
 
     public boolean isSettlementSafe() {
-        if (!this.client.isServerClient()) {
+        if (!this.client.isServer()) {
             throw new IllegalStateException("Cannot check settlement safety client side");
         }
         for (ServerClient c : getLevel().getServer().getClients()) {
@@ -88,7 +88,7 @@ public class SettlementModContainer extends SettlementContainer {
     }
 
     public SettlementModData getLevelModData() {
-        if (!this.client.isServerClient()) {
+        if (!this.client.isServer()) {
             throw new IllegalStateException("Cannot get level data client side");
         } else {
             return SettlementModData.getSettlementModData(this.getLevel());

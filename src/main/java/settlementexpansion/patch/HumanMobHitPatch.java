@@ -26,7 +26,7 @@ public class HumanMobHitPatch {
         static boolean onEnter(@Advice.This Mob mob, @Advice.Argument(4) Attacker attacker) {
             if (mob.removed()) {
                 return false;
-            } else if (!mob.canTakeDmg()) {
+            } else if (!mob.canTakeDamage()) {
                 return false;
             } else {
                 Mob attackOwner = attacker.getAttackOwner();
@@ -47,9 +47,9 @@ public class HumanMobHitPatch {
                         }
                     }
 
-                    if (mob.isPlayer || mob.isHuman) {
+                    /*if (mob.isPlayer || mob.isHuman) {
                         setAdventureTarget(attackOwner, mob);
-                    }
+                    }*/
                 }
             }
             return false;
@@ -164,7 +164,7 @@ public class HumanMobHitPatch {
         public static boolean canBeTargeted(HumanMob mob, Mob attacker, NetworkClient attackerClient) {
             if (mob.buffManager.getModifier(BuffModifiers.UNTARGETABLE)) {
                 return false;
-            } else if (!mob.canTakeDmg()) {
+            } else if (!mob.canTakeDamage()) {
                 return false;
             } else if (mob.getUniqueID() == attacker.getUniqueID()) {
                 return false;
@@ -180,9 +180,9 @@ public class HumanMobHitPatch {
                 return false;
             } else {
                 NetworkClient fClient = null;
-                if (mob.getLevel().isServerLevel()) {
+                if (mob.getLevel().isServer()) {
                     fClient = mob.getFollowingServerClient();
-                } else if (mob.getLevel().isClientLevel()) {
+                } else if (mob.getLevel().isServer()) {
                     fClient = mob.getFollowingClientClient();
                 }
 

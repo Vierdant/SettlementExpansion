@@ -84,7 +84,7 @@ public class PvPTeamsModContainer extends Container {
         this.subscribeEvent(PvPAllTeamsUpdateEvent.class, (e) -> true, () -> true);
         this.kickMemberAction = this.registerAction(new LongCustomAction() {
             protected void run(long value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam playerTeam = serverClient.getPlayerTeam();
                     if (playerTeam != null && playerTeam.getOwner() == serverClient.authentication) {
@@ -96,7 +96,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.passOwnershipAction = this.registerAction(new LongCustomAction() {
             protected void run(long value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam playerTeam = serverClient.getPlayerTeam();
                     if (playerTeam != null && playerTeam.getOwner() == serverClient.authentication) {
@@ -109,7 +109,7 @@ public class PvPTeamsModContainer extends Container {
         this.inviteMembersAction = this.registerAction(new InviteMembersModAction(this));
         this.changeTeamNameAction = this.registerAction(new StringCustomAction() {
             protected void run(String value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam playerTeam = serverClient.getPlayerTeam();
                     if (playerTeam != null && playerTeam.getOwner() == serverClient.authentication && !playerTeam.getName().equals(value)) {
@@ -122,7 +122,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.setPublicAction = this.registerAction(new BooleanCustomAction() {
             protected void run(boolean value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam playerTeam = serverClient.getPlayerTeam();
                     if (playerTeam != null && playerTeam.getOwner() == serverClient.authentication) {
@@ -134,7 +134,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.askForExistingTeams = this.registerAction(new EmptyCustomAction() {
             protected void run() {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     (new PvPAllTeamsUpdateEvent(serverClient.getServer())).applyAndSendToClient(serverClient);
                 }
@@ -143,7 +143,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.requestToJoinTeam = this.registerAction(new IntCustomAction() {
             protected void run(int value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam team = serverClient.getServer().world.getTeams().getTeam(value);
                     if (team != null) {
@@ -159,7 +159,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.leaveTeamButton = this.registerAction(new EmptyCustomAction() {
             protected void run() {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     PlayerTeam.removeMember(serverClient.getServer(), serverClient.getPlayerTeam(), serverClient.authentication, false);
                 }
@@ -168,7 +168,7 @@ public class PvPTeamsModContainer extends Container {
         });
         this.createTeamButton = this.registerAction(new EmptyCustomAction() {
             protected void run() {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     ServerClient serverClient = client.getServerClient();
                     if (serverClient.getTeamID() == -1) {
                         Server server = serverClient.getServer();
@@ -179,7 +179,7 @@ public class PvPTeamsModContainer extends Container {
             }
         });
 
-        if (this.client.isServerClient()) {
+        if (this.client.isServer()) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(this.client.getServerClient().getLevel());
             if (data != null) {
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(data.getLevel());

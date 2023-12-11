@@ -15,7 +15,6 @@ import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.SideMultiTile;
-import settlementexpansion.object.furniture.StudyTableObject;
 
 import java.awt.*;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ToolsRack2Object extends GameObject {
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
     }
 

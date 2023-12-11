@@ -1,12 +1,8 @@
 package settlementexpansion.inventory.container;
 
 import necesse.engine.network.NetworkClient;
-import necesse.engine.network.Packet;
 import necesse.engine.network.PacketReader;
-import necesse.engine.network.PacketWriter;
-import necesse.engine.network.packet.PacketOpenContainer;
 import necesse.engine.network.server.ServerClient;
-import necesse.engine.registries.ContainerRegistry;
 import necesse.entity.TileDamageType;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.customAction.StringCustomAction;
@@ -70,7 +66,7 @@ public class BlueprintContainer extends SettlementDependantContainer {
 
     @Override
     protected Level getLevel() {
-        return this.client.isServerClient() ? this.client.getServerClient().getLevel() : this.client.playerMob.getLevel();
+        return this.client.isServer() ? this.client.getServerClient().getLevel() : this.client.playerMob.getLevel();
     }
 
     @Override

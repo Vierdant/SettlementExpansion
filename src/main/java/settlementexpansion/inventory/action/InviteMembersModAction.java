@@ -29,7 +29,7 @@ public class InviteMembersModAction extends ContainerCustomAction {
     }
 
     public void executePacket(PacketReader reader) {
-        if (this.container.client.isServerClient()) {
+        if (this.container.client.isServer()) {
             ServerClient serverClient = this.container.client.getServerClient();
             PlayerTeam playerTeam = serverClient.getPlayerTeam();
             if (playerTeam != null) {

@@ -52,7 +52,7 @@ public class BlueprintObject extends GameObject {
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(42, 59, 171);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
         this.presetId = presetId;
         this.blueprintKey = blueprintKey;
@@ -135,7 +135,7 @@ public class BlueprintObject extends GameObject {
     }
 
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerModRegistry.BLUEPRINT_CONTAINER, player.getServerClient(), level, x, y);
         }
     }
@@ -164,7 +164,7 @@ public class BlueprintObject extends GameObject {
             client.newStats.objects_mined.increment(1);
         }
 
-        if (!level.isServerLevel()) {
+        if (!level.isServer()) {
             this.spawnDestroyedParticles(level, x, y);
         }
 

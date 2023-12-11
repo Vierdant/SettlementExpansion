@@ -39,7 +39,7 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
     }
 
@@ -114,7 +114,7 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerRegistry.PROCESSING_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
         }
     }
@@ -170,7 +170,7 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
     @Override
     public ArrayList<InventoryItem> getCurrentAndFutureProcessingOutputs(Level level, int tileX, int tileY) {
         ProcessingTechInventoryObjectEntity processingOE = this.getProcessingObjectEntity(level, tileX, tileY);
-        return processingOE != null ? processingOE.getCurrentAndExpectedResults().items : new ArrayList();
+        return processingOE != null ? processingOE.getCurrentAndExpectedResults().items : new ArrayList<>();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package settlementexpansion.object;
 
-import necesse.engine.registries.RecipeTechRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.camera.GameCamera;
@@ -29,7 +28,7 @@ public class BlueprintTable2Object extends CraftingStationObject {
     protected BlueprintTable2Object() {
         super(new Rectangle(32, 32));
         this.mapColor = new Color(150, 119, 70);
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.toolType = ToolType.ALL;
         this.isLightTransparent = true;
     }

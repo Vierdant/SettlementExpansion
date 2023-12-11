@@ -53,10 +53,10 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
         this.costLabel = this.breakForm.addComponent(new FormLocalLabel("ui", "blacksmithcost", new FontOptions(16), -1, 310, geodeSlotY - 4));
         this.preview = this.breakForm.addComponent(new FormItemPreview(300, geodeSlotY + 10, "coin"));
         this.costText = this.breakForm.addComponent(new FormLabel("x " + container.getBreakCost(), new FontOptions(16), -1, this.preview.getX() + 30, geodeSlotY + 20));
-        this.breakForm.addComponent(heightFlow.next((new FormFairTypeLabel(new LocalMessage("ui", "blacksmithbreaktip"), this.breakForm.getWidth() / 2, 0)).setFontOptions(new FontOptions(16)).setTextAlign(FairType.TextAlign.CENTER).setMaxWidth(this.breakForm.getWidth() - 20), 10));
+        this.breakForm.addComponent(heightFlow.nextY((new FormFairTypeLabel(new LocalMessage("ui", "blacksmithbreaktip"), this.breakForm.getWidth() / 2, 0)).setFontOptions(new FontOptions(16)).setTextAlign(FairType.TextAlign.CENTER).setMaxWidth(this.breakForm.getWidth() - 20), 10));
         if (container.blacksmithMob.isSettler()) {
             GameMessageBuilder happinessDescription = (new GameMessageBuilder()).append(Settler.getMood(container.settlerHappiness).getDescription()).append(" (").append(container.settlerHappiness >= 0 ? "+" : "").append(Integer.toString(container.settlerHappiness)).append(")");
-            this.breakForm.addComponent(heightFlow.next((new FormFairTypeLabel(happinessDescription, this.breakForm.getWidth() / 2, 0)).setFontOptions(new FontOptions(16)).setTextAlign(FairType.TextAlign.CENTER).setMaxWidth(this.breakForm.getWidth() - 20), 5));
+            this.breakForm.addComponent(heightFlow.nextY((new FormFairTypeLabel(happinessDescription, this.breakForm.getWidth() / 2, 0)).setFontOptions(new FontOptions(16)).setTextAlign(FairType.TextAlign.CENTER).setMaxWidth(this.breakForm.getWidth() - 20), 5));
             FormContentIconButton helpIcon = this.breakForm.addComponent(new FormContentIconButton(this.breakForm.getWidth() / 2 - 10, heightFlow.next(30), FormInputSize.SIZE_20, ButtonColor.BASE, Settings.UI.button_help_20, new LocalMessage("ui", "blacksmithbreakfocustip")));
             helpIcon.handleClicksIfNoEventHandlers = true;
         }

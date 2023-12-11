@@ -1,17 +1,13 @@
 package settlementexpansion.manager;
 
 import necesse.engine.Screen;
-import necesse.engine.Settings;
 import necesse.engine.control.InputPosition;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.forms.ContainerComponent;
-import necesse.gfx.forms.FormManager;
 import necesse.gfx.forms.components.FormContentIconButton;
-import necesse.gfx.forms.components.FormIconButton;
 import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.controller.ControllerFocus;
 import necesse.gfx.ui.ButtonColor;

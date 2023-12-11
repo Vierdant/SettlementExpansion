@@ -3,19 +3,15 @@ package settlementexpansion.object.furniture;
 import necesse.engine.localization.Localization;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
-import necesse.entity.objectEntity.ObjectEntity;
-import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptionsList;
 import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
-import necesse.inventory.InventoryItem;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.gameObject.furniture.FurnitureObject;
 import necesse.level.maps.Level;
-import necesse.level.maps.LevelObject;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.SideMultiTile;
@@ -31,7 +27,7 @@ public class StudyTable2Object extends FurnitureObject {
     public StudyTable2Object() {
         super(new Rectangle(32, 32));
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
         this.furnitureType = "studytable";
         this.toolType = ToolType.ALL;

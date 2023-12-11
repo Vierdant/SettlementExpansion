@@ -18,7 +18,6 @@ import necesse.gfx.drawables.SortedDrawable;
 import necesse.level.gameObject.GameObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
-import necesse.level.maps.presets.Preset;
 import necesse.level.maps.presets.PresetRotateException;
 import necesse.level.maps.presets.PresetRotation;
 import settlementexpansion.map.preset.BlueprintPreset;
@@ -47,7 +46,7 @@ public class BlueprintObjectEntity extends ObjectEntity {
     public void init() {
         super.init();
 
-        if (this.getLevel().isServerLevel() && !rotated) {
+        if (this.getLevel().isServer() && !rotated) {
             int rotation = getLevel().getObjectRotation(getTileX(), getTileY());
             if (rotation != 0) {
                 try {
@@ -58,7 +57,7 @@ public class BlueprintObjectEntity extends ObjectEntity {
             }
         }
 
-        if (this.getLevel().isClientLevel()) {
+        if (this.getLevel().isClient()) {
             this.getLevel().hudManager.addElement(this.hudElement = new HudDrawElement() {
                 public void addDrawables(List<SortedDrawable> list, final GameCamera camera, final PlayerMob perspective) {
                     int rotation = getLevel().getObjectRotation(getTileX(), getTileY());

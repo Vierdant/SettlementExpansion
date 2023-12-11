@@ -28,7 +28,7 @@ public class BlueprintTableObject extends CraftingStationObject {
     public BlueprintTableObject() {
         super(new Rectangle(32, 32));
         this.mapColor = new Color(150, 119, 70);
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.toolType = ToolType.ALL;
         this.isLightTransparent = true;
     }

@@ -41,7 +41,7 @@ public class TrapCannonBallProjectile extends Projectile {
         this.height = 18.0F;
         this.heightBasedOnDistance = true;
         this.spawnTime = this.getWorldEntity().getTime();
-        this.doesImpactDmg = false;
+        this.doesImpactDamage = false;
         this.trailOffset = 0.0F;
     }
 
@@ -69,7 +69,7 @@ public class TrapCannonBallProjectile extends Projectile {
     }
 
     public void doHitLogic(Mob mob, LevelObjectHit object, float x, float y) {
-        if (this.getLevel().isServerLevel()) {
+        if (this.getLevel().isServer()) {
             CannonBallExplosionEvent event = new CannonBallExplosionEvent(x, y, this.getDamage(), this.getOwner());
             this.getLevel().entityManager.addLevelEvent(event);
         }

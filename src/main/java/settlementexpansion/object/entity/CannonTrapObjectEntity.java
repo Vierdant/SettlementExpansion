@@ -17,7 +17,7 @@ public class CannonTrapObjectEntity extends TrapObjectEntity {
 
     @Override
     public void triggerTrap(int wireID, int dir) {
-        if (!this.getLevel().isClientLevel() && !this.onCooldown()) {
+        if (!this.getLevel().isClient() && !this.onCooldown()) {
             if (!this.otherWireActive(wireID)) {
                 Point position = this.getPos(this.getX(), this.getY(), dir);
                 Point targetDir = this.getDir(dir);

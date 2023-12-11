@@ -1,31 +1,23 @@
 package settlementexpansion.object;
 
 import necesse.engine.localization.Localization;
-import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
-import necesse.entity.objectEntity.ObjectEntity;
-import necesse.entity.objectEntity.ProcessingTechInventoryObjectEntity;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptionsList;
 import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
-import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
-import necesse.inventory.recipe.Recipe;
-import necesse.inventory.recipe.Recipes;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
 import necesse.level.maps.Level;
-import necesse.level.maps.levelData.settlementData.SettlementWorkstationObject;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.SideMultiTile;
 
 import java.awt.*;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class SeedlingTable2Object extends GameObject {
     private GameTexture texture;
@@ -37,7 +29,7 @@ public class SeedlingTable2Object extends GameObject {
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
     }
 

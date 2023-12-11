@@ -6,36 +6,29 @@ import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
 import necesse.engine.tickManager.TickManager;
 import necesse.engine.util.GameMath;
-import necesse.engine.util.GameUtils;
-import necesse.engine.util.LevelIdentifier;
-import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
-import necesse.gfx.camera.GameCamera;
-import necesse.gfx.drawOptions.DrawOptionsList;
-import necesse.gfx.drawables.SortedDrawable;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.FormSwitcher;
 import necesse.gfx.forms.components.*;
 import necesse.gfx.forms.components.localComponents.FormLocalLabel;
 import necesse.gfx.forms.components.localComponents.FormLocalTextButton;
+import necesse.gfx.forms.presets.containerComponent.SelectedSettlersHandler;
 import necesse.gfx.forms.presets.containerComponent.settlement.*;
 import necesse.gfx.forms.presets.containerComponent.settlement.diets.SettlementDietsForm;
 import necesse.gfx.forms.presets.containerComponent.settlement.equipment.SettlementEquipmentForm;
 import necesse.gfx.gameFont.FontOptions;
 import necesse.gfx.ui.ButtonColor;
-import necesse.gfx.ui.HUD;
+import necesse.inventory.container.settlement.SettlementContainer;
 import necesse.inventory.container.settlement.data.SettlementLockedBedData;
 import necesse.inventory.container.settlement.data.SettlementSettlerBasicData;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
 import necesse.inventory.container.settlement.events.SettlementSettlerBasicsEvent;
 import necesse.inventory.container.settlement.events.SettlementSettlersChangedEvent;
-import necesse.level.maps.hudManager.HudDrawElement;
-import necesse.level.maps.levelData.settlementData.settler.CommandMob;
 import settlementexpansion.inventory.container.SettlementModContainer;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class SettlementModContainerForm<T extends SettlementModContainer> extends SettlementContainerForm<T> {
     public static String lastOpenType;
@@ -43,19 +36,20 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     private final FormSwitcher contentSwitcher;
     private final LinkedList<SettlementSubForm> menus;
     private final Form privateForm;
-    private static final HashMap<LevelIdentifier, HashSet<Integer>> levelsSelectedSettlers = new HashMap<>();
-    public final HashSet<Integer> selectedSettlers;
     public int settlerBasicsSubscription = -1;
     public ArrayList<SettlementSettlerBasicData> settlers = new ArrayList<>();
     public ArrayList<SettlementLockedBedData> lockedBeds = new ArrayList<>();
     private final SettlementModCommandForm<T> commandForm;
+    public final SelectedSettlersHandler selectedSettlers;
     public SettlementContainerGameTool tool;
-    public HudDrawElement selectedSettlersHudElement;
 
     public SettlementModContainerForm(Client client, T container) {
         super(client, container);
-        this.selectedSettlers = levelsSelectedSettlers.compute(client.getLevel().getIdentifier(), (k, v) 
-                -> v == null ? new HashSet<>() : v);
+        this.selectedSettlers = new SelectedSettlersHandler(client) {
+            public void updateSelectedSettlers(boolean switchToCommandForm) {
+                SettlementModContainerForm.this.updateSelectedSettlers(switchToCommandForm);
+            }
+        };
         this.menuBar = this.addComponent(new Form("menubar", 800, 40));
         this.contentSwitcher = this.addComponent(new FormSwitcher());
         this.menus = new LinkedList<>();
@@ -80,8 +74,9 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     }
 
     protected void init() {
-        this.container.onEvent(SettlementBasicsEvent.class, (e) ->
-                this.updatePrivateForm());
+        this.container.onEvent(SettlementBasicsEvent.class, (e) -> {
+            this.updatePrivateForm();
+        });
         this.container.onEvent(SettlementSettlersChangedEvent.class, (event) -> {
             if (this.container.basics.hasAccess(this.client)) {
                 this.container.requestSettlerBasics.runAndSend();
@@ -92,65 +87,13 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
             this.settlers = event.settlers;
             this.lockedBeds = event.lockedBeds;
             synchronized(this.selectedSettlers) {
-                HashSet<Integer> lastSelected = new HashSet<>(this.selectedSettlers);
-                this.selectedSettlers.clear();
-
-                for (SettlementSettlerBasicData settler : this.settlers) {
-                    if (lastSelected.contains(settler.mobUniqueID)) {
-                        this.selectedSettlers.add(settler.mobUniqueID);
-                    }
-                }
-
-                this.updateSelectedSettlers(false);
+                Set<Integer> possibleSelected = this.settlers.stream().map((d) -> d.mobUniqueID)
+                        .collect(Collectors.toSet());
+                Objects.requireNonNull(possibleSelected);
+                this.selectedSettlers.cleanUp(possibleSelected::contains);
             }
         });
-        if (this.selectedSettlersHudElement != null) {
-            this.selectedSettlersHudElement.remove();
-        }
-
-        this.selectedSettlersHudElement = new HudDrawElement() {
-            public void addDrawables(List<SortedDrawable> list, GameCamera camera, PlayerMob perspective) {
-                if (!selectedSettlers.isEmpty()) {
-                    final DrawOptionsList drawOptions = new DrawOptionsList();
-                    synchronized(selectedSettlers) {
-                        HashSet<Integer> removes = new HashSet<>();
-                        Iterator<Integer> settlerIterator = selectedSettlers.iterator();
-
-                        while(true) {
-                            if (!settlerIterator.hasNext()) {
-                                HashSet<Integer> settler = selectedSettlers;
-                                Objects.requireNonNull(settler);
-                                removes.forEach(settler::remove);
-                                break;
-                            }
-
-                            int mobUniqueID = settlerIterator.next();
-                            Mob mob = this.getLevel().entityManager.mobs.get(mobUniqueID, false);
-                            if (mob instanceof CommandMob && ((CommandMob)mob).canBeCommanded(client)) {
-                                Rectangle mobSelectBox = mob.getSelectBox();
-                                if (camera.getBounds().intersects(mobSelectBox)) {
-                                    drawOptions.add(HUD.levelBoundOptions(camera, new Color(255, 255, 255, 150), true, mobSelectBox));
-                                }
-                            } else {
-                                removes.add(mobUniqueID);
-                            }
-                        }
-                    }
-
-                    list.add(new SortedDrawable() {
-                        public int getPriority() {
-                            return -1000000;
-                        }
-
-                        public void draw(TickManager tickManager) {
-                            drawOptions.draw();
-                        }
-                    });
-                }
-
-            }
-        };
-        this.client.getLevel().hudManager.addElement(this.selectedSettlersHudElement);
+        this.selectedSettlers.init();
         this.updatePrivateForm();
         if (lastOpenType != null) {
             if (!this.contentSwitcher.isCurrent(this.privateForm)) {
@@ -178,8 +121,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         int usedWidth = 4;
         int i = 0;
 
-        for(Iterator<SettlementSubForm> var5 = this.menus.iterator(); var5.hasNext(); ++i) {
-            final SettlementSubForm menu = var5.next();
+        for(Iterator<SettlementSubForm> subForm = this.menus.iterator(); subForm.hasNext(); ++i) {
+            final SettlementSubForm menu = subForm.next();
             int remainingButtons = this.menus.size() - i;
             int remainingWidth = this.menuBar.getWidth() - 4 - usedWidth;
             int width = remainingWidth / remainingButtons;
@@ -191,7 +134,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
             button.controllerFocusHashcode = "settlementMenuButton" + menu.getTypeString();
             button.onClicked((e) -> {
                 e.preventDefault();
-                (e.from).playTickSound();
+                e.from.playTickSound();
                 if (this.contentSwitcher.isCurrent((FormComponent)menu)) {
                     this.contentSwitcher.clearCurrent();
                     lastOpenType = null;
@@ -215,18 +158,18 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     private void updatePrivateForm() {
         this.privateForm.clearComponents();
         FormFlow flow = new FormFlow(5);
-        this.privateForm.addComponent(flow.next(new FormLocalLabel(this.container.basics.settlementName, new FontOptions(20), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
-        this.privateForm.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "settlementispriv"), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
-        this.privateForm.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "settlementprivatetip"), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
-        this.privateForm.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "settlementowner", "owner", this.container.basics.ownerName), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0), 10));
+        this.privateForm.addComponent(flow.nextY(new FormLocalLabel(this.container.basics.settlementName, new FontOptions(20), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
+        this.privateForm.addComponent(flow.nextY(new FormLocalLabel(new LocalMessage("ui", "settlementispriv"), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
+        this.privateForm.addComponent(flow.nextY(new FormLocalLabel(new LocalMessage("ui", "settlementprivatetip"), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0, this.privateForm.getWidth() - 20), 10));
+        this.privateForm.addComponent(flow.nextY(new FormLocalLabel(new LocalMessage("ui", "settlementowner", "owner", this.container.basics.ownerName), new FontOptions(16), 0, this.privateForm.getWidth() / 2, 0), 10));
         int buttonWidth = Math.min(this.privateForm.getWidth() - 8, 300);
         if (this.container.basics.isTeamPublic) {
-            (this.privateForm.addComponent(flow.next(new FormLocalTextButton("ui", "teamjoin", this.privateForm.getWidth() / 2 - buttonWidth / 2, 0, buttonWidth, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE), 20))).onClicked((e) -> {
+            (this.privateForm.addComponent(flow.nextY(new FormLocalTextButton("ui", "teamjoin", this.privateForm.getWidth() / 2 - buttonWidth / 2, 0, buttonWidth, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE), 20))).onClicked((e) -> {
                 this.container.requestJoin.runAndSend(true);
-                (e.from).startCooldown(5000);
+                e.from.startCooldown(5000);
             });
         } else {
-            (this.privateForm.addComponent(flow.next(new FormLocalTextButton("ui", "teamrequestjoin", this.privateForm.getWidth() / 2 - buttonWidth / 2, 0, buttonWidth, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE), 20))).onClicked((e) -> {
+            (this.privateForm.addComponent(flow.nextY(new FormLocalTextButton("ui", "teamrequestjoin", this.privateForm.getWidth() / 2 - buttonWidth / 2, 0, buttonWidth, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE), 20))).onClicked((e) -> {
                 this.container.requestJoin.runAndSend(false);
                 e.from.startCooldown(5000);
             });
@@ -248,7 +191,6 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
                 this.settlerBasicsSubscription = -1;
                 if (!this.selectedSettlers.isEmpty()) {
                     this.selectedSettlers.clear();
-                    this.updateSelectedSettlers(false);
                 }
 
                 if (this.tool != null) {
@@ -270,7 +212,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
                     Screen.clearGameTool(this.tool);
                 }
 
-                Screen.setGameTool(this.tool = new SettlementContainerGameTool(this.client, this.container, this));
+                Screen.setGameTool(this.tool = new SettlementContainerGameTool(this.client, this.selectedSettlers, (SettlementContainer)this.container, this));
             }
         }
 
@@ -307,82 +249,6 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         }
     }
 
-    public static boolean isShiftDown() {
-        return Screen.input().isKeyDown(340) || Screen.input().isKeyDown(344);
-    }
-
-    public void selectOrDeselectSettler(int mobUniqueID) {
-        this.selectOrDeselectSettler(!isShiftDown(), mobUniqueID);
-    }
-
-    public void selectOrDeselectSettler(boolean switchToCommandForm, int mobUniqueID) {
-        if (this.selectedSettlers.contains(mobUniqueID) && this.selectedSettlers.size() > 1) {
-            if (isShiftDown()) {
-                this.deselectSettlers(switchToCommandForm, mobUniqueID);
-            } else {
-                this.selectSettlers(switchToCommandForm, mobUniqueID);
-            }
-        } else {
-            this.selectSettlers(switchToCommandForm, mobUniqueID);
-        }
-
-    }
-
-    public void deselectSettlers(Integer... mobUniqueIDs) {
-        this.deselectSettlers(!isShiftDown(), mobUniqueIDs);
-    }
-
-    public void deselectSettlers(boolean switchToCommandForm, Integer... mobUniqueIDs) {
-        this.deselectSettlers(switchToCommandForm, () ->
-                GameUtils.arrayIterator(mobUniqueIDs));
-    }
-
-    public void deselectSettlers(Iterable<Integer> mobUniqueIDs) {
-        this.deselectSettlers(!isShiftDown(), mobUniqueIDs);
-    }
-
-    public void deselectSettlers(boolean switchToCommandForm, Iterable<Integer> mobUniqueIDs) {
-        synchronized(this.selectedSettlers) {
-            boolean update = false;
-
-            int uniqueID;
-            for(Iterator<Integer> settler = mobUniqueIDs.iterator(); settler.hasNext(); update = this.selectedSettlers.remove(uniqueID) || update) {
-                uniqueID = settler.next();
-            }
-
-            if (update) {
-                this.updateSelectedSettlers(switchToCommandForm);
-            }
-
-        }
-    }
-
-    public void selectSettlers(Integer... mobUniqueIDs) {
-        this.selectSettlers(!isShiftDown(), mobUniqueIDs);
-    }
-
-    public void selectSettlers(boolean switchToCommandForm, Integer... mobUniqueIDs) {
-        this.selectSettlers(switchToCommandForm, () ->
-                GameUtils.arrayIterator(mobUniqueIDs));
-    }
-
-    public void selectSettlers(Iterable<Integer> mobUniqueIDs) {
-        this.selectSettlers(!isShiftDown(), mobUniqueIDs);
-    }
-
-    public void selectSettlers(boolean switchToCommandForm, Iterable<Integer> mobUniqueIDs) {
-        synchronized(this.selectedSettlers) {
-            if (!isShiftDown()) {
-                this.selectedSettlers.clear();
-            }
-            for (int uniqueID : mobUniqueIDs) {
-                this.selectedSettlers.add(uniqueID);
-            }
-        }
-
-        this.updateSelectedSettlers(switchToCommandForm);
-    }
-
     public void onWindowResized() {
         super.onWindowResized();
         this.updateMenuBar();
@@ -392,11 +258,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
     }
 
     public void dispose() {
-        if (this.selectedSettlersHudElement != null) {
-            this.selectedSettlersHudElement.remove();
-        }
-
-        this.selectedSettlersHudElement = null;
+        this.selectedSettlers.dispose();
         Screen.clearGameTool(this.tool);
         super.dispose();
     }

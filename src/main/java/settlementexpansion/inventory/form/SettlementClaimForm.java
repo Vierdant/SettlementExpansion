@@ -28,8 +28,8 @@ public class SettlementClaimForm extends ContainerForm<SettlementClaimContainer>
     public void update(SettlementClaimTickEvent event) {
         this.clearComponents();
         FormFlow flow = new FormFlow(5);
-        this.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "settlementtakeover"), new FontOptions(20), 0, this.getWidth() / 2, 0, this.getWidth() - 20), 10));
-        this.addComponent(flow.next(new FormLocalLabel("ui", "settlementtakeoverexplain", new FontOptions(16), 0, this.getWidth() / 2, 0, this.getWidth() - 20), 20));
+        this.addComponent(flow.nextY(new FormLocalLabel(new LocalMessage("ui", "settlementtakeover"), new FontOptions(20), 0, this.getWidth() / 2, 0, this.getWidth() - 20), 10));
+        this.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementtakeoverexplain", new FontOptions(16), 0, this.getWidth() / 2, 0, this.getWidth() - 20), 20));
 
         FormLocalTextButton confirm = this.addComponent(new FormLocalTextButton(new LocalMessage("ui", "takeoverbutton", "extra", this.container.timerTicking() ? " (" + (int)(this.container.getTimerTimeLeft() / 1000) + ")" : ""), 4, 120, this.getWidth() / 2 - 6));
         confirm.setActive(event.canClaim);

@@ -50,7 +50,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
         this.setupMainForm();
         FormFlow joinTeamFlow = new FormFlow(5);
         this.joinTeam = this.addComponent(new Form("jointeam", 300, 400));
-        this.joinTeam.addComponent(joinTeamFlow.next(new FormLocalLabel("ui", "teamjoinateam", new FontOptions(20), 0, this.joinTeam.getWidth() / 2, 0, this.joinTeam.getWidth() - 20), 10));
+        this.joinTeam.addComponent(joinTeamFlow.nextY(new FormLocalLabel("ui", "teamjoinateam", new FontOptions(20), 0, this.joinTeam.getWidth() / 2, 0, this.joinTeam.getWidth() - 20), 10));
         this.joinTeamContent = this.joinTeam.addComponent(new FormContentBox(0, joinTeamFlow.next(350), this.joinTeam.getWidth(), 350));
         this.joinTeamContent.alwaysShowVerticalScrollBar = true;
         (this.joinTeam.addComponent(new FormLocalTextButton("ui", "backbutton", 4, joinTeamFlow.next(40), this.joinTeam.getWidth() - 8, FormInputSize.SIZE_32_TO_40, ButtonColor.BASE))).onClicked((e) ->
@@ -111,7 +111,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
         PvPTeamsContainer.TeamData team = this.container.data.currentTeam;
         FormLocalLabel invitesLabel;
         if (team == null) {
-            this.main.addComponent(flow.next(new FormLocalLabel("ui", "teamnocurrent", new FontOptions(16), 0, this.main.getWidth() / 2, 0, this.main.getWidth() - 10), 10));
+            this.main.addComponent(flow.nextY(new FormLocalLabel("ui", "teamnocurrent", new FontOptions(16), 0, this.main.getWidth() / 2, 0, this.main.getWidth() - 10), 10));
             (this.main.addComponent(new FormLocalTextButton("ui", "teamcreate", 4, flow.next(40), this.main.getWidth() - 8))).onClicked((e) -> {
                 this.container.createTeamButton.runAndSend();
                 e.from.startCooldown(5000);
@@ -140,7 +140,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             FormLocalLabel membersLabel;
             if (this.isOwner) {
                 flow.next(5);
-                membersLabel = this.main.addComponent(flow.next(new FormLocalLabel("ui", "teamcanselfjoin", new FontOptions(16), -1, 28, 0, this.main.getWidth() - 32), 10));
+                membersLabel = this.main.addComponent(flow.nextY(new FormLocalLabel("ui", "teamcanselfjoin", new FontOptions(16), -1, 28, 0, this.main.getWidth() - 32), 10));
                 this.isPublicButton = this.main.addComponent(new FormContentIconButton(4, membersLabel.getY() + membersLabel.getHeight() / 2 - 10, FormInputSize.SIZE_20, ButtonColor.BASE, Settings.UI.button_checked_20));
                 this.isPublicButton.onClicked((e) ->
                         this.container.setPublicAction.runAndSend(!this.container.data.currentTeam.isPublic));
@@ -196,7 +196,7 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             FormFlow invitesFlow = new FormFlow();
             if (this.container.data.invites.isEmpty()) {
                 invitesFlow.next(10);
-                this.invitesContent.addComponent(invitesFlow.next(new FormLocalLabel("ui", "teamnoinvites", new FontOptions(16), 0, this.invitesContent.getWidth() / 2, 10, this.invitesContent.getWidth() - 20), 10));
+                this.invitesContent.addComponent(invitesFlow.nextY(new FormLocalLabel("ui", "teamnoinvites", new FontOptions(16), 0, this.invitesContent.getWidth() / 2, 10, this.invitesContent.getWidth() - 20), 10));
             } else {
                 int colorCounter = 0;
 
@@ -227,21 +227,21 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
         FormFlow flow = new FormFlow();
         if (event.teams.isEmpty()) {
             flow.next(10);
-            this.joinTeamContent.addComponent(flow.next(new FormLocalLabel("ui", "teamnoteams", new FontOptions(16), 0, this.joinTeamContent.getWidth() / 2, 0, this.joinTeamContent.getWidth() - 20), 10));
+            this.joinTeamContent.addComponent(flow.nextY(new FormLocalLabel("ui", "teamnoteams", new FontOptions(16), 0, this.joinTeamContent.getWidth() / 2, 0, this.joinTeamContent.getWidth() - 20), 10));
         } else {
 
             for (PvPTeamsContainer.TeamData team : event.teams) {
-                this.joinTeamContent.addComponent(flow.next(new FormLabel(team.name, new FontOptions(20), -1, 5, 0), 2));
-                this.joinTeamContent.addComponent(flow.next(new FormLocalLabel(new LocalMessage("ui", "teammembercount", "count", team.memberCount), new FontOptions(16), -1, 5, 0), 2));
+                this.joinTeamContent.addComponent(flow.nextY(new FormLabel(team.name, new FontOptions(20), -1, 5, 0), 2));
+                this.joinTeamContent.addComponent(flow.nextY(new FormLocalLabel(new LocalMessage("ui", "teammembercount", "count", team.memberCount), new FontOptions(16), -1, 5, 0), 2));
                 if (team.isPublic) {
-                    this.joinTeamContent.addComponent(flow.next(new FormLocalLabel("ui", "teampublic", new FontOptions(16), -1, 5, 0), 2));
-                    (this.joinTeamContent.addComponent(flow.next(new FormLocalTextButton("ui", "teamjoin", 4, 0, this.joinTeamContent.getWidth() - 8 - this.joinTeamContent.getScrollBarWidth(), FormInputSize.SIZE_24, ButtonColor.BASE)))).onClicked((e) -> {
+                    this.joinTeamContent.addComponent(flow.nextY(new FormLocalLabel("ui", "teampublic", new FontOptions(16), -1, 5, 0), 2));
+                    (this.joinTeamContent.addComponent(flow.nextY(new FormLocalTextButton("ui", "teamjoin", 4, 0, this.joinTeamContent.getWidth() - 8 - this.joinTeamContent.getScrollBarWidth(), FormInputSize.SIZE_24, ButtonColor.BASE)))).onClicked((e) -> {
                         this.container.requestToJoinTeam.runAndSend(team.teamID);
                         e.from.startCooldown(5000);
                     });
                 } else {
-                    this.joinTeamContent.addComponent(flow.next(new FormLocalLabel("ui", "teamprivate", new FontOptions(16), -1, 5, 0), 2));
-                    (this.joinTeamContent.addComponent(flow.next(new FormLocalTextButton("ui", "teamrequestjoin", 4, 0, this.joinTeamContent.getWidth() - 8 - this.joinTeamContent.getScrollBarWidth(), FormInputSize.SIZE_24, ButtonColor.BASE)))).onClicked((e) -> {
+                    this.joinTeamContent.addComponent(flow.nextY(new FormLocalLabel("ui", "teamprivate", new FontOptions(16), -1, 5, 0), 2));
+                    (this.joinTeamContent.addComponent(flow.nextY(new FormLocalTextButton("ui", "teamrequestjoin", 4, 0, this.joinTeamContent.getWidth() - 8 - this.joinTeamContent.getScrollBarWidth(), FormInputSize.SIZE_24, ButtonColor.BASE)))).onClicked((e) -> {
                         this.container.requestToJoinTeam.runAndSend(team.teamID);
                         e.from.startCooldown(5000);
                     });

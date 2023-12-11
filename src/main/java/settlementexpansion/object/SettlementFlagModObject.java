@@ -40,7 +40,7 @@ public class SettlementFlagModObject extends SettlementFlagObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             SettlementFlagObjectEntity objectEntity = (SettlementFlagObjectEntity)level.entityManager.getObjectEntity(x, y);
             boolean modEnabled = SettlementExpansion.getSettings().enableSettlementLevelModification;
             int container = modEnabled ? ContainerModRegistry.SETTLEMENT_CONTAINER : ContainerRegistry.SETTLEMENT_CONTAINER;

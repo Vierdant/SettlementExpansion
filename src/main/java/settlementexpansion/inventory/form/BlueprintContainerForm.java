@@ -41,7 +41,7 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
         if (container.objectEntity.getPreset().isFurnished()) height += 60;
         this.buildForm = this.addComponent(new Form(400, height));
         FormFlow heightFlow = new FormFlow(7);
-        this.buildForm.addComponent(heightFlow.next(new FormLocalLabel(container.objectEntity.getObject().getLocalization(), new FontOptions(16), 0, this.buildForm.getWidth() / 2, 5), 5));
+        this.buildForm.addComponent(heightFlow.nextY(new FormLocalLabel(container.objectEntity.getObject().getLocalization(), new FontOptions(16), 0, this.buildForm.getWidth() / 2, 5), 5));
         this.buildForm.addComponent(GlobalModData.getExpandedGame(GlobalModData.getMainGame()).formManager.getBlueprintButton(this.container.objectEntity, this.buildForm.getWidth() - 40, heightFlow.next() - 20));
 
         if (container.objectEntity.getPreset().canChangeWalls) {

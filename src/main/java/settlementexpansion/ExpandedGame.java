@@ -2,7 +2,6 @@ package settlementexpansion;
 
 import necesse.engine.network.client.Client;
 import necesse.engine.state.MainGame;
-import necesse.engine.tickManager.Performance;
 import necesse.engine.tickManager.TickManager;
 import settlementexpansion.manager.ExpandedGameFormManager;
 

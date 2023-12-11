@@ -39,7 +39,7 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
            }
         });
 
-        if (this.client.isServerClient()) {
+        if (this.client.isServer()) {
             new SettlementClaimTickEvent(this).applyAndSendToClient(this.client.getServerClient());
         }
 
@@ -50,12 +50,12 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
     public void tick() {
         super.tick();
         if (this.client.playerMob.isInCombat()) {
-            if (this.client.isServerClient()) {
+            if (this.client.isServer()) {
                 this.client.getServerClient().closeContainer(true);
             }
         }
 
-        if (this.client.isServerClient()) {
+        if (this.client.isServer()) {
             if (this.timerStarted && !timerTicking() && !this.canClaim) {
                 this.canClaim = checkDeadSettlers() && hasRequiredItem();
                 new SettlementClaimTickEvent(this).applyAndSendToClient(this.client.getServerClient());
@@ -130,7 +130,7 @@ public class SettlementClaimContainer extends SettlementDependantContainer {
     }
 
     public SettlementModData getLevelModData() {
-        if (!this.client.isServerClient()) {
+        if (!this.client.isServer()) {
             throw new IllegalStateException("Cannot get level data client side");
         } else {
             return SettlementModData.getSettlementModData(this.getLevel());

@@ -4,7 +4,6 @@ import necesse.entity.objectEntity.InventoryObjectEntity;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.Item;
 import necesse.level.maps.Level;
-import necesse.level.maps.levelData.jobs.HarvestFruitLevelJob;
 import necesse.level.maps.levelData.jobs.JobsLevelData;
 import settlementexpansion.map.job.StudyBookLevelJob;
 

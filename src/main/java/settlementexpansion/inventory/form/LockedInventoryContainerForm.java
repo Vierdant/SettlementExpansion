@@ -18,8 +18,8 @@ public class LockedInventoryContainerForm<T extends LockedInventoryContainer> ex
     private final FormContentIconButton lockButton;
     private final LockedInventoryObjectEntity objectEntity;
 
-    public LockedInventoryContainerForm(Client client, T container, int height) {
-        super(client, container, height);
+    public LockedInventoryContainerForm(Client client, T container) {
+        super(client, container);
         this.objectEntity = container.lockedObjectEntity;
         FormFlow iconFlow = new FormFlow(this.inventoryForm.getWidth() - 4);
 
@@ -31,10 +31,6 @@ public class LockedInventoryContainerForm<T extends LockedInventoryContainer> ex
             update();
         });
         this.lockButton.setCooldown(500);
-    }
-
-    public LockedInventoryContainerForm(Client client, T container) {
-        this(client, container, getContainerHeight(container.getOEInventory().getInventory().getSize(), 10));
     }
 
     private ButtonIcon getIcon(boolean state) {

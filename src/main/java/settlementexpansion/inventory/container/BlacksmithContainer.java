@@ -51,7 +51,7 @@ public class BlacksmithContainer extends ShopContainer {
 
         this.breakGeodeButton = this.registerAction(new BooleanCustomAction() {
             public void run(boolean value) {
-                if (client.isServerClient()) {
+                if (client.isServer()) {
                     if (canBreak()) {
                         int breakCost = getBreakCost();
                         InventoryItem item = getSlot(GEODE_SLOT).getItem();
@@ -81,7 +81,7 @@ public class BlacksmithContainer extends ShopContainer {
 
         this.breakGeodeButtonResponse = this.registerAction(new ContentCustomAction() {
             public void run(Packet content) {
-                if (client.isClientClient()) {
+                if (client.isClient()) {
                     InventoryItem resultItem = InventoryItem.fromContentPacket(content);
                     client.playerMob.getLevel().hudManager.addElement(new ItemPickupText(client.playerMob, resultItem));
                     Screen.playSound(GameResources.pop, SoundEffect.effect(client.playerMob));

@@ -45,7 +45,7 @@ public class SeedlingTableObject extends GameObject implements SettlementWorksta
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
     }
 
@@ -152,7 +152,7 @@ public class SeedlingTableObject extends GameObject implements SettlementWorksta
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerRegistry.PROCESSING_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
         }
     }

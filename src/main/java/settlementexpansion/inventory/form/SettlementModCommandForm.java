@@ -12,6 +12,7 @@ import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.FormSwitcher;
+import necesse.gfx.forms.components.FormCheckBox;
 import necesse.gfx.forms.components.FormFlow;
 import necesse.gfx.forms.components.FormInputSize;
 import necesse.gfx.forms.components.localComponents.FormLocalCheckBox;
@@ -27,6 +28,8 @@ import settlementexpansion.inventory.container.SettlementModContainer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SettlementModCommandForm<T extends SettlementModContainer> extends FormSwitcher implements SettlementSubForm {
     public final Client client;
@@ -41,19 +44,17 @@ public class SettlementModCommandForm<T extends SettlementModContainer> extends 
         this.containerForm = containerForm;
         this.noneSelectedForm = this.addComponent(new Form(300, 200));
         FormFlow noneFlow = new FormFlow(4);
-        this.noneSelectedForm.addComponent(noneFlow.next(new FormLocalLabel("ui", "settlementcommand", new FontOptions(20), 0, this.noneSelectedForm.getWidth() / 2, 0), 4));
-        this.noneSelectedForm.addComponent(noneFlow.next(new FormLocalLabel("ui", "settlementcommandtip", new FontOptions(16), 0, this.noneSelectedForm.getWidth() / 2, this.noneSelectedForm.getWidth() / 2, this.noneSelectedForm.getWidth() - 20), 8));
-        (this.noneSelectedForm.addComponent(noneFlow.next(new FormLocalTextButton("ui", "settlementcommandall", 4, 0, this.noneSelectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4))).onClicked((e) -> {
+        this.noneSelectedForm.addComponent(noneFlow.nextY(new FormLocalLabel("ui", "settlementcommand", new FontOptions(20), 0, this.noneSelectedForm.getWidth() / 2, 0), 4));
+        this.noneSelectedForm.addComponent(noneFlow.nextY(new FormLocalLabel("ui", "settlementcommandtip", new FontOptions(16), 0, this.noneSelectedForm.getWidth() / 2, this.noneSelectedForm.getWidth() / 2, this.noneSelectedForm.getWidth() - 20), 8));
+        this.noneSelectedForm.addComponent(noneFlow.nextY(new FormLocalTextButton("ui", "settlementcommandall", 4, 0, this.noneSelectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
             synchronized(containerForm.selectedSettlers) {
-
-                for (SettlementSettlerBasicData settler : containerForm.settlers) {
-                    containerForm.selectedSettlers.add(settler.mobUniqueID);
-                }
+                List<Integer> newSelected = containerForm.settlers.stream().map((m) -> m.mobUniqueID).collect(Collectors.toList());
+                containerForm.selectedSettlers.selectSettlers(newSelected);
             }
 
             this.updateSelectedForm();
         });
-        (this.noneSelectedForm.addComponent(noneFlow.next(new FormLocalTextButton("ui", "settlementcommandclearall", 4, 0, this.noneSelectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4))).onClicked((e) -> {
+        (this.noneSelectedForm.addComponent(noneFlow.nextY(new FormLocalTextButton("ui", "settlementcommandclearall", 4, 0, this.noneSelectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4))).onClicked((e) -> {
             HashSet<Integer> mobUniqueIDs = new HashSet<>();
 
             for (SettlementSettlerBasicData settler : containerForm.settlers) {
@@ -123,12 +124,10 @@ public class SettlementModCommandForm<T extends SettlementModContainer> extends 
     public void updateSelectedForm() {
         this.selectedForm.clearComponents();
         FormFlow flow = new FormFlow(4);
-        this.selectedForm.addComponent(flow.next(new FormLocalLabel("ui", "settlementcommand", new FontOptions(20), 0, this.selectedForm.getWidth() / 2, 0), 4));
-        ArrayList<CommandMob> mobs = new ArrayList<>(this.containerForm.selectedSettlers.size());
+        this.selectedForm.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementcommand", new FontOptions(20), 0, this.selectedForm.getWidth() / 2, 0), 4));
+        ArrayList<CommandMob> mobs = new ArrayList<>(this.containerForm.selectedSettlers.getSize());
         synchronized(this.containerForm.selectedSettlers) {
-
-            for (int uniqueID : this.containerForm.selectedSettlers) {
-
+            for (int uniqueID : this.containerForm.selectedSettlers.get()) {
                 Mob mob = this.client.getLevel().entityManager.mobs.get(uniqueID, false);
                 if (mob instanceof CommandMob) {
                     mobs.add((CommandMob) mob);
@@ -141,30 +140,32 @@ public class SettlementModCommandForm<T extends SettlementModContainer> extends 
             Mob mob = (Mob)mobs.get(0);
             subtitle = mob.getLocalization();
         } else {
-            subtitle = new LocalMessage("ui", "settlementcommandselected", "count", mobs.size());
+            subtitle = new LocalMessage("ui", "settlementcommandselected", new Object[]{"count", mobs.size()});
         }
 
-        this.selectedForm.addComponent(flow.next(new FormLocalLabel(subtitle, new FontOptions(16), 0, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() - 20), 8));
+        this.selectedForm.addComponent(flow.nextY(new FormLocalLabel(subtitle, new FontOptions(16), 0, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() / 2, this.selectedForm.getWidth() - 20), 8));
         boolean allHideInside = mobs.stream().allMatch(CommandMob::getHideOnLowHealth);
-        this.selectedForm.addComponent(flow.next(new FormLocalCheckBox("ui", "settlementcommandhidelowhealth", 4, 0, allHideInside, this.selectedForm.getWidth() - 8), 4)).onClicked((e) -> {
-            mobs.forEach((m) -> m.setHideOnLowHealth(e.from.checked));
+        this.selectedForm.addComponent(flow.nextY(new FormLocalCheckBox("ui", "settlementcommandhidelowhealth", 4, 0, allHideInside, this.selectedForm.getWidth() - 8), 4)).onClicked((e) -> {
+            mobs.forEach((m) -> {
+                m.setHideOnLowHealth(e.from.checked);
+            });
             synchronized(this.containerForm.selectedSettlers) {
-                this.container.commandSettlersSetHideOnLowHealth.runAndSend(this.containerForm.selectedSettlers, e.from.checked);
+                this.container.commandSettlersSetHideOnLowHealth.runAndSend(this.containerForm.selectedSettlers.get(), ((FormCheckBox)e.from).checked);
             }
         });
-        this.selectedForm.addComponent(flow.next(new FormLocalTextButton("ui", "settlementcommandfollow", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
+        this.selectedForm.addComponent(flow.nextY(new FormLocalTextButton("ui", "settlementcommandfollow", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
             synchronized(this.containerForm.selectedSettlers) {
-                this.container.commandSettlersFollow.runAndSend(this.containerForm.selectedSettlers);
+                this.container.commandSettlersFollow.runAndSend(this.containerForm.selectedSettlers.get());
             }
         });
-        this.selectedForm.addComponent(flow.next(new FormLocalTextButton("ui", "settlementcommandclear", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
+        this.selectedForm.addComponent(flow.nextY(new FormLocalTextButton("ui", "settlementcommandclear", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
             synchronized(this.containerForm.selectedSettlers) {
-                this.container.commandSettlersClearOrders.runAndSend(this.containerForm.selectedSettlers);
+                this.container.commandSettlersClearOrders.runAndSend(this.containerForm.selectedSettlers.get());
                 this.containerForm.selectedSettlers.clear();
                 this.updateCurrentForm();
             }
         });
-        this.selectedForm.addComponent(flow.next(new FormLocalTextButton("ui", "cancelbutton", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
+        this.selectedForm.addComponent(flow.nextY(new FormLocalTextButton("ui", "cancelbutton", 4, 0, this.selectedForm.getWidth() - 8, FormInputSize.SIZE_24, ButtonColor.BASE), 4)).onClicked((e) -> {
             synchronized(this.containerForm.selectedSettlers) {
                 this.containerForm.selectedSettlers.clear();
                 this.updateCurrentForm();

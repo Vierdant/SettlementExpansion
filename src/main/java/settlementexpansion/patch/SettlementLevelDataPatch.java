@@ -18,7 +18,7 @@ public class SettlementLevelDataPatch {
 
         @Advice.OnMethodExit
         static SettlementLevelData onExit(@Advice.Argument(0) Level level, @Advice.Return(readOnly = false) SettlementLevelData out) {
-            if (!level.isServerLevel()) {
+            if (!level.isServer()) {
                 throw new IllegalArgumentException("Level must be server level");
             } else {
                 SettlementModData.createSettlementModDataCreateIfNonExist(level);

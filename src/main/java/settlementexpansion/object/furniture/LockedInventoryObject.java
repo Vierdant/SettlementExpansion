@@ -27,7 +27,7 @@ public class LockedInventoryObject extends InventoryObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             ObjectEntity entity = level.entityManager.getObjectEntity(x, y);
             LockedInventoryObjectEntity oe = ((LockedInventoryObjectEntity)entity);
 

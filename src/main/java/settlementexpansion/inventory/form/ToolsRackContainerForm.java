@@ -1,6 +1,7 @@
 package settlementexpansion.inventory.form;
 
 import necesse.engine.network.client.Client;
+import necesse.gfx.forms.components.FormFlow;
 import necesse.gfx.forms.components.containerSlot.FormContainerSlot;
 import necesse.gfx.forms.presets.containerComponent.object.OEInventoryContainerForm;
 import necesse.inventory.container.object.OEInventoryContainer;
@@ -8,10 +9,11 @@ import settlementexpansion.inventory.slots.FormContainerToolSlot;
 
 public class ToolsRackContainerForm extends OEInventoryContainerForm<OEInventoryContainer> {
     public ToolsRackContainerForm(Client client, OEInventoryContainer container) {
-        super(client, container, getContainerHeight(container.getOEInventory().getInventory().getSize(), 10));
+        super(client, container);
     }
 
-    protected void addSlots() {
+    @Override
+    protected void addSlots(FormFlow flow) {
         this.slots = new FormContainerSlot[this.container.INVENTORY_END - this.container.INVENTORY_START + 1];
 
         for(int i = 0; i < this.slots.length; ++i) {

@@ -18,7 +18,7 @@ public class ForceChangeClaimAction extends EmptyCustomAction {
 
     @Override
     protected void run() {
-        if (this.container.client.isServerClient()) {
+        if (this.container.client.isServer()) {
             SettlementLevelData levelData = this.container.getLevelData();
             if (levelData != null) {
                 ServerClient serverClient = this.container.client.getServerClient();

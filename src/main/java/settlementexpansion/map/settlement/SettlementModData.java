@@ -4,10 +4,7 @@ import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.level.maps.Level;
 import necesse.level.maps.levelData.LevelData;
-import necesse.level.maps.levelData.settlementData.storage.SettlementStorageRecords;
 import settlementexpansion.SettlementExpansion;
-
-import java.awt.*;
 
 public class SettlementModData extends LevelData {
 
@@ -50,7 +47,7 @@ public class SettlementModData extends LevelData {
     }
 
     public static void createSettlementModDataCreateIfNonExist(Level level) {
-        if (!level.isServerLevel()) {
+        if (!level.isServer()) {
             throw new IllegalArgumentException("Level must be server level");
         } else {
             SettlementModData settlementData = getSettlementModData(level);
@@ -62,7 +59,7 @@ public class SettlementModData extends LevelData {
     }
 
     public static SettlementModData getSettlementModDataCreateIfNonExist(Level level) {
-        if (!level.isServerLevel()) {
+        if (!level.isServer()) {
             throw new IllegalArgumentException("Level must be server level");
         } else {
             SettlementModData settlementData = getSettlementModData(level);

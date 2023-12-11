@@ -6,12 +6,10 @@ import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.sound.SoundEffect;
 import necesse.engine.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
-import necesse.entity.objectEntity.DisplayStandObjectEntity;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.gfx.GameResources;
 import necesse.gfx.camera.GameCamera;
-import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawOptions.DrawOptionsList;
 import necesse.gfx.drawOptions.texture.TextureDrawOptions;
 import necesse.gfx.drawables.LevelSortedDrawable;
@@ -44,7 +42,7 @@ public class FishDisplayObject extends FurnitureObject {
         this.mapColor = mapColor;
         this.fishHeight = fishHeight;
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
         this.furnitureType = "fishdisplay";
         this.displayableFish = new HashMap<>();
@@ -231,7 +229,7 @@ public class FishDisplayObject extends FurnitureObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerRegistry.OE_INVENTORY_CONTAINER, player.getServerClient(), level, x, y);
         }
 
@@ -257,7 +255,7 @@ public class FishDisplayObject extends FurnitureObject {
 
     @Override
     public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
-        if (level.isClientLevel()) {
+        if (level.isClient()) {
             playSwitchSound(x, y);
         }
     }

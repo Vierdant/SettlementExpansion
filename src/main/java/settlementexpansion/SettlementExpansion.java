@@ -41,6 +41,9 @@ public class SettlementExpansion {
 
         MobModRegistry.registerMobs();
 
+        JobModRegistry.registerJobTypes();
+        JobModRegistry.registerLevelJobs();
+
         SettlerModRegistry.registerSettlers();
 
         ProjectileModRegistry.registerProjectiles();

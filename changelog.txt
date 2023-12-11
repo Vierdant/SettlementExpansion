@@ -1,6 +1,8 @@
 [Version 1.2.5 Update]
 
 Changes:
+- Updated to latest game version - v0.23.0
+- Removed adventures vs adventures AI changes | Reason: base game added it
 - Villagers, as in settlers that live in villages not owned by any player, will now give a warning if you break something near them instead of immediately rushing you to make more player friendly
 - Stealing from villages will make the nearby villagers or settlers shout that they are angry to give you a warning sign
 - Normal, non-secure doors in settlements can now be interacted with by everyone in the game, no matter the relation to the settlement

@@ -4,9 +4,6 @@ import necesse.engine.modLoader.ModSettings;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Settings extends ModSettings {
 
     public boolean enableHappinessModifier;

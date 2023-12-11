@@ -65,8 +65,8 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
 
 
         FormFlow flow = new FormFlow(5);
-        this.unclaim.addComponent(flow.next(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 10));
-        this.unclaim.addComponent(flow.next(new FormLocalLabel("ui", "settlementunclaimexplain", new FontOptions(16), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 20));
+        this.unclaim.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 10));
+        this.unclaim.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementunclaimexplain", new FontOptions(16), 0, this.unclaim.getWidth() / 2, 0, this.unclaim.getWidth() - 20), 20));
 
         this.unclaim.addComponent(new FormLocalTextButton("ui", "confirmbutton", 4, 100, this.unclaim.getWidth() / 2 - 6)).onClicked((e) -> {
             this.playTickSound();
@@ -77,8 +77,8 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
                 this.makeCurrent(this.settings));
 
         flow = new FormFlow(5);
-        this.destroy.addComponent(flow.next(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 10));
-        this.destroy.addComponent(flow.next(new FormLocalLabel("ui", "settlementdestroyexplain", new FontOptions(16), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 20));
+        this.destroy.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 10));
+        this.destroy.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementdestroyexplain", new FontOptions(16), 0, this.destroy.getWidth() / 2, 0, this.destroy.getWidth() - 20), 20));
 
         this.destroy.addComponent(new FormLocalTextButton("ui", "settlementdestroybutton", 4, 100, this.destroy.getWidth() / 2 - 6)).onClicked((e) -> {
             this.playTickSound();
@@ -89,8 +89,8 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
                 this.makeCurrent(this.settings));
 
         flow = new FormFlow(5);
-        this.pvp.addComponent(flow.next(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.pvp.getWidth() / 2, 0, this.pvp.getWidth() - 20), 10));
-        this.pvp.addComponent(flow.next(new FormLocalLabel("ui", "settlementpvpexplain", new FontOptions(16), 0, this.pvp.getWidth() / 2, 0, this.pvp.getWidth() - 20), 20));
+        this.pvp.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementconfirmnotice", new FontOptions(20), 0, this.pvp.getWidth() / 2, 0, this.pvp.getWidth() - 20), 10));
+        this.pvp.addComponent(flow.nextY(new FormLocalLabel("ui", "settlementpvpexplain", new FontOptions(16), 0, this.pvp.getWidth() / 2, 0, this.pvp.getWidth() - 20), 20));
 
         this.pvp.addComponent(new FormLocalTextButton("ui", "confirmbutton", 4, 100, this.pvp.getWidth() / 2 - 6)).onClicked((e) -> {
             this.playTickSound();
@@ -119,7 +119,7 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
     protected void update(SettlementBasicsEvent event) {
         this.settings.clearComponents();
         FormFlow flow = new FormFlow(5);
-        this.settings.addComponent(flow.next(new FormLocalLabel(this.container.basics.settlementName, new FontOptions(20), 0, this.settings.getWidth() / 2, 0, this.settings.getWidth() - 20), 10));
+        this.settings.addComponent(flow.nextY(new FormLocalLabel(this.container.basics.settlementName, new FontOptions(20), 0, this.settings.getWidth() / 2, 0, this.settings.getWidth() - 20), 10));
         FormLocalTextButton changeName = this.settings.addComponent(new FormLocalTextButton("ui", "settmentchangename", 40, flow.next(40), this.settings.getWidth() - 80));
         changeName.onClicked((e) -> this.makeCurrent(this.name));
         changeName.setActive(event.isOwner(this.client));

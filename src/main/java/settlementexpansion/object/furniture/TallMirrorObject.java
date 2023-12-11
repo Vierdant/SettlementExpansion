@@ -26,7 +26,7 @@ public class TallMirrorObject extends FurnitureObject {
         this.toolType = toolType;
         this.mapColor = mapColor;
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
         this.furnitureType = "tallmirror";
     }

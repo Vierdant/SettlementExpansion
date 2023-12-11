@@ -14,6 +14,7 @@ import java.awt.*;
 
 public class ObjectModRegistry {
 
+    public static boolean registeredCustomBlueprints = false;
     public static String[] woodFurnitureTypes = new String[]{"oak", "spruce", "pine", "palm", "deadwood"};
 
     public static void registerObjects() {

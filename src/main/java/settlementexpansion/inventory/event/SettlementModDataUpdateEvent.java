@@ -14,7 +14,7 @@ public class SettlementModDataUpdateEvent extends ContainerEvent {
     public final boolean shouldStartCooldown;
 
     public SettlementModDataUpdateEvent(SettlementModData data, ServerClient client, boolean shouldStartCooldown, boolean isSettlementSafe) {
-        this.isServerClient = client.isServerClient();
+        this.isServerClient = client.isServer();
         this.isPvpFlagged = data.isPvpFlagged;
         this.isSettlementSafe = isSettlementSafe;
         this.shouldStartCooldown = shouldStartCooldown;

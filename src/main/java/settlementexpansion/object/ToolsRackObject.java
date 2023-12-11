@@ -19,7 +19,6 @@ import necesse.level.maps.LevelObject;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
 import necesse.level.maps.multiTile.SideMultiTile;
-import settlementexpansion.object.entity.StudyTableObjectEntity;
 import settlementexpansion.object.entity.ToolsRackObjectEntity;
 import settlementexpansion.registry.ContainerModRegistry;
 
@@ -35,7 +34,7 @@ public class ToolsRackObject extends GameObject {
         this.toolType = ToolType.ALL;
         this.mapColor = new Color(0, 0, 0);
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
     }
 
@@ -144,7 +143,7 @@ public class ToolsRackObject extends GameObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerModRegistry.TOOLSRACK_CONTAINER, player.getServerClient(), level, x, y);
         }
     }

@@ -35,7 +35,7 @@ public class StudyTableObject extends FurnitureObject {
     public StudyTableObject() {
         super(new Rectangle(32, 32));
         this.objectHealth = 50;
-        this.drawDmg = false;
+        this.drawDamage = false;
         this.isLightTransparent = true;
         this.furnitureType = "studytable";
         this.toolType = ToolType.ALL;
@@ -142,7 +142,7 @@ public class StudyTableObject extends FurnitureObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
-        if (level.isServerLevel()) {
+        if (level.isServer()) {
             OEInventoryContainer.openAndSendContainer(ContainerModRegistry.STUDYTABLE_CONTAINER, player.getServerClient(), level, x, y);
         }
     }

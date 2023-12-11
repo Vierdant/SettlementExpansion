@@ -10,14 +10,12 @@ import necesse.entity.mobs.job.activeJob.ActiveJobResult;
 import necesse.entity.mobs.job.activeJob.TileActiveJob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.inventory.InventoryItem;
-import necesse.level.maps.levelData.jobs.HarvestFruitLevelJob;
 import necesse.level.maps.levelData.jobs.JobMoveToTile;
 import necesse.level.maps.levelData.jobs.LevelJob;
 import settlementexpansion.inventory.lootTable.LootTableModPresets;
 import settlementexpansion.object.entity.StudyTableObjectEntity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class StudyBookLevelJob extends LevelJob {
