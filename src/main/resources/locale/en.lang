@@ -46,6 +46,14 @@ reinforcedoutersandstonewall=Reinforced Outer Sandstone Wall
 reinforcedouterswampstonewall=Reinforced Outer Swamp Stone Wall
 reinforcedoutersnowstonewall=Reinforced Outer Snow Stone Wall
 reinforcedouterobsidianwall=Reinforced Outer Obsidian Wall
+securewooddoor=Secure Wood Door
+securepalmdoor=Secure Palm Door
+securepinedoor=Secure Pine Door
+securestonedoor=Secure Stone Door
+securesandstonedoor=Secure Sandstone Door
+securesnowstonedoor=Secure Snowstone Door
+secureswampstonedoor=Secure Swampstone Door
+secureobsidiandoor=Secure Obsidian Door
 
 
 [ui]
@@ -54,6 +62,7 @@ drying=Drying...
 needdrymaterial=Needs material to dry
 lockedinventory=State: <state>
 lockbutton=Lock
+locked=Locked
 unlockbutton=Unlock
 blacksmithbreak=Break Geode
 blacksmithbreakconfirm=Break Geode!

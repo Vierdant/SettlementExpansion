@@ -32,16 +32,37 @@ public class RecipesPatch {
         out.add(new Recipe("dragonsouls", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 4}, {wormcarapace, 4}}")));
         out.add(new Recipe("slimeeggs", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeum, 8}, {slimematter, 8}}")));
         out.add(new Recipe("swarmsignal", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{nightsteelbar, 4}, {phantomdust, 8}}")));
+        out.add(new Recipe("crownofspiderkin", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 4}, {spidervenom, 8}}}")));
+        out.add(new Recipe("shadowessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
+        out.add(new Recipe("cryoessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
+        out.add(new Recipe("bioessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
+        out.add(new Recipe("primordialessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
+        out.add(new Recipe("slimeessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{bloodessence, 1}}}")));
+        out.add(new Recipe("bloodessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideressence, 1}}}")));
         out.add((new Recipe("potionbag", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{potionpouch, 1}, {shadowessence, 5}, {cryoessence, 5}, {bioessence, 5}, {primordialessence, 5}}}"))).onCrafted((event) -> {
-            event.itemsUsed.stream().filter((item) -> item.invItem.item.getStringID().equals("potionpouch")).findFirst().ifPresent((previousPouch) -> {
+            event.itemsUsed.stream().filter((item) -> {
+                return item.invItem.item.getStringID().equals("potionpouch");
+            }).findFirst().ifPresent((previousPouch) -> {
                 event.resultItem.setGndData(previousPouch.invItem.getGndData());
             });
         }));
         out.add((new Recipe("ammobag", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ammopouch, 1}, {shadowessence, 5}, {cryoessence, 5}, {bioessence, 5}, {primordialessence, 5}}}"))).onCrafted((event) -> {
-            event.itemsUsed.stream().filter((item) -> item.invItem.item.getStringID().equals("ammopouch")).findFirst().ifPresent((previousPouch) -> {
+            event.itemsUsed.stream().filter((item) -> {
+                return item.invItem.item.getStringID().equals("ammopouch");
+            }).findFirst().ifPresent((previousPouch) -> {
                 event.resultItem.setGndData(previousPouch.invItem.getGndData());
             });
         }));
+        out.add(new Recipe("slimegreatsword", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 12}, {slimeum, 24}}}")));
+        out.add(new Recipe("slimeglaive", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}")));
+        out.add(new Recipe("slimestaff", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}")));
+        out.add(new Recipe("slimegreatbow", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 16}, {slimeum, 20}}}")));
+        out.add(new Recipe("orbofslimes", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 16}, {slimeum, 20}}}")));
+        out.add(new Recipe("gelatincasings", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 20}, {slimeum, 12}}")));
+        out.add(new Recipe("slimehelmet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}")));
+        out.add(new Recipe("slimehat", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}")));
+        out.add(new Recipe("slimechestplate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 32}, {slimeum, 32}}}")));
+        out.add(new Recipe("slimeboots", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 16}, {slimeum, 16}}}")));
         out.add(new Recipe("nightrazorboomerang", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{bloodessence, 2}, {nightsteelbar, 5}, {phantomdust, 10}}}")));
         out.add(new Recipe("nightpiercer", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{bloodessence, 5}, {nightsteelbar, 20}, {phantomdust, 20}}}")));
         out.add(new Recipe("phantompopper", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{bloodessence, 5}, {nightsteelbar, 16}, {phantomdust, 24}}}")));
@@ -52,17 +73,25 @@ public class RecipesPatch {
         out.add(new Recipe("nightsteelcirclet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{nightsteelbar, 12}, {phantomdust, 24}}}")));
         out.add(new Recipe("nightsteelchestplate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{nightsteelbar, 16}, {phantomdust, 32}}}")));
         out.add(new Recipe("nightsteelboots", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{nightsteelbar, 8}, {phantomdust, 16}}}")));
-        out.add(new Recipe("slimegreatsword", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 12}, {slimeum, 24}}}")));
-        out.add(new Recipe("slimeglaive", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}")));
-        out.add(new Recipe("slimestaff", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}")));
-        out.add(new Recipe("gelatincasings", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 20}, {slimeum, 12}}")));
-        out.add(new Recipe("slimehelmet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}")));
-        out.add(new Recipe("slimehat", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}")));
-        out.add(new Recipe("slimechestplate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 32}, {slimeum, 32}}}")));
-        out.add(new Recipe("slimeboots", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 16}, {slimeum, 16}}}")));
+        out.add(new Recipe("causticexecutioner", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideressence, 5}, {spideritebar, 18}, {spidervenom, 15}}}")));
+        out.add(new Recipe("arachnidwebbow", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideressence, 5}, {spideritebar, 15}, {spidervenom, 20}}}")));
+        out.add(new Recipe("webweaver", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideressence, 5}, {spideritebar, 20}, {spidervenom, 20}}}")));
+        out.add(new Recipe("empresscommand", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideressence, 5}, {spideritebar, 25}, {spidervenom, 10}}}")));
+        out.add(new Recipe("spideritearrow", 100, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 1}}")));
+        out.add(new Recipe("spideritehelmet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 12}, {spidervenom, 20}}}")));
+        out.add(new Recipe("spideritehood", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 12}, {spidervenom, 20}}}")));
+        out.add(new Recipe("spideritehat", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 12}, {spidervenom, 20}}}")));
+        out.add(new Recipe("spideritecrown", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 12}, {spidervenom, 20}}}")));
+        out.add(new Recipe("spideritechestplate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 16}, {spidervenom, 30}}}")));
+        out.add(new Recipe("spideritegreaves", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 8}, {spidervenom, 15}}}")));
+        out.add(new Recipe("spidercastlewall", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spiderstone, 2}}")));
+        out.add(new Recipe("spidercastledoor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spiderstone, 4}}")));
+        out.add(new Recipe("spidercastlefloor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spiderstone, 5}}")));
+        out.add(new Recipe("spidercastlecarpet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{silk, 1}}")));
         out.add(new Recipe("scryingmirror", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("diggingclaw", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("antiquerifle", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
+        out.add(new Recipe("clockworkheart", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("dragonsrebound", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("dragonlance", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("bowofdualism", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
@@ -126,6 +155,7 @@ public class RecipesPatch {
         out.add(new Recipe("myceliumbar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{myceliumore, 4}}"), true));
         out.add(new Recipe("ancientfossilbar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{ancientfossilore, 4}}"), true));
         out.add(new Recipe("nightsteelbar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{nightsteelore, 4}}"), true));
+        out.add(new Recipe("spideritebar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{spideriteore, 4}}"), true));
         out.add(new Recipe("deepladderdown", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 8}}")));
         out.add(new Recipe("cookingstation", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 8}, {obsidian, 12}}")));
         out.add(new Recipe("tungstenpickaxe", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 16}}")));
@@ -184,6 +214,7 @@ public class RecipesPatch {
         out.add(new Recipe("frenzyorb", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ectoplasm, 15}, {voidshard, 5}}")));
         out.add(new Recipe("lifependant", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{lifequartz, 10}, {tungstenbar, 4}, {regenpendant, 1}}")));
         out.add(new Recipe("spellstone", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{sparegemstones, 1}, {ectoplasm, 10}}")));
+        out.add(new Recipe("manica", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{chainshirt, 1}, {vambrace, 1}}"), true));
         out.add(new Recipe("explorercloak", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{travelercloak, 1}, {piratetelescope, 1}}"), true));
         out.add(new Recipe("ancientrelics", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{airvessel, 1}, {templependant, 1}}"), true));
         out.add(new Recipe("spikedbatboots", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{vampiresgift, 1}, {spikedboots, 1}}"), true));
@@ -213,6 +244,9 @@ public class RecipesPatch {
         out.add(new Recipe("voidboomerang", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{voidshard, 8}, {demonicbar, 4}}")));
         out.add(new Recipe("voidgreatbow", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{voidshard, 16}, {demonicbar, 8}}")));
         out.add(new Recipe("bloodvolley", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{bloodbolt, 1}, {voidshard, 10}, {batwing, 10}}")));
+        out.add(new Recipe("bloodplatecowl", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{demonicbar, 14}, {batwing, 8}}")));
+        out.add(new Recipe("bloodplatechestplate", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{demonicbar, 18}, {batwing, 10}}")));
+        out.add(new Recipe("bloodplateboots", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{demonicbar, 10}, {batwing, 6}}")));
         out.add(new Recipe("ivypickaxe", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{ivybar, 10}}")));
         out.add(new Recipe("ivyaxe", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{ivybar, 10}}")));
         out.add(new Recipe("ivyshovel", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{ivybar, 10}}")));
@@ -249,6 +283,8 @@ public class RecipesPatch {
         out.add(new Recipe("scryingcards", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{prophecyslab, 1}, {magicmanual, 1}}")));
         out.add(new Recipe("travelercloak", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{mobilitycloak, 1}, {fins, 1}}"), true));
         out.add(new Recipe("calmingminersbouquet", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{calmingrose, 1}, {miningcharm, 1}}"), true));
+        out.add(new Recipe("claygauntlet", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{clay, 25}}")));
+        out.add(new Recipe("chainshirt", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{ironbar, 10}, {leather, 10}}")));
         out.add(new Recipe("steelboat", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{spareboatparts, 1}, {coin, 500}}")));
         out.add(new Recipe("tnt", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{dynamitestick, 4}, {wire, 10}}")));
         out.add(new Recipe("healthpotion", 2, RecipeTechRegistry.ALCHEMY, ingredientsFromScript("{{sunflower, 3}, {glassbottle, 2}}")));
@@ -371,6 +407,7 @@ public class RecipesPatch {
         out.add(new Recipe("ironbomb", 1, RecipeTechRegistry.NONE, ingredientsFromScript("{{tilebomb, 1}}"), true));
         out.add(new Recipe("tilebomb", 1, RecipeTechRegistry.NONE, ingredientsFromScript("{{ironbomb, 1}}"), true));
         out.add(new Recipe("storagebox", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 8}}")));
+        out.add(new Recipe("coolingbox", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 10}, {anystone, 10}, {frostshard, 5}}")));
         out.add(new Recipe("forge", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anystone, 20}}")));
         out.add(new Recipe("carpentersbench", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 10}, {ironbar, 5}}")));
         out.add(new Recipe("ironanvil", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{ironbar, 6}}")));
@@ -385,6 +422,7 @@ public class RecipesPatch {
         out.add(new Recipe("cookingpot", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{clay, 10}, {ironbar, 4}}")));
         out.add(new Recipe("grainmill", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 20}, {wool, 10}, {ironbar, 10}}")));
         out.add(new Recipe("feedingtrough", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 20}, {ironbar, 5}}")));
+        out.add(new Recipe("incinerator", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{ironbar, 10}, {clay, 10}}")));
         out.add(new Recipe("sign", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 10}}")));
         out.add(new Recipe("landfill", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anystone, 2}}")));
         out.add(new Recipe("woodwall", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 2}}")));
@@ -455,6 +493,9 @@ public class RecipesPatch {
         out.add(new Recipe("bouncingbullet", 50, RecipeTechRegistry.NONE, ingredientsFromScript("{{simplebullet, 50, true}, {halffish, 1}}")));
         out.add(new Recipe("frostbullet", 50, RecipeTechRegistry.NONE, ingredientsFromScript("{{simplebullet, 50, true}, {frostshard, 1}}")));
         out.add(new Recipe("voidbullet", 100, RecipeTechRegistry.NONE, ingredientsFromScript("{{simplebullet, 100, true}, {voidshard, 1}}")));
+        out.add(new Recipe("snowball", 5, RecipeTechRegistry.NONE, ingredientsFromScript("{{snowtile, 1}}"), true));
+        out.add(new Recipe("snowmantrainingdummy", 1, RecipeTechRegistry.NONE, ingredientsFromScript("{{snowtile, 10}, {anystone, 4}, {carrot, 1}}"), true));
+        out.add(new Recipe("snowmantrainingdummy", 1, RecipeTechRegistry.NONE, ingredientsFromScript("{{snowball, 50}, {anystone, 4}, {carrot, 1}}"), true));
         out.add(new Recipe("ironbar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{ironore, 4}}")));
         out.add(new Recipe("ironbar", 2, RecipeTechRegistry.FORGE, ingredientsFromScript("{{brokenirontool, 1}}"), true));
         out.add(new Recipe("copperbar", 1, RecipeTechRegistry.FORGE, ingredientsFromScript("{{copperore, 4}}")));
@@ -472,6 +513,7 @@ public class RecipesPatch {
         out.add(new Recipe("candyapple", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{apple, 1}, {sugar, 2}}")));
         out.add(new Recipe("popcorn", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{corn, 4}}")));
         out.add(new Recipe("donut", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{flour, 1}, {milk, 1}, {sugar, 1}}")));
+        out.add(new Recipe("cookies", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{flour, 2}, {milk, 2}, {sugar, 2}}")));
         out.add(new Recipe("meatballs", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{anyrawmeat, 1}, {flour, 1}, {tomato, 1}}")));
         out.add(new Recipe("smokedfillet", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{anycommonfish, 1}, {cabbage, 1}, {chilipepper, 1}}")));
         out.add(new Recipe("blueberrycake", 1, RecipeTechRegistry.COOKING_POT, ingredientsFromScript("{{blueberry, 5}, {flour, 1}, {sugar, 1}}")));

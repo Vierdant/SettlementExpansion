@@ -64,7 +64,6 @@ public class GitCheck {
         Preconditions.notNull(currentTag, "current tag");
 
         GitRelease latestRelease = this.getLatestRelease(repository);
-        System.out.println("latest: " + latestRelease.getPageUrl());
         return new GitCheckResult(latestRelease, currentTag);
     }
 

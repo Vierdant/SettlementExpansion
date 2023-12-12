@@ -6,6 +6,7 @@ import necesse.inventory.item.toolItem.ToolType;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import necesse.level.gameObject.WallObject;
 import settlementexpansion.object.*;
 import settlementexpansion.object.furniture.*;
 import settlementexpansion.object.trap.CannonTrapObject;
@@ -38,6 +39,15 @@ public class ObjectModRegistry {
         ObjectRegistry.registerObject("reinforcedouterswampstonewall", new ReinforcedOuterWallObject("reinforcedouterswampstonewall", 100, ToolType.PICKAXE, new Color(56, 69, 53)), 2F, true);
         ObjectRegistry.registerObject("reinforcedoutersnowstonewall", new ReinforcedOuterWallObject("reinforcedoutersnowstonewall", 100, ToolType.PICKAXE, new Color(207, 207, 207)), 2F, true);
         ObjectRegistry.registerObject("reinforcedouterobsidianwall", new ReinforcedOuterWallObject("reinforcedouterobsidianwall", 100, ToolType.PICKAXE, new Color(37, 27, 40)), 2F, true);
+
+        WallSecureDoorObject.registerSecureDoorPair("securewooddoor", (WallObject) ObjectRegistry.getObject("woodwall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("securepalmdoor", (WallObject) ObjectRegistry.getObject("palmwall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("securepinedoor", (WallObject) ObjectRegistry.getObject("pinewall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("securestonedoor", (WallObject) ObjectRegistry.getObject("stonewall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("securesandstonedoor", (WallObject) ObjectRegistry.getObject("sandstonewall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("securesnowstonedoor", (WallObject) ObjectRegistry.getObject("snowstonewall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("secureswampstonedoor", (WallObject) ObjectRegistry.getObject("swampstonewall"), 5, true);
+        WallSecureDoorObject.registerSecureDoorPair("secureobsidiandoor", (WallObject) ObjectRegistry.getObject("obsidianwall"), 5, true);
 
         SeedlingTableObject.registerSeedlingTable();
         StudyTableObject.registerSeedlingTable();
@@ -224,6 +234,94 @@ public class ObjectModRegistry {
                 },
                 false
         ).showAfter("blueprinttable"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securewooddoor",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("anylog", 4),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("wooddoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securepalmdoor",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("palmlog", 4),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("palmdoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securepinedoor",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("pinelog", 4),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("pinedoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securestonedoor",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("stone", 15),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("stonedoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "secureswampstonedoor",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("swampstone", 15),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("swampstonedoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securesnowstonedoor",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("snowstone", 15),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("snowstonedoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "securesandstonedoor",
+                1,
+                RecipeTechRegistry.DEMONIC,
+                new Ingredient[]{
+                        new Ingredient("sandstone", 15),
+                        new Ingredient("ironbar", 1)
+                },
+                false
+        ).showAfter("sandstonedoor"));
+
+        Recipes.registerModRecipe(new Recipe(
+                "secureobsidiandoor",
+                1,
+                RecipeTechRegistry.ADVANCED_WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("obsidian", 8),
+                        new Ingredient("goldbar", 1)
+                },
+                false
+        ).showAfter("obsidiandoor"));
 
         for (String type : woodFurnitureTypes) {
             Recipes.registerModRecipe(new Recipe(

@@ -7,7 +7,7 @@ plugins {
 
 project.ext.modID = "settlementexpansion" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Settlement Expansion" // The display name of your mod.
-project.ext.modVersion = "1.2.5" // Your current builds version. Must follow the xx.xx... format.
+project.ext.modVersion = "1.2.6" // Your current builds version. Must follow the xx.xx... format.
 project.ext.gameVersion = "0.23.0" // The target game version.
 project.ext.modDescription = "Mod Discord: https://discord.com/invite/FWAhHZxcpM\n\nAims to expand on the functionality of settlements, especially settlers related things." // Short description of what your mod is.
 project.ext.author = "Vierdant" // Your name
@@ -92,7 +92,7 @@ task createModInfoFile(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "CreateModInfoFile"
+    main "CreateModInfoFile"
     args "-file", "${sourceSets.main.java.outputDir}/mod.info",
             "-id", "${project.ext.modID}",
             "-name", "${project.ext.modName}",
@@ -107,7 +107,17 @@ task createModInfoFile(type: JavaExec) {
 // Makes compiling also create mod info file
 classes.dependsOn("createModInfoFile")
 
-task runClient(type: JavaExec) {
+task preAntialiasTextures(type: JavaExec) {
+    group "necesse"
+    description "Creates the mod info file"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main "PreAntialiasTextures"
+    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map {file -> file.path}.toArray().join(";")}"
+}
+
+tasks.register('runClient', JavaExec) {
     group "necesse"
     description "Run client with current mod"
     dependsOn "buildModJar", "createAppID"
