@@ -5,6 +5,7 @@ import necesse.engine.network.NetworkClient;
 import necesse.engine.network.client.ClientClient;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.team.PlayerTeam;
+import necesse.engine.team.TeamManager;
 import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
@@ -17,6 +18,8 @@ import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;
+
+import java.util.stream.Collectors;
 
 public class HumanMobHitPatch {
 
@@ -126,10 +129,11 @@ public class HumanMobHitPatch {
                     return out;
                 }
 
+                PlayerTeam team = humanMob.getWorldEntity().teams.getTeam(humanMob.getTeam());
                 if (!client.pvpEnabled() && humanMob.owner.get() != -1L) {
                     out = false;
                     return out;
-                } else if (humanMob.owner.get() != -1L && SettlementExpansion.getSettings().requireSettlerOwnerOnlineToKill && humanMob.getLevel().getClient().getClientByAuth(humanMob.owner.get()) == null) {
+                } else if (humanMob.owner.get() != -1L && SettlementExpansion.getSettings().requireSettlerOwnerOnlineToKill && team != null && team.streamMembers().noneMatch((l) -> humanMob.getLevel().getClient().getClientByAuth(l) != null)) {
                     out = false;
                     return out;
                 }
