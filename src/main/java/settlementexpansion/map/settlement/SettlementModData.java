@@ -9,16 +9,19 @@ import settlementexpansion.SettlementExpansion;
 public class SettlementModData extends LevelData {
 
     public boolean isPvpFlagged;
+    public boolean doExplosionDamage;
     public SettlementModRoomsManager rooms;
 
     public SettlementModData() {
         this.isPvpFlagged = false;
+        this.doExplosionDamage = true;
         this.rooms = new SettlementModRoomsManager(this);
     }
 
     public void addSaveData(SaveData save) {
         super.addSaveData(save);
         save.addBoolean("settlementPvpFlagged", this.isPvpFlagged);
+        save.addBoolean("settlementExplosionDamage", this.doExplosionDamage);
     }
 
     public void applyLoadData(LoadData save) {
@@ -27,6 +30,7 @@ public class SettlementModData extends LevelData {
         if (this.level.getWorldSettings().forcedPvP) {
             this.isPvpFlagged = SettlementExpansion.getSettings().enableSettlementLevelModification;
         }
+        this.doExplosionDamage = save.getBoolean("settlementExplosionDamage");
     }
 
 
@@ -44,6 +48,10 @@ public class SettlementModData extends LevelData {
         } else {
             this.isPvpFlagged = this.level.getWorldSettings().forcedPvP;
         }
+    }
+
+    public void setExplosionDamage(boolean doExplosionDamage) {
+        this.doExplosionDamage = doExplosionDamage;
     }
 
     public static void createSettlementModDataCreateIfNonExist(Level level) {
@@ -80,5 +88,4 @@ public class SettlementModData extends LevelData {
     public void setLevel(Level level) {
         super.setLevel(level);
     }
-
 }

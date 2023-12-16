@@ -59,7 +59,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         this.menus.add(new SettlementEquipmentForm<>(client, container, this));
         this.menus.add(new SettlementDietsForm<>(client, container, this));
         this.menus.add(new SettlementRestrictForm<>(client, container, this));
-        this.menus.add(new SettlementDefendZoneForm<>(client, container, this));
+        this.menus.add(new SettlementModDefendZoneForm<>(client, container, this));
         this.menus.add(new SettlementWorkPrioritiesForm<>(client, container, this));
         this.menus.add(new SettlementAssignWorkForm<>(client, container, this));
 
