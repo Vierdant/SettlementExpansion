@@ -4,6 +4,7 @@ import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
 import necesse.engine.network.server.ServerClient;
 import necesse.entity.TileDamageType;
+import necesse.inventory.container.customAction.BooleanCustomAction;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.settlement.SettlementContainer;
 import necesse.inventory.container.settlement.events.SettlementBasicsEvent;
@@ -19,6 +20,8 @@ public class SettlementModContainer extends SettlementContainer {
     public boolean isPvpFlagged;
     public SettlementFlagModObjectEntity flagObjectEntity;
     public boolean settlementSafe;
+    public BooleanCustomAction setExplosionDamage;
+    public boolean doExplosionDamage;
 
     public SettlementModContainer(NetworkClient client, int uniqueSeed, SettlementFlagModObjectEntity objectEntity, Packet contentPacket) {
         super(client, uniqueSeed, objectEntity, contentPacket);
@@ -28,6 +31,7 @@ public class SettlementModContainer extends SettlementContainer {
         this.onEvent(SettlementModDataUpdateEvent.class, (event) -> {
            this.isPvpFlagged = event.isPvpFlagged;
            this.settlementSafe = event.isSettlementSafe;
+           this.doExplosionDamage = event.doExplosionDamage;
            if (this.isPvpFlagged && event.shouldStartCooldown) {
                this.flagObjectEntity.startCooldown();
            }
@@ -37,6 +41,7 @@ public class SettlementModContainer extends SettlementContainer {
         if (client.isServer()) {
             this.isPvpFlagged = getLevelModData().isPvpFlagged;
             this.settlementSafe = isSettlementSafe();
+            this.doExplosionDamage = getLevelModData().doExplosionDamage;
 
             new SettlementModDataUpdateEvent(getLevelModData(), client.getServerClient(), false, this.settlementSafe).applyAndSendToClient(client.getServerClient());
             new SettlementBasicsEvent(getLevelData()).applyAndSendToClient(client.getServerClient());
@@ -70,6 +75,17 @@ public class SettlementModContainer extends SettlementContainer {
                 int y = objectEntity.getTileY();
                 getLevel().entityManager.doDamage(x, y, 100, TileDamageType.Object, -1, null);
                 close();
+            }
+        });
+
+        this.setExplosionDamage = this.registerAction(new BooleanCustomAction() {
+            @Override
+            protected void run(boolean doExplosionDamage) {
+                if (client.isServer()) {
+                    getLevelModData().setExplosionDamage(doExplosionDamage);
+                    new SettlementModDataUpdateEvent(getLevelModData(), client.getServerClient(), false, settlementSafe).applyAndSendToAllClients(client.getServerClient().getServer());
+                    new SettlementBasicsEvent(getLevelData()).applyAndSendToClient(client.getServerClient());
+                }
             }
         });
     }

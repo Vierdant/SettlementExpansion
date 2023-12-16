@@ -89,6 +89,7 @@ settlementconfirmnotice=Are you sure?
 settlementunclaimexplain=Unclaiming a settlement will leave it unmanaged, vulnerable to attacks and to everyone else to claim
 settlementdestroyexplain=Destroying a flag will remove your claim to the settlement and allow others to place their own flags
 settlementpvpexplain=Enabling Settlement PvP will allow all players to build, destroy and steal from your settlement\nYou can disable it only after 5 minutes
+settlementexplosiondamage=Explosions within defend zone will damage tiles and objects
 settlementdestroyflag=Destroy Flag
 settlementdestroybutton=Destroy
 settlementtakeover=Take over Settlement
