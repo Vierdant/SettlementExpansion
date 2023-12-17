@@ -7,12 +7,16 @@ import necesse.engine.events.players.ItemPlaceEvent;
 import necesse.engine.events.players.MobInteractEvent;
 import necesse.engine.events.players.ObjectInteractEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
+import settlementexpansion.bridge.Bridge;
 import settlementexpansion.listener.DamageTileSettlementListener;
 import settlementexpansion.listener.ItemPlaceSettlementListener;
 import settlementexpansion.listener.MobInteractSettlementListener;
 import settlementexpansion.listener.ObjectInteractSettlementListener;
 import settlementexpansion.registry.*;
 import settlementexpansion.updater.UpdaterControlListener;
+
+import java.util.HashMap;
+import java.util.function.Supplier;
 
 @ModEntry
 public class SettlementExpansion {
@@ -21,6 +25,9 @@ public class SettlementExpansion {
 
     public void init() {
         System.out.println("Settlement Expansion was enabled!");
+
+        registerCustomRegistries();
+        ModBridgeRegistry.instance.loadBridges();
 
         addListeners();
 
@@ -72,6 +79,10 @@ public class SettlementExpansion {
 
     public static Settings getSettings() {
         return settings;
+    }
+
+    private void registerCustomRegistries() {
+        ModBridgeRegistry.instance.registerCore();
     }
 
     private void addListeners() {

@@ -22,7 +22,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
     public void onEvent(DamageTileEvent event) {
         if (event.client != null && event.client.isServer() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(event.level);
-            if (data != null) {
+            if (event.level.settlementLayer.isActive() && data != null) {
                 SettlementLevelLayer layer = event.level.settlementLayer;
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.level);
                 if (!layer.doesClientHaveAccess(event.client) && !layerData.isPvpFlagged) {
@@ -32,8 +32,8 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
 
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
-                if (!event.isPrevented() && player != null && (event.level.biome.hasVillage() || data != null) && event.type == TileDamageType.Object) {
-                    if (data != null && event.level.settlementLayer.doesClientHaveAccess(player.getServerClient())) {
+                if (!event.isPrevented() && player != null && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive()) && event.type == TileDamageType.Object) {
+                    if (event.level.settlementLayer.isActive() && event.level.settlementLayer.doesClientHaveAccess(player.getServerClient())) {
                         return;
                     }
                     DamagedObjectEntity objectDamage = event.level.entityManager.getDamagedObjectEntity(event.tileX, event.tileY);
@@ -48,7 +48,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
                                         m instanceof HumanMob && !m.isSameTeam(player)).forEach((m) -> {
                                     HumanAngerTargetAINode<?> humanAngerHandler = (HumanAngerTargetAINode<?>)m.ai.blackboard.getObject(HumanAngerTargetAINode.class, "humanAngerHandler");
                                     if (humanAngerHandler != null) {
-                                        if (data != null && !event.level.biome.hasVillage()) {
+                                        if (event.level.settlementLayer.isActive() && !event.level.biome.hasVillage()) {
                                             humanAngerHandler.addEnemy(player, 20F);
                                         } else if (event.level.biome.hasVillage()) {
                                             float oldAnger = humanAngerHandler.anger;

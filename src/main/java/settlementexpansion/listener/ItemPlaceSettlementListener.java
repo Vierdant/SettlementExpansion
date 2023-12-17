@@ -13,7 +13,7 @@ public class ItemPlaceSettlementListener extends GameEventListener<ItemPlaceEven
     public void onEvent(ItemPlaceEvent event) {
         if (event.player != null && event.player.isServerClient() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(event.level);
-            if (data != null) {
+            if (event.level.settlementLayer.isActive() && data != null) {
                 SettlementLevelLayer layer = event.level.settlementLayer;
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.level);
                 if (!layer.doesClientHaveAccess(event.player.getServerClient()) && !layerData.isPvpFlagged) {

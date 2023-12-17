@@ -26,11 +26,11 @@ public class SettlementModData extends LevelData {
 
     public void applyLoadData(LoadData save) {
         super.applyLoadData(save);
-        this.isPvpFlagged = save.getBoolean("settlementPvpFlagged");
+        this.isPvpFlagged = save.getBoolean("settlementPvpFlagged", false);
         if (this.level.getWorldSettings().forcedPvP) {
             this.isPvpFlagged = SettlementExpansion.getSettings().enableSettlementLevelModification;
         }
-        this.doExplosionDamage = save.getBoolean("settlementExplosionDamage");
+        this.doExplosionDamage = save.getBoolean("settlementExplosionDamage", true);
     }
 
 

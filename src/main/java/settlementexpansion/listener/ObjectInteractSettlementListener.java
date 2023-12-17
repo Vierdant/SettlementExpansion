@@ -21,7 +21,7 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
     public void onEvent(ObjectInteractEvent event) {
         if (event.player != null && event.player.isServerClient() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(event.level);
-            if (data != null) {
+            if (event.level.settlementLayer.isActive() && data != null) {
                 SettlementLevelLayer layer = event.level.settlementLayer;
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.level);
                 GameObject object = event.level.getObject(event.tileX, event.tileY);
@@ -32,10 +32,10 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
 
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.player;
-                if (!event.isPrevented() && (event.level.biome.hasVillage() || data != null)) {
+                if (!event.isPrevented() && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive())) {
                     GameObject object = event.level.getObject(event.tileX, event.tileY);
                     if (object instanceof InventoryObject) {
-                        if (data != null && event.level.settlementLayer.doesClientHaveAccess(event.player.getServerClient())) {
+                        if (event.level.settlementLayer.isActive() && event.level.settlementLayer.doesClientHaveAccess(event.player.getServerClient())) {
                             return;
                         }
                         player.getLevel().entityManager.mobs.getInRegionByTileRange(player.getX() / 32, player.getY() / 32, 25).stream().filter((m) -> {

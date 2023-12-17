@@ -11,9 +11,10 @@ import necesse.gfx.forms.presets.containerComponent.settlement.SettlementDefendZ
 import necesse.gfx.gameFont.FontOptions;
 import settlementexpansion.inventory.container.SettlementModContainer;
 import settlementexpansion.inventory.event.SettlementModDataUpdateEvent;
+import settlementexpansion.registry.ModBridgeRegistry;
 
 public class SettlementModDefendZoneForm<T extends SettlementModContainer> extends SettlementDefendZoneForm<T> {
-    private final FormHorizontalToggle explosionDamageToggle;
+    private FormHorizontalToggle explosionDamageToggle;
 
     public SettlementModDefendZoneForm(Client client, T container, SettlementContainerForm<T> containerForm) {
         super(client, container, containerForm);
@@ -28,9 +29,11 @@ public class SettlementModDefendZoneForm<T extends SettlementModContainer> exten
             }
         }
 
-        FormLocalLabel label = addComponent(flow.nextY(new FormLocalLabel("ui", "settlementexplosiondamage", new FontOptions(16), FormLabel.ALIGN_LEFT, labelX, flow.next(), getWidth() - 60), 10));
-        explosionDamageToggle = addComponent(new FormHorizontalToggle(toggleX, label.getY() + label.getHeight() / 2 - 8));
-        explosionDamageToggle.onToggled(e -> container.setExplosionDamage.runAndSend(e.from.isToggled()));
+        if (ModBridgeRegistry.hasBridge("snoobinoob.hardenedsettlements")) {
+            FormLocalLabel label = addComponent(flow.nextY(new FormLocalLabel("ui", "settlementexplosiondamage", new FontOptions(16), FormLabel.ALIGN_LEFT, labelX, flow.next(), getWidth() - 60), 10));
+            explosionDamageToggle = addComponent(new FormHorizontalToggle(toggleX, label.getY() + label.getHeight() / 2 - 8));
+            explosionDamageToggle.onToggled(e -> container.setExplosionDamage.runAndSend(e.from.isToggled()));
+        }
 
         setHeight(flow.next());
     }
@@ -38,6 +41,8 @@ public class SettlementModDefendZoneForm<T extends SettlementModContainer> exten
     @Override
     protected void init() {
         super.init();
-        container.onEvent(SettlementModDataUpdateEvent.class, e -> explosionDamageToggle.setToggled(e.doExplosionDamage));
+        if (ModBridgeRegistry.hasBridge("snoobinoob.hardenedsettlements")) {
+            container.onEvent(SettlementModDataUpdateEvent.class, e -> explosionDamageToggle.setToggled(e.doExplosionDamage));
+        }
     }
 }

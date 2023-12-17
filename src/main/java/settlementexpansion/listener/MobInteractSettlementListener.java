@@ -13,7 +13,7 @@ public class MobInteractSettlementListener extends GameEventListener<MobInteract
     public void onEvent(MobInteractEvent event) {
         if (event.player != null && event.player.isServerClient() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
             SettlementLevelData data = SettlementLevelData.getSettlementData(event.player.getLevel());
-            if (data != null) {
+            if (event.player.getLevel().settlementLayer.isActive() && data != null) {
                 SettlementLevelLayer layer = event.player.getLevel().settlementLayer;
                 SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.player.getLevel());
                 if (!layer.doesClientHaveAccess(event.player.getServerClient()) && !layerData.isPvpFlagged) {

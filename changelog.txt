@@ -1,7 +1,8 @@
-[Version 1.3 Update]
+[Version 1.2.7 Update]
 
 Added:
 - Added secure door types to some of the in-game doors. They can only be opened with an interaction by settlement members and do not automatically open when you walk into them
 
 Fixed:
 - RequireOwnerOnline option will no longer make settlers invincible if there's a team member that's not the owner online
+- Fixed settlement menu not appearing when Hardened Settlements mod was loaded. Thanks Snoobinoob for the PR.
