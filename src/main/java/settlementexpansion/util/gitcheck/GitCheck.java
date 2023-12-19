@@ -42,7 +42,6 @@ public class GitCheck {
      * @param repository the repository
      * @return the latest release
      */
-    @NotNull
     public GitRelease getLatestRelease(@NotNull GitRepository repository) {
         Preconditions.notNull(repository, "repository");
 
@@ -58,13 +57,12 @@ public class GitCheck {
      * @param currentTag the current tag
      * @return the result
      */
-    @NotNull
     public GitCheckResult checkRelease(@NotNull GitRepository repository, @NotNull GitTag currentTag) {
         Preconditions.notNull(repository, "repository");
         Preconditions.notNull(currentTag, "current tag");
 
         GitRelease latestRelease = this.getLatestRelease(repository);
-        return new GitCheckResult(latestRelease, currentTag);
+        return latestRelease != null ? new GitCheckResult(latestRelease, currentTag) : null;
     }
 
 }

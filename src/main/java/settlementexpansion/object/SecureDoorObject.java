@@ -30,6 +30,7 @@ public class SecureDoorObject extends DoorObject {
 
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
+        System.out.println("attempted");
         if (level.isServer()) {
             ServerClient client = player.getServerClient();
             if (hasSettlementAccess(level, client)) {

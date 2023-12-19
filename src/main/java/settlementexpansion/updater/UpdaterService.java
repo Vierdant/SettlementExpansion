@@ -15,6 +15,7 @@ public class UpdaterService {
 
     private final GitCheck gitCheck = new GitCheck();
     protected final Lazy<GitCheckResult> gitCheckResult;
+    private boolean shouldRead = false;
 
     public UpdaterService() {
 
@@ -24,10 +25,15 @@ public class UpdaterService {
             return this.gitCheck.checkRelease(GIT_REPOSITORY, GitTag.of("v" + version));
         });
 
-        this.gitCheckResult.get();
+        if (this.gitCheckResult.get() != null) {
+            this.shouldRead = true;
+        }
     }
 
     public CompletableFuture<Boolean> isUpToDate() {
+        if (!this.shouldRead) {
+            return null;
+        }
         return CompletableFuture.supplyAsync(() -> {
             GitCheckResult result = this.gitCheckResult.get();
 

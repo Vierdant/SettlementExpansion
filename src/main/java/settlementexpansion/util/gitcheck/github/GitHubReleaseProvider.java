@@ -1,5 +1,6 @@
 package settlementexpansion.util.gitcheck.github;
 
+import necesse.engine.GameLog;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,15 +24,20 @@ public class GitHubReleaseProvider implements GitReleaseProvider {
 
     @Override
     public GitRelease getLatestRelease(GitRepository repository) {
-        JSONObject json = this.requestLastRelease(repository);
-
-        return GitRelease.builder()
-                .name(JSONUtil.asString(json, "name"))
-                .branch(JSONUtil.asString(json, "target_commitish"))
-                .tag(JSONUtil.asGitTag(json, "tag_name"))
-                .pageUrl(JSONUtil.asString(json, "html_url"))
-                .publishedAt(JSONUtil.asInstant(json, "published_at"))
-                .build();
+        try {
+            JSONObject json = this.requestLastRelease(repository);
+            return GitRelease.builder()
+                    .name(JSONUtil.asString(json, "name"))
+                    .branch(JSONUtil.asString(json, "target_commitish"))
+                    .tag(JSONUtil.asGitTag(json, "tag_name"))
+                    .pageUrl(JSONUtil.asString(json, "html_url"))
+                    .publishedAt(JSONUtil.asInstant(json, "published_at"))
+                    .build();
+        } catch (GitException e) {
+            GameLog.err.println("Failed to fetch last github release... This usually occurs due to a problem with your internet connection.\n" +
+                    "If you think this is a bug, please reach out to the mod developer on Discord.");
+            return null;
+        }
     }
 
     private JSONObject requestLastRelease(GitRepository repository) {

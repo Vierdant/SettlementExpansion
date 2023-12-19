@@ -17,6 +17,7 @@ public class UpdaterControlListener extends GameEventListener<ServerClientConnec
     @Override
     public void onEvent(ServerClientConnectedEvent event) {
         CompletableFuture<Boolean> upToDate = this.updaterService.isUpToDate();
+        if (upToDate == null) return;
 
         upToDate.whenComplete((isUpToDate, throwable) -> {
             if (throwable != null) {
