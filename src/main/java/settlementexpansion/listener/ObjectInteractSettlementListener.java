@@ -32,7 +32,7 @@ public class ObjectInteractSettlementListener extends GameEventListener<ObjectIn
 
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.player;
-                if (!event.isPrevented() && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive())) {
+                if (!event.isPrevented() && !event.level.isCave && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive())) {
                     GameObject object = event.level.getObject(event.tileX, event.tileY);
                     if (object instanceof InventoryObject) {
                         if (event.level.settlementLayer.isActive() && event.level.settlementLayer.doesClientHaveAccess(event.player.getServerClient())) {

@@ -32,7 +32,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
 
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
-                if (!event.isPrevented() && player != null && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive()) && event.type == TileDamageType.Object) {
+                if (!event.isPrevented() && player != null && !event.level.isCave && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive()) && event.type == TileDamageType.Object) {
                     if (event.level.settlementLayer.isActive() && event.level.settlementLayer.doesClientHaveAccess(player.getServerClient())) {
                         return;
                     }
