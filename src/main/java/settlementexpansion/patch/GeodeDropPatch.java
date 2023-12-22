@@ -77,7 +77,7 @@ public class GeodeDropPatch {
     public static class FishingDefaultLootTablePatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) FishingLootTable out) {
-            out.addWater(25, "geode");
+            out.addWater(1, "geode");
         }
     }
 
@@ -85,7 +85,7 @@ public class GeodeDropPatch {
     public static class FishingForestLootTablePatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) FishingLootTable out) {
-            out.addWater(25, "geode");
+            out.addWater(1, "geode");
         }
     }
 
@@ -93,7 +93,7 @@ public class GeodeDropPatch {
     public static class FishingSnowLootTablePatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) FishingLootTable out) {
-            out.addWater(25, "geode");
+            out.addWater(1, "geode");
         }
     }
 
@@ -101,7 +101,7 @@ public class GeodeDropPatch {
     public static class FishingSwampLootTablePatch {
         @Advice.OnMethodExit
         static void onExit(@Advice.Return(readOnly = false) FishingLootTable out) {
-            out.addWater(25, "geode");
+            out.addWater(1, "geode");
         }
     }
 }

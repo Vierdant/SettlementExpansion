@@ -24,7 +24,7 @@ public class HumanMobDataPatch {
         }
 
         public static void setJobHandlers(HumanMob humanMob) {
-            humanMob.jobTypeHandler.setJobHandler(StudyBookLevelJob.class, 3000, 10000, 0, 4000, () ->
+            humanMob.jobTypeHandler.setJobHandler(StudyBookLevelJob.class, 3000, 10000, 0, 4000, (handler, worker) ->
                             (!humanMob.isSettler() || humanMob.isSettlerOnCurrentLevel()) && !humanMob.getWorkInventory().isFull(),
                     (foundJob) -> StudyBookLevelJob.getJobSequence(humanMob, foundJob));
         }

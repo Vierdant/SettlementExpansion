@@ -1,4 +1,8 @@
 [Version 1.2.8]
 
+Changed:
+- Lowered geode fishing rates
+
 Fixed:
-- Fixed a crash that occurs sometimes due to poor internet connection
+- Fixed crashed occurring in Necesse version 0.23.1
+- Fixed UI issues with study table and tools rack

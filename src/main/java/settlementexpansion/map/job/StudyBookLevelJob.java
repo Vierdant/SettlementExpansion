@@ -4,12 +4,14 @@ import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.save.LoadData;
 import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.entity.mobs.job.*;
 import necesse.entity.mobs.job.activeJob.ActiveJob;
 import necesse.entity.mobs.job.activeJob.ActiveJobResult;
 import necesse.entity.mobs.job.activeJob.TileActiveJob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.inventory.InventoryItem;
+import necesse.level.maps.levelData.jobs.HarvestFruitLevelJob;
 import necesse.level.maps.levelData.jobs.JobMoveToTile;
 import necesse.level.maps.levelData.jobs.LevelJob;
 import settlementexpansion.inventory.lootTable.LootTableModPresets;
@@ -54,10 +56,9 @@ public class StudyBookLevelJob extends LevelJob {
         return objectEntity instanceof StudyTableObjectEntity ? (StudyTableObjectEntity)objectEntity : null;
     }
 
-    public static <T extends StudyBookLevelJob> JobSequence getJobSequence(EntityJobWorker worker, FoundJob<T> foundJob) {
-        //GameObject object = foundJob.job.getLevel().getObject(foundJob.job.tileX, foundJob.job.tileY);
+    public static <T extends LevelJob> JobSequence getJobSequence(EntityJobWorker worker, FoundJob<T> foundJob) {
         GameMessage activityDescription = new LocalMessage("activities", "studying");
-        return new SingleJobSequence(foundJob.job.getActiveJob(worker, foundJob.priority), activityDescription);
+        return new SingleJobSequence(((StudyBookLevelJob)foundJob.job).getActiveJob(worker, foundJob.priority), activityDescription);
     }
 
     public ActiveJob getActiveJob(EntityJobWorker worker, JobTypeHandler.TypePriority priority) {
