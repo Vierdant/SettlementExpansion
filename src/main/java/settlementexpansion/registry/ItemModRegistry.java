@@ -1,5 +1,6 @@
 package settlementexpansion.registry;
 
+import necesse.engine.GameLog;
 import necesse.engine.registries.ItemRegistry;
 import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.item.Item;

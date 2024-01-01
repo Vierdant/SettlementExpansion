@@ -1,6 +1,7 @@
 package settlementexpansion.patch;
 
 import necesse.engine.expeditions.MiningTripExpedition;
+import necesse.engine.expeditions.TypesFishingTripExpedition;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.friendly.human.HumanMob;
@@ -62,7 +63,7 @@ public class GeodeDropPatch {
         }
     }
 
-    @ModMethodPatch(target = MiningTripExpedition.class, name = "getRewardItems", arguments = {SettlementLevelData.class, HumanMob.class})
+    @ModMethodPatch(target = TypesFishingTripExpedition.class, name = "getRewardItems", arguments = {SettlementLevelData.class, HumanMob.class})
     public static class TypesFishingTripExpeditionDropPatch {
 
         @Advice.OnMethodExit

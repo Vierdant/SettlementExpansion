@@ -130,7 +130,7 @@ public class ObjectModRegistry {
         Recipes.registerModRecipe(new Recipe(
                 "reinforcedoutersnowstonewall",
                 1,
-                RecipeTechRegistry.WORKSTATION,
+                RecipeTechRegistry.DEMONIC,
                 new Ingredient[]{
                         new Ingredient("snowstone", 2),
                         new Ingredient("ironbar", 1),

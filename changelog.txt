@@ -1,8 +1,10 @@
-[Version 1.2.8]
+[Version 1.3]
+
+Added:
+
 
 Changed:
-- Lowered geode fishing rates
+- Changed secure doors to only be able to open/close using a wire signal, to remove all confusion and resolve the issues related to them
 
 Fixed:
-- Fixed crashed occurring in Necesse version 0.23.1
-- Fixed UI issues with study table and tools rack
+- Fixed Geode filter items

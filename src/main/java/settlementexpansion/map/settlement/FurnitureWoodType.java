@@ -1,4 +1,4 @@
-package settlementexpansion.util;
+package settlementexpansion.map.settlement;
 
 public enum FurnitureWoodType {
      OAK("oak"),

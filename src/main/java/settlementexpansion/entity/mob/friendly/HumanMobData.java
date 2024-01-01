@@ -4,7 +4,7 @@ import necesse.engine.registries.IDData;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
 import necesse.entity.mobs.friendly.human.HumanMob;
-import settlementexpansion.util.FurnitureWoodType;
+import settlementexpansion.map.settlement.FurnitureWoodType;
 
 import java.util.HashMap;
 

@@ -4,7 +4,6 @@ import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.RoomFurniture;
 import necesse.level.maps.Level;
 import necesse.level.maps.regionSystem.SemiRegion;
-import settlementexpansion.util.FurnitureWoodType;
 
 import java.awt.*;
 import java.util.*;
@@ -19,6 +18,8 @@ public class SettlementRoomData {
     public final int tileX;
     public final int tileY;
     private FurnitureWoodType furnitureMajority;
+    private final HashMap<String, Integer> furnitureTypes = new HashMap<>();
+    private SettlementRoomType type;
     private final HashMap<String, Integer> objectTypes = new HashMap<>();
 
     public SettlementRoomData(SettlementModData data, HashMap<Point, SettlementRoomData> roomsMap, Point point) {
@@ -47,8 +48,13 @@ public class SettlementRoomData {
                     String id = object.getStringID();
                     this.addObjectType(id, 1);
 
-                    // determine furniture majority type
                     if (object instanceof RoomFurniture) {
+                        String type = ((RoomFurniture)object).getFurnitureType();
+                        if (type != null) {
+                            this.addFurnitureType(type, 1);
+                        }
+
+                        // determine furniture majority type
                         for (FurnitureWoodType set : FurnitureWoodType.values()) {
                             if (id.contains(set.getString())) {
                                 int addition = 0;
@@ -77,7 +83,32 @@ public class SettlementRoomData {
         }
         finally {
             this.calculatedStats = true;
+            determineRoomType();
         }
+    }
+
+    public void determineRoomType() {
+        List<SettlementRoomType> matches = new ArrayList<>();
+
+        // determine room type
+        for (SettlementRoomType type : SettlementRoomType.values()) {
+            boolean match = true;
+            for (RoomTypeCondition condition : type.getConditions()) {
+                int amount = condition.isFurnitureType() ? getFurnitureTypes(condition.getId()) : getObjectType(condition.getId());
+                if (!condition.compare(amount)) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match) {
+                matches.add(type);
+            }
+        }
+
+        matches.sort(Comparator.comparingInt(SettlementRoomType::getPriority));
+        this.type = matches.get(matches.size() - 1);
+        data.rooms.roomTypes.put(new Point(tileX, tileY), this.type);
     }
 
     public void invalidate() {
@@ -106,8 +137,34 @@ public class SettlementRoomData {
         return this.furnitureMajority;
     }
 
+    public int getFurnitureTypes(String type) {
+        if (!this.calculatedStats) {
+            this.calculateStats();
+        }
+
+        return this.furnitureTypes.getOrDefault(type, 0);
+    }
+
+    public SettlementRoomType getRoomType() {
+        if (!this.calculatedStats) {
+            this.calculateStats();
+        }
+
+        if (this.type != null) {
+            this.determineRoomType();
+        }
+
+        return type;
+    }
+
     public void addObjectType(String type, int amount) {
         this.objectTypes.compute(type, (key, i) -> i == null ? amount : i + amount);
+    }
+
+    private void addFurnitureType(String type, int amount) {
+        this.furnitureTypes.compute(type, (key, i) -> {
+            return i == null ? amount : i + amount;
+        });
     }
 
     public int getObjectType(String type) {
@@ -142,9 +199,14 @@ public class SettlementRoomData {
         }
 
         LinkedList<String> list = new LinkedList<>();
-        FurnitureWoodType type = this.getFurnitureMajority();
-        if (type != null) {
-            list.add("Furniture Wood: " + type.string);
+        FurnitureWoodType woodType = this.getFurnitureMajority();
+        SettlementRoomType roomType = this.getRoomType();
+        if (woodType != null) {
+            list.add("Furniture Wood: " + woodType.string);
+        }
+
+        if (roomType != null) {
+            list.add("Room Type: " + roomType.name());
         }
 
         return list;

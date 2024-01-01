@@ -7,13 +7,16 @@ public class SettlementModRoomsManager {
 
     public final SettlementModData data;
     public HashMap<Point, SettlementRoomData> rooms = new HashMap<>();
+    public SettlementRoomTypeManager roomTypes;
 
     public SettlementModRoomsManager(SettlementModData data) {
         this.data = data;
+        this.roomTypes = new SettlementRoomTypeManager();
     }
 
     public void refreshRooms(Iterable<Point> tiles) {
         for (Point tile : tiles) {
+            roomTypes.remove(tile);
             SettlementRoomData room = this.rooms.remove(tile);
             if (room != null) {
                 room.invalidate();

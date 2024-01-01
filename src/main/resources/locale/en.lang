@@ -133,7 +133,7 @@ claimingscroll=Allows you to claim an already claimed settlement with pvp enable
 
 [itemcategory]
 processed=Processed goods
-geodes==Geodes
+geodes=Geodes
 gems=Gems
 
 [jobs]

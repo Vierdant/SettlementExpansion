@@ -6,7 +6,6 @@ import necesse.level.maps.levelData.settlementData.SettlementRoomsManager;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.map.settlement.SettlementModData;
 import settlementexpansion.map.settlement.SettlementRoomData;
-import settlementexpansion.util.FurnitureWoodType;
 
 import java.awt.*;
 import java.util.List;
