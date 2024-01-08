@@ -41,9 +41,4 @@ public class SecureDoorObject extends DoorObject {
     public boolean pathCollidesIfOpen(Level level, int tileX, int tileY, CollisionFilter collisionFilter, Rectangle mobCollision) {
         return true;
     }
-
-    @Override
-    public String getInteractTip(Level level, int x, int y, PlayerMob perspective, boolean debug) {
-        return Localization.translate("controls", this.isSwitched ? "closetip" : "opentip");
-    }
 }

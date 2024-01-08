@@ -5,8 +5,10 @@ import necesse.engine.registries.TileRegistry;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import settlementexpansion.tile.GrassHoleTile;
 import settlementexpansion.tile.LitFloorTile;
 import settlementexpansion.tile.LitPathTiledTile;
+import settlementexpansion.tile.MudFossilTile;
 
 import java.awt.*;
 
@@ -19,6 +21,10 @@ public class TileModRegistry {
         TileRegistry.registerTile("litstonepathtile", new LitPathTiledTile("litstonepath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("stonepathtile")), 5, true);
         TileRegistry.registerTile("litswampstonefloor", new LitFloorTile("litswampstonefloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
         TileRegistry.registerTile("litswampstonepathtile", new LitPathTiledTile("litswampstonepath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("swampstonepathtile")), 5, true);
+
+        TileRegistry.registerTile("grassholetile", new GrassHoleTile(), 0, false);
+        TileRegistry.registerTile("mudfossiltile", new MudFossilTile(), 0, false);
+
     }
 
     public static void registerRecipes() {
