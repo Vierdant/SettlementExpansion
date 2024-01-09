@@ -111,6 +111,8 @@ earthring=Earth Ring
 glass=Glass
 blueprintempty=Empty Blueprint
 claimingscroll=Claiming Scroll
+brokenfossil=Broken Fossile
+fossil=Fossil
 
 [itemtooltip]
 dryingracktip=Dries and tans leather to unlock more uses for it
@@ -131,10 +133,13 @@ seedlingtabletip=Used to multiply seeds
 cannontrap=Loved by pirates, for obvious reasons
 claimingscroll=Allows you to claim an already claimed settlement with pvp enabled\n by approaching the settlement flag and interacting with it\n\nClaiming the settlement flag will only be done if\nclaiming conditions are met
 brushtip=Brush Tool
+brokenfossil=Looks like I used the wrong tool for this
+fossil=Unknown type of fossil\nLearn more about it at an inspection table
 
 [itemcategory]
 processed=Processed goods
 geodes=Geodes
+fossils=Fossils
 gems=Gems
 
 [jobs]

@@ -14,6 +14,9 @@ import java.awt.*;
 
 public class TileModRegistry {
 
+    public static int mudFossilTile;
+    public static int grassHoleTile;
+
     public static void registerTiles() {
         TileRegistry.registerTile("litwoodfloor", new LitFloorTile("litwoodfloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
         TileRegistry.registerTile("litwoodpathtile", new LitPathTiledTile("litwoodpath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("woodpathtile")), 5, true);
@@ -22,8 +25,8 @@ public class TileModRegistry {
         TileRegistry.registerTile("litswampstonefloor", new LitFloorTile("litswampstonefloor", new Color(232, 215, 149), 150, 50, 0.2f), 5, true);
         TileRegistry.registerTile("litswampstonepathtile", new LitPathTiledTile("litswampstonepath", new Color(232, 215, 149), 150, 50, 0.2f, TileRegistry.getTile("swampstonepathtile")), 5, true);
 
-        TileRegistry.registerTile("grassholetile", new GrassHoleTile(), 0, false);
-        TileRegistry.registerTile("mudfossiltile", new MudFossilTile(), 0, false);
+        grassHoleTile = TileRegistry.registerTile("grassholetile", new GrassHoleTile(), 0, false);
+        mudFossilTile = TileRegistry.registerTile("mudfossiltile", new MudFossilTile(), 0, false);
 
     }
 

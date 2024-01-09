@@ -1,6 +1,5 @@
 package settlementexpansion.registry;
 
-import necesse.engine.GameLog;
 import necesse.engine.registries.ItemRegistry;
 import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.item.Item;
@@ -11,13 +10,16 @@ import necesse.inventory.item.matItem.MatItem;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
-import settlementexpansion.item.misc.GeodeItem;
+import settlementexpansion.item.fossil.FossilItem;
+import settlementexpansion.item.geode.GeodeItem;
+import settlementexpansion.item.tool.CustomBrushToolItem;
 import settlementexpansion.item.trinket.SimpleTippedTrinketItem;
 
 public class ItemModRegistry {
 
     public static void registerCategories() {
         ItemCategory.createCategory("A-F-A", "misc", "geodes");
+        ItemCategory.createCategory("A-G-A", "misc", "fossils");
         ItemCategory.createCategory("C-H-B", "materials", "mobdrops", "processed");
         ItemCategory.createCategory("C-B-B", "materials", "minerals", "gems");
     }
@@ -39,11 +41,16 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("orpiment", (new MatItem(100, Item.Rarity.UNCOMMON, "orpiment").setItemCategory("materials", "minerals", "gems")), 80, true);
         ItemRegistry.registerItem("earthcrystal", (new MatItem(100, Item.Rarity.UNCOMMON, "earthcrystal").setItemCategory("materials", "minerals", "gems")), 350, true);
 
+        ItemRegistry.registerItem("brokenfossil", (new MatItem(200).setItemCategory("misc")), 2, true);
+        ItemRegistry.registerItem("fossil", new FossilItem("fossil"), 25, true);
+
         ItemRegistry.registerItem("earthring", (new SimpleTippedTrinketItem(Item.Rarity.UNCOMMON, "earthringtrinket", 200)), 300, true);
 
 
         ItemRegistry.registerItem("businesssuit", new ChestArmorItem(0, 0, Item.Rarity.COMMON, "businesssuit", "businesssuitarms"), 50.0F, false);
         ItemRegistry.registerItem("businesssuitshoes", new BootsArmorItem(0, 0, Item.Rarity.COMMON, "businesssuitshoes"), 50.0F, false);
+
+        ItemRegistry.registerItem("brush", new CustomBrushToolItem(40, 0), 10, true);
     }
 
     public static void registerRecipes() {

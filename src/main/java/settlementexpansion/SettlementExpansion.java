@@ -6,12 +6,10 @@ import necesse.engine.events.players.DamageTileEvent;
 import necesse.engine.events.players.ItemPlaceEvent;
 import necesse.engine.events.players.MobInteractEvent;
 import necesse.engine.events.players.ObjectInteractEvent;
+import necesse.engine.events.worldGeneration.GeneratedIslandFloraEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
 import settlementexpansion.bridge.Bridge;
-import settlementexpansion.listener.DamageTileSettlementListener;
-import settlementexpansion.listener.ItemPlaceSettlementListener;
-import settlementexpansion.listener.MobInteractSettlementListener;
-import settlementexpansion.listener.ObjectInteractSettlementListener;
+import settlementexpansion.listener.*;
 import settlementexpansion.registry.*;
 import settlementexpansion.updater.UpdaterControlListener;
 
@@ -91,5 +89,6 @@ public class SettlementExpansion {
         GameEvents.addListener(ItemPlaceEvent.class, new ItemPlaceSettlementListener());
         GameEvents.addListener(ObjectInteractEvent.class, new ObjectInteractSettlementListener());
         GameEvents.addListener(MobInteractEvent.class, new MobInteractSettlementListener());
+        GameEvents.addListener(GeneratedIslandFloraEvent.class, new GeneratedIslandFloraListener());
     }
 }

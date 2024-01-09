@@ -53,6 +53,7 @@ public class ObjectModRegistry {
         ToolsRackObject.registerToolsRack();
         BlueprintTableObject.registerBlueprintTable();
         BlueprintObject.registerBlueprints();
+        InspectionTableObject.registerInspectionTable();
     }
 
     public static void replaceObjects() {

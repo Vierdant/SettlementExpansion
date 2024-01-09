@@ -1,4 +1,4 @@
-package settlementexpansion.item.misc;
+package settlementexpansion.item.geode;
 
 import necesse.engine.localization.Localization;
 import necesse.engine.util.GameRandom;

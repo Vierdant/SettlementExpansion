@@ -9,14 +9,14 @@ import settlementexpansion.tile.MudFossilTile;
 
 public class CustomBrushToolItem extends BrushToolItem {
 
-    public CustomBrushToolItem(int toolDps, int toolTier, int enchantCost) {
-        super(enchantCost);
+    public CustomBrushToolItem(int toolDps, int toolTier) {
+        super(100);
         this.toolDps = toolDps;
         this.toolTier = toolTier;
     }
 
     public CustomBrushToolItem(int toolDps, int toolTier, int enchantCost, Item.Rarity rarity) {
-        this(toolDps, toolTier, enchantCost);
+        this(toolDps, toolTier);
         this.rarity = rarity;
     }
 

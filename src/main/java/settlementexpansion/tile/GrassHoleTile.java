@@ -18,6 +18,11 @@ public class GrassHoleTile extends TerrainSplatterTile {
     }
 
     @Override
+    public GameTextureSection getTerrainTexture(Level level, int tileX, int tileY) {
+        return this.terrainTexture;
+    }
+
+    @Override
     public Point getTerrainSprite(GameTextureSection gameTextureSection, Level level, int tileX, int tileY) {
         int tile;
         synchronized(this.drawRandom) {
@@ -29,6 +34,6 @@ public class GrassHoleTile extends TerrainSplatterTile {
 
     @Override
     public int getTerrainPriority() {
-        return 100;
+        return 200;
     }
 }

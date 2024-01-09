@@ -4,7 +4,6 @@ import necesse.engine.GameEvents;
 import necesse.engine.events.loot.TileLootTableDropsEvent;
 import necesse.engine.modifiers.ModifierValue;
 import necesse.engine.network.server.ServerClient;
-import necesse.engine.registries.ItemRegistry;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.buffs.BuffModifiers;
@@ -49,11 +48,11 @@ public class MudFossilTile extends TerrainSplatterTile {
 
     @Override
     public LootTable getLootTable(Level level, int tileX, int tileY) {
-        return new LootTable(new LootItem("mudtile").preventLootMultiplier());
+        return new LootTable(new LootItem("brokenfossil").preventLootMultiplier());
     }
 
     public LootTable getFossilLootTable(Level level, int tileX, int tileY) {
-        return super.getLootTable(level, tileX, tileY);
+        return new LootTable(new LootItem("fossil").preventLootMultiplier());
     }
 
     public ArrayList<InventoryItem> getDroppedItems(Level level, int x, int y, boolean isBrush) {

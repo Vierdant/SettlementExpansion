@@ -18,7 +18,7 @@ import necesse.inventory.container.mob.ShopContainer;
 import necesse.inventory.container.slots.ExtractOnlyContainerSlot;
 import necesse.level.maps.hudManager.floatText.ItemPickupText;
 import settlementexpansion.inventory.slots.GeodeSlot;
-import settlementexpansion.item.misc.GeodeItem;
+import settlementexpansion.item.geode.GeodeItem;
 import settlementexpansion.entity.mob.friendly.BlacksmithModHumanMob;
 
 import java.util.List;

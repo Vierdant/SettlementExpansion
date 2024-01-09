@@ -7,16 +7,32 @@ public class SettlementModRoomsManager {
 
     public final SettlementModData data;
     public HashMap<Point, SettlementRoomData> rooms = new HashMap<>();
-    public SettlementRoomTypeManager roomTypes;
+    private final HashMap<Point, SettlementRoomType> roomTypes;
 
     public SettlementModRoomsManager(SettlementModData data) {
         this.data = data;
-        this.roomTypes = new SettlementRoomTypeManager();
+        this.roomTypes = new HashMap<>();
+    }
+
+    public boolean hasRoomType(SettlementRoomType type) {
+        return this.roomTypes.containsValue(type);
+    }
+
+    public void putRoomType(Point point, SettlementRoomType type) {
+        this.roomTypes.put(point, type);
+    }
+
+    public void removeRoomType(Point point) {
+        if (!this.roomTypes.containsKey(point)) {
+            return;
+        }
+
+        this.roomTypes.remove(point);
     }
 
     public void refreshRooms(Iterable<Point> tiles) {
         for (Point tile : tiles) {
-            roomTypes.remove(tile);
+            removeRoomType(tile);
             SettlementRoomData room = this.rooms.remove(tile);
             if (room != null) {
                 room.invalidate();

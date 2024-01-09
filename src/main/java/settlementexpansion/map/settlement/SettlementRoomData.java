@@ -108,7 +108,7 @@ public class SettlementRoomData {
 
         matches.sort(Comparator.comparingInt(SettlementRoomType::getPriority));
         this.type = matches.get(matches.size() - 1);
-        data.rooms.roomTypes.put(new Point(tileX, tileY), this.type);
+        data.rooms.putRoomType(new Point(tileX, tileY), this.type);
     }
 
     public void invalidate() {
