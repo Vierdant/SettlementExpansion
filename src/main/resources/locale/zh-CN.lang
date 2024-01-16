@@ -1,0 +1,171 @@
+[tile]
+litwoodfloor=照明木地板
+litwoodpathtile=照明木路径
+litstonefloor=照明石地板
+litstonepathtile=照明石路径
+litswampstonefloor=照明沼泽石地板
+litswampstonepathtile=照明沼泽石路径
+
+[object]
+dryingrack=晾晒架
+sprucefishwalldisplay=云杉鱼墙展示
+safebox=保险箱
+seedlingtable=幼苗桌
+studytable=学习桌
+leatherchair=皮革椅子
+oakleatherchair=橡木皮革椅子
+spruceleatherchair=云杉皮革椅子
+pineleatherchair=松木皮革椅子
+palmleatherchair=棕榈皮革椅子
+deadwoodleatherchair=枯木皮革椅子
+cannontrap=火炮陷阱
+toolsrack=工具架
+chair=椅子
+tallmirror=高镜子
+oaktallmirror=橡木高镜子
+sprucetallmirror=云杉高镜子
+pinetallmirror=松木高镜子
+palmtallmirror=棕榈高镜子
+deadwoodtallmirror=枯木高镜子
+blueprinttable=蓝图桌
+blueprint=蓝图
+house1empty=7x7 空房屋
+house1=7x7 家具齐全的房屋
+house2empty=9x7 空房屋
+house2=9x7 家具齐全的房屋
+house3empty=12x10 空房屋
+house3=12x10 家具齐全的房屋
+trainingarea=10x10 训练区
+storageroom=11x11 储物室
+storageroombig=21x21 大储物室
+reinforcedouterwoodwall=强化外围木墙
+reinforcedouterpinewall=强化外围松木墙
+reinforcedouterpalmwall=强化外围棕榈墙
+reinforcedouterstonewall=强化外围石墙
+reinforcedoutersandstonewall=强化外围沙石墙
+reinforcedouterswampstonewall=强化外围沼泽石墙
+reinforcedoutersnowstonewall=强化外围雪石墙
+reinforcedouterobsidianwall=强化外围黑曜石墙
+securewooddoor=安全木门
+securepalmdoor=安全棕榈门
+securepinedoor=安全松木门
+securestonedoor=安全石门
+securesandstonedoor=安全沙石门
+securesnowstonedoor=安全雪石门
+secureswampstonedoor=安全沼泽石门
+secureobsidiandoor=安全黑曜石门
+
+[ui]
+updateavailable=§a定居扩展已过时！\n§a请更新到 <version> 版本。
+drying=晾晒中...
+needdrymaterial=需要材料晾晒
+lockedinventory=状态: <state>
+lockbutton=锁定
+locked=已锁定
+unlockbutton=解锁
+blacksmithbreak=打开晶石
+blacksmithbreakconfirm=确认打开晶石！
+blacksmithcost=花费：
+blacksmithbreaktip=将晶石放入槽中，然后按下打开按钮以获得各种宝物！
+blacksmithbreakfocustip=更高的幸福度可以让你更便宜地打开晶石
+blacksmithwantbreakgeode=我想打开一些晶石
+blacksmithquicktransfer=自动转移到库存
+personalizedroom=个性化房间
+nopersonalizedroom=我的房间缺少 <list>
+preferredfurniturewoodtype=首选家具木材类型
+notfurniturewoodtype=我想在我的房间里有更多 <wood> 家具
+blueprintbuildconfirm=建造建筑
+blueprintpinbutton=固定所需物品
+blueprintwalls=墙：
+blueprintfloor=地板：
+blueprintfurniture=木材：
+blueprintrecipeheader=所需物品：
+settlementunsafe=§6在不安全的条件下无法执行此操作\n§6有敌对玩家在定居点
+settlementenablepvp=启用 PvP
+settlementdisablepvp=禁用 PvP
+settlementactioncooldown=冷却中\n剩余时间： <time> 秒
+settlementconfirmnotice=你确定吗？
+settlementunclaimexplain=放弃定居将使其处于无管理状态，容易遭受攻击，并允许其他人认领
+settlementdestroyexplain=摧毁旗帜将取消你对定居的所有权，并允许其他人放置自己的旗帜
+settlementpvpexplain=启用定居 PvP 将允许所有玩家建造、摧毁和窃取你的定居\n仅在 5 分钟后才能禁用
+settlementexplosiondamage=防御区内的爆炸会损坏地块和物品
+settlementdestroyflag=摧毁旗帜
+settlementdestroybutton=摧毁
+settlementtakeover=接管定居
+settlementtakeoverexplain=接管此定居需要所有居民死亡，并且接管玩家不处于战斗状态！\n必须拥有 1x 认领卷轴
+takeoverbutton=认领<extra>
+
+[item]
+tannedleather=鞣制皮
+
+革
+geode=晶石
+alamite=阿拉米特
+amethyst=紫水晶
+calcite=方解石
+celestine=天青石
+jagoite=亮晶晶的小结晶
+malachite=孔雀石
+orpiment=雄黄
+earthcrystal=大地水晶
+earthring=大地之戒
+glass=玻璃
+blueprintempty=空蓝图
+claimingscroll=认领卷轴
+brokenfossil=破碎的化石
+fossil=化石
+
+[itemtooltip]
+dryingracktip=晾晒和鞣制皮革，解锁更多用途
+fishdisplaytip=特殊鱼类的墙面展示
+safebox=安全存放私人物品的地方
+geodeslot=晶石槽
+geode=中空的岩石结构，可能含有贵重物品\n黑匠可能能打开它
+alamite=岩石收藏家经常寻找的闪亮结晶形成物
+amethyst=以其紫色而闻名，被称为覆盆子色
+calcite=黄色晶体，带有奇异的闪光
+celestine=与许多童话故事有关...
+jagoite=闪闪发光的小结晶集合
+malachite=非常坚固，常用于雕塑
+orpiment=有毒的宝石，但在合适的手中可以发挥作用
+earthcrystal=与石头共鸣的能量可以从中感受到
+earthring=利用来自稀有水晶的地球能量\n是矿工的宝藏
+seedlingtabletip=用于繁殖种子
+cannontrap=海盗喜欢的东西，原因显而易见
+claimingscroll=允许你在已认领的定居点启用 PvP 通过接近并与旗帜互动\n\n只有在满足认领条件的情况下才会认领定居点旗帜
+brushtip=刷子工具
+brokenfossil=看起来我用错工具了
+fossil=未知类型的化石\n在检查桌上了解更多信息
+
+[itemcategory]
+processed=加工品
+geodes=晶石
+fossils=化石
+gems=宝石
+
+[jobs]
+studyingname=学习
+studyingtip=在学习桌上研究各种书籍，并制作出新获得的知识卷轴
+
+[activities]
+studying=学习一本书
+
+[mob]
+architecthuman=建筑师
+architecthumanname=<name> 建筑师
+
+[mobmsg]
+architecttalk1=建筑师的工作是创造美丽的建筑
+architecttalk2=要创造，必须首先质疑一切
+architecttalk3=正如有人曾经说过的：上帝在细节中
+architecttalk4=肯定有你需要我帮忙的地方
+architecttalk5=你知道，我真的喜欢吃苹果，它们很容易吃
+architectspecial1=如果 <stylist> 允许的话，一座大厦会很适合她
+architectspecial2=<elder> 的原始房子可以升级一下
+
+[controls]
+takeovertip=接管
+
+[misc]
+maxsettlementsflagreached=§6无法在单个定居中放置多个旗帜
+settlementhostileapproaching=§6<player> 正在靠近你的定居！
