@@ -1,0 +1,171 @@
+[tile]
+litwoodfloor=Светлый деревянный пол
+litwoodpathtile=Светлая деревянная тропинка
+litstonefloor=Светлый каменный пол
+litstonepathtile=Светлая каменная тропинка
+litswampstonefloor=Светлый болотный каменный пол
+litswampstonepathtile=Светлая болотная каменная тропинка
+
+[object]
+dryingrack=Сушильная стойка
+sprucefishwalldisplay=Витрина для еловой рыбы
+safebox=Сейф
+seedlingtable=Стол для саженцев
+studytable=Учебный стол
+leatherchair=Кожаное кресло
+oakleatherchair=Кожаное кресло из дуба
+spruceleatherchair=Кожаное кресло из ели
+pineleatherchair=Кожаное кресло из сосны
+palmleatherchair=Кожаное кресло из пальмы
+deadwoodleatherchair=Кожаное кресло из мертвого дерева
+cannontrap=Пушечная ловушка
+toolsrack=Стойка для инструментов
+chair=Стул
+tallmirror=Высокое зеркало
+oaktallmirror=Высокое зеркало из дуба
+sprucetallmirror=Высокое зеркало из ели
+pinetallmirror=Высокое зеркало из сосны
+palmtallmirror=Высокое зеркало из пальмы
+deadwoodtallmirror=Высокое зеркало из мертвого дерева
+blueprinttable=Стол чертежей
+blueprint=Чертеж
+house1empty=Пустой дом 7x7
+house1=Обставленный дом 7x7
+house2empty=Пустой дом 9x7
+house2=Обставленный дом 9x7
+house3empty=Пустой дом 12x10
+house3=Обставленный дом 12x10
+trainingarea=Тренировочная зона 10x10
+storageroom=Комната для хранения 11x11
+storageroombig=Большая комната для хранения 21x21
+reinforcedouterwoodwall=Укрепленная внешняя стена из дерева
+reinforcedouterpinewall=Укрепленная внешняя стена из сосны
+reinforcedouterpalmwall=Укрепленная внешняя стена из пальмы
+reinforcedouterstonewall=Укрепленная внешняя стена из камня
+reinforcedoutersandstonewall=Укрепленная внешняя стена из песчаника
+reinforcedouterswampstonewall=Укрепленная внешняя стена из болотного камня
+reinforcedoutersnowstonewall=Укрепленная внешняя стена из снежного камня
+reinforcedouterobsidianwall=Укрепленная внешняя стена из обсидиана
+securewooddoor=Надежная деревянная дверь
+securepalmdoor=Надежная дверь из пальмы
+securepinedoor=Надежная дверь из сосны
+securestonedoor=Надежная каменная дверь
+securesandstonedoor=Надежная дверь из песчаника
+securesnowstonedoor=Надежная дверь из снежного камня
+secureswampstonedoor=Надежная дверь из болотного камня
+secureobsidiandoor=Надежная дверь из обсидиана
+
+[ui]
+updateavailable=§aРасширение поселения устарело!\n§aПожалуйста, обновите до версии <version>.
+drying=Сушка...
+needdrymaterial=Требуется материал для сушки
+lockedinventory=Статус: <state>
+lockbutton=Закрыть
+locked=Закрыто
+unlockbutton=Открыть
+blacksmithbreak=Разбить геоду
+blacksmithbreakconfirm=Разбить геоду!
+blacksmithcost=Стоимость:
+blacksmithbreaktip=Положите геоду в слот и нажмите "Разбить", чтобы получить различные сокровища!
+blacksmithbreakfocustip=Более высокое счастье позволяет разбивать геоды дешевле
+blacksmithwantbreakgeode=Я хочу разбить несколько геод
+blacksmithquicktransfer=Автоматический перенос в инвентарь
+personalizedroom=Персонализированная комната
+nopersonalizedroom=Отсутствует <list> в моей комнате
+preferredfurniturewoodtype=Предпочтительный тип деревянной мебели
+notfurniturewoodtype=Мне бы хотелось больше мебели из <wood> в моей комнате
+blueprintbuildconfirm=Построить здание
+blueprintpinbutton=Закрепить необходимые предметы
+blueprintwalls=Стены:
+blueprintfloor=Пол:
+blueprintfurniture=Дерево:
+blueprintrecipeheader=Необходимые предметы:
+settlementunsafe=§6Действие недоступно в опасных условиях\n§6В поселении находится враждебный игрок
+settlementenablepvp=Включить PvP
+settlementdisablepvp=Отключить PvP
+settlementactioncooldown=Действие на перезарядке\nОсталось времени: <time> сек
+settlementconfirmnotice=Вы уверены?
+settlementunclaimexplain=Отказ от претензии на поселение сделает его
+
+ неуправляемым, уязвимым для атак и доступным для претендования всеми остальными
+settlementdestroyexplain=Уничтожение флага снимет ваше право на претензию на поселение и позволит другим устанавливать свои флаги
+settlementpvpexplain=Включение PvP в поселении позволит всем игрокам строить, разрушать и красть из вашего поселения\nОтключить его можно только через 5 минут
+settlementexplosiondamage=Взрывы в пределах защищенной зоны повреждают плиты и объекты
+settlementdestroyflag=Уничтожить флаг
+settlementdestroybutton=Уничтожить
+settlementtakeover=Захватить поселение
+settlementtakeoverexplain=Для захвата поселения все поселенцы должны быть мертвы, и игрок, захватывающий, не должен находиться в бою!\nДолжен быть 1x свиток претензии
+takeoverbutton=Претендовать<extra>
+
+[item]
+tannedleather=Дубленая кожа
+geode=Геода
+alamite=Аламит
+amethyst=Аметист
+calcite=Кальцит
+celestine=Целестин
+jagoite=Джагоит
+malachite=Малахит
+orpiment=Орпимент
+earthcrystal=Каменный кристалл
+earthring=Каменное кольцо
+glass=Стекло
+blueprintempty=Пустой чертеж
+claimingscroll=Свиток претензии
+brokenfossil=Сломанный ископаемый останок
+fossil=Ископаемый останок
+
+[itemtooltip]
+dryingracktip=Сушит и дубит кожу, открывая для нее новые возможности использования
+fishdisplaytip=Стенд для особой рыбы
+safebox=Безопасное место для хранения личных предметов
+geodeslot=Слот для геоды
+geode=Пустая каменная формация с возможными ценностями внутри\nКузнец, возможно, сможет ее открыть
+alamite=Обычная блестящая формация, которую ищут коллекционеры камней
+amethyst=Известен своим фиолетовым цветом, называемым малиновым
+calcite=Желтый кристалл с странными бликами
+celestine=Ассоциируется с множеством сказок...
+jagoite=Блестящая коллекция кристаллов, похожих друг на друга
+malachite=Очень прочный и часто используемый в скульптуре
+orpiment=Токсичный драгоценный камень, но его свойства могут быть полезны в правильных руках
+earthcrystal=Энергия, резонирующая со скалой, можно почувствовать ее оттуда
+earthring=Используя энергию земли из редкого кристалла\nЭто сокровище для горняка
+seedlingtabletip=Используется для умножения семян
+cannontrap=Любимая пиратами, по понятным причинам
+claimingscroll=Позволяет вам претендовать на уже претендованное поселение с включенным PvP, подходя к флагу поселения и взаимодействуя с ним\n\nПретендование на флаг поселения будет выполнено только в том случае, если\nвыполнены условия претендования
+brushtip=Инструмент "Кисть"
+brokenfossil=Похоже, что я использовал не тот инструмент для этого
+fossil=Неизвестный вид ископаемого\nУзнайте больше об этом на столе инспекции
+
+[itemcategory]
+processed=Обработанные товары
+geodes=Геоды
+fossils=Ископаемые
+gems=Драгоценные камни
+
+[jobs]
+studyingname=Изучение
+studyingtip=Изучение различных книг за столом и создание свитков с новыми знаниями
+
+[activities]
+studying=Изучение книги
+
+[mob]
+architecthuman=Архитектор
+architecthumanname=<name> Архитектор
+
+[mobmsg]
+architecttalk1=Задача архитектора - создавать красивые здания
+architecttalk2=Чтобы создать, сначала нужно всё осмотреть
+architecttalk3=Как кто-то когда-то сказал: Бог в деталях
+architecttalk4=Должно быть, у вас есть что-то, что вам нужно от меня
+architecttalk5=Знаете, мне очень нравятся яблоки, их так удобно есть
+architectspecial1=Если <stylist> разрешит, то особняк подойдет ей
+architectspecial2=Оригинальный дом <elder> мог бы быть улучшен
+
+[controls]
+takeovertip=Захватить
+
+[misc]
+maxsettlementsflagreached=§6Невозможно установить несколько флагов в одном поселении
+settlementhostileapproaching=§6<player> приближается к ваш
