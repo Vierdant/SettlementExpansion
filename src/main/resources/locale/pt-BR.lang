@@ -1,0 +1,170 @@
+[tile]
+litwoodfloor=Laje de Madeira Iluminada
+litwoodpathtile=Caminho de Madeira Iluminado
+litstonefloor=Laje de Pedra Iluminada
+litstonepathtile=Caminho de Pedra Iluminado
+litswampstonefloor=Laje de Pedra do Pântano Iluminada
+litswampstonepathtile=Caminho de Pedra do Pântano Iluminado
+
+[object]
+dryingrack=Suporte de Secagem
+sprucefishwalldisplay=Exibição de Peixe de Pinho
+safebox=Cofre
+seedlingtable=Mesa de Mudas
+studytable=Mesa de Estudo
+leatherchair=Cadeira de Couro
+oakleatherchair=Cadeira de Couro de Carvalho
+spruceleatherchair=Cadeira de Couro de Pinho
+pineleatherchair=Cadeira de Couro de Pinheiro
+palmleatherchair=Cadeira de Couro de Palmeira
+deadwoodleatherchair=Cadeira de Couro de Madeira Morta
+cannontrap=Armadilha de Canhão
+toolsrack=Suporte de Ferramentas
+chair=Cadeira
+tallmirror=Espelho Alto
+oaktallmirror=Espelho Alto de Carvalho
+sprucetallmirror=Espelho Alto de Pinho
+pinetallmirror=Espelho Alto de Pinheiro
+palmtallmirror=Espelho Alto de Palmeira
+deadwoodtallmirror=Espelho Alto de Madeira Morta
+blueprinttable=Mesa de Projetos
+blueprint=Projeto
+house1empty=Casa Vazia 7x7
+house1=Casa Mobiliada 7x7
+house2empty=Casa Vazia 9x7
+house2=Casa Mobiliada 9x7
+house3empty=Casa Vazia 12x10
+house3=Casa Mobiliada 12x10
+trainingarea=Área de Treinamento 10x10
+storageroom=Sala de Armazenamento 11x11
+storageroombig=Sala de Armazenamento Grande 21x21
+reinforcedouterwoodwall=Parede Externa Reforçada de Madeira
+reinforcedouterpinewall=Parede Externa Reforçada de Pinho
+reinforcedouterpalmwall=Parede Externa Reforçada de Palmeira
+reinforcedouterstonewall=Parede Externa Reforçada de Pedra
+reinforcedoutersandstonewall=Parede Externa Reforçada de Pedra Arenosa
+reinforcedouterswampstonewall=Parede Externa Reforçada de Pedra de Pântano
+reinforcedoutersnowstonewall=Parede Externa Reforçada de Pedra de Neve
+reinforcedouterobsidianwall=Parede Externa Reforçada de Obsidiana
+securewooddoor=Porta de Madeira Segura
+securepalmdoor=Porta de Palmeira Segura
+securepinedoor=Porta de Pinho Segura
+securestonedoor=Porta de Pedra Segura
+securesandstonedoor=Porta de Pedra Arenosa Segura
+securesnowstonedoor=Porta de Pedra de Neve Segura
+secureswampstonedoor=Porta de Pedra de Pântano Segura
+secureobsidiandoor=Porta de Obsidiana Segura
+
+
+[ui]
+updateavailable=§aA Expansão do Assentamento está desatualizada!\n§aPor favor, atualize para a versão <version>.
+drying=Secando...
+needdrymaterial=Necessita de material para secar
+lockedinventory=Estado: <state>
+lockbutton=Travar
+locked=Travado
+unlockbutton=Desbloquear
+blacksmithbreak=Quebrar Geodo
+blacksmithbreakconfirm=Quebrar Geodo!
+blacksmithcost=Custo:
+blacksmithbreaktip=Coloque o geodo na ranhura e pressione quebrar para obter vários tesouros!
+blacksmithbreakfocustip=A felicidade mais alta permite que você quebre geodos por um preço mais barato
+blacksmithwantbreakgeode=Eu quero quebrar alguns geodos
+blacksmithquicktransfer=Transferência automática para o inventário
+personalizedroom=Quarto Personalizado
+nopersonalizedroom=Faltando <list> no meu quarto
+preferredfurniturewoodtype=Tipo de madeira preferido para móveis
+notfurniturewoodtype=Gostaria de mais móveis de <wood> no meu quarto
+blueprintbuildconfirm=Construir Edifício
+blueprintpinbutton=Fixar Itens Necessários
+blueprintwalls=Parede:
+blueprintfloor=Piso:
+blueprintfurniture=Madeira:
+blueprintrecipeheader=Itens Necessários:
+settlementunsafe=§6Ação não disponível em condições inseguras\n§6Um jogador hostil está atualmente no assentamento
+settlementenablepvp=Ativar PvP
+settlementdisablepvp=Desativar PvP
+settlementactioncooldown=Ação em espera\nTempo restante: <time>s
+settlementconfirmnotice=Você tem certeza?
+settlementunclaimexplain=Desmarcar um assentamento o deixará sem gerenciamento, vulnerável a ataques e disponível para que outros o reivindiquem
+settlementdestroyexplain=Destruiur uma bandeira removerá sua reivindicação do assentamento e permitirá que outros coloquem suas próprias bandeiras
+settlementpvpexplain=Ativar PvP no assentamento permitirá que todos os jogadores construam, destruam e roubem do seu assentamento\nVocê só pode desativar após 5 minutos
+settlementexplosiondamage=Explosões dentro da zona de defesa danificarão tiles e objetos
+settlementdestroyflag=Destruir Bandeira
+settlementdestroybutton=Destruir
+settlementtakeover=Reivindicar Assentamento
+settlementtakeoverexplain=Reivindicar este assentamento requer que todos os colonos estejam mortos e o jogador reivindicando não esteja em combate!\nDeve ter 1x Pergaminho de Reivindicação
+takeoverbutton=Reivindicar<extra>
+
+[item]
+tannedleather=Couro Curtido
+geode=Geodo
+alamite=Alamite
+amethyst=Ametista
+calcite=Calcita
+celestine=Celestina
+jagoite=Jagoita
+malachite=Malaquita
+orpiment=Orpimento
+earthcrystal=Cristal da Terra
+earthring=Anel da Terra
+glass=Vidro
+blueprintempty=Plano Vazio
+claimingscroll=Pergaminho de Reivindicação
+brokenfossil=Fóssil Quebrado
+fossil=Fóssil
+
+[itemtooltip]
+dryingracktip=Seca e curte couro para desbloquear mais usos para ele
+fishdisplaytip=Exibição de parede para peixes especiais
+safebox=Lugar seguro para armazenar itens privados
+geodeslot=Slot de Geodo
+geode=Formação rochosa oca com possíveis objetos de valor dentro\nUm ferreiro pode conseguir abri-lo
+alamite=Formações brilhantes comumente procuradas por colecionadores de rochas
+amethyst=Famosa por sua cor roxa, conhecida como framboesa
+calcite=Cristal amarelo com brilhos peculiares
+celestine=Associada a muitos contos de fadas...
+jagoite=Pequena coleção brilhante de cristais parecidos
+malachite=Muito resistente e comumente usada em esculturas
+orpiment=Gema tóxica, no entanto, suas propriedades podem ser úteis nas mãos certas
+earthcrystal=Energia que ressoa com a pedra pode ser sentida a partir dele
+earthring=Utilizando a energia da terra de um cristal raro\nÉ o tesouro de um minerador
+seedlingtabletip=Usado para multiplicar sementes
+cannontrap=Adorado por piratas, por razões óbvias
+claimingscroll=Permite que você reivindique um assentamento já reivindicado com PVP ativado\nao se aproximar da bandeira de assentamento e interagir com ela\n\nA reivindicação da bandeira de assentamento só será feita se\nas condições de reivindicação forem atendidas
+brushtip=Ferramenta de Pincel
+brokenfossil=Parece que usei a ferramenta errada para isso
+fossil=Tipo desconhecido de fóssil\nSaiba mais sobre isso em uma mesa de inspeção
+
+[itemcategory]
+processed=Bens Processados
+geodes=Geodos
+fossils=Fósseis
+gems=Gemas
+
+[jobs]
+studyingname=Estudante
+studyingtip=Estuda vários livros em uma mesa de estudos e produz pergaminhos com o conhecimento recém-adquirido
+
+[activities]
+studying=Estudando um livro
+
+[mob]
+architecthuman=Arquiteto
+architecthumanname=<name> o Arquiteto
+
+[mobmsg]
+architecttalk1=O trabalho do arquiteto é criar belos edifícios
+architecttalk2=Para criar, é preciso questionar tudo primeiro
+architecttalk3=Como alguém já disse: Deus está nos detalhes
+architecttalk4=Deve haver algo que você precise de mim
+architecttalk5=Sabe, eu realmente gosto de maçãs, são fáceis de comer
+architectspecial1=Se <stylist> permitir, uma mansão ficaria bem para ela
+architectspecial2=A casa original de <elder> poderia receber uma atualização
+
+[controls]
+takeovertip=Assumir o controle
+
+[misc]
+maxsettlementsflagreached=§6Não é possível colocar várias bandeiras em um único assentamento
+settlementhostileapproaching=§6<player> está se aproximando do seu assentamento!
