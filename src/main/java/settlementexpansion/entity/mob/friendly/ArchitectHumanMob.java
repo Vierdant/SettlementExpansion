@@ -43,7 +43,7 @@ public class ArchitectHumanMob extends HumanShop {
     public ArchitectHumanMob() {
         super(500, 200, "architect");
         this.attackCooldown = 500;
-        this.attackAnimSpeed = 500;
+        this.attackAnimTime = 500;
         this.setSwimSpeed(1.0F);
         this.collision = new Rectangle(-10, -7, 20, 14);
         this.hitBox = new Rectangle(-14, -12, 28, 24);

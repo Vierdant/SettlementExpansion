@@ -1,8 +1,10 @@
 package settlementexpansion.item.geode;
 
 import necesse.engine.localization.Localization;
+import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.ai.behaviourTree.Blackboard;
 import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
@@ -35,8 +37,8 @@ public class GeodeItem extends Item {
     }
 
     @Override
-    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
-        ListGameTooltips tooltips = super.getTooltips(item, perspective);
+    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
+        ListGameTooltips tooltips = super.getTooltips(item, perspective, blackboard);
         if (this.tooltipKey != null) {
             tooltips.add(Localization.translate("itemtooltip", this.tooltipKey));
         }

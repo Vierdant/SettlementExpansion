@@ -1,6 +1,7 @@
 package settlementexpansion.item.trinket;
 
 import necesse.engine.localization.Localization;
+import necesse.engine.util.GameBlackboard;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
@@ -12,10 +13,10 @@ public class SimpleTippedTrinketItem extends SimpleTrinketItem {
         super(rarity, buffStringIDs, enchantCost);
     }
 
-    @Override
-    public ListGameTooltips getTrinketTooltips(InventoryItem item, PlayerMob perspective, boolean equipped) {
-        ListGameTooltips tooltips = super.getTrinketTooltips(item, perspective, equipped);
+    /*@Override
+    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
+        ListGameTooltips tooltips = super.getToolTips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) ;
         tooltips.add(Localization.translate("itemtooltip", this.getStringID()));
         return tooltips;
-    }
+    }*/
 }

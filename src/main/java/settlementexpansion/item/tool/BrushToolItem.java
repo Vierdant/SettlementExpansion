@@ -15,10 +15,10 @@ public class BrushToolItem extends ToolDamageItem {
         this.animInverted = true;
         this.animAttacks = 2;
         this.width = 10.0F;
-        this.animSpeed = 500;
+        /*this.animSpeed = 500;
         this.attackDamage = new GameDamage(10);
         this.attackRange = 50;
-        this.knockback = 50;
+        this.knockback = 50;*/
     }
 
     protected void addToolTooltips(ListGameTooltips tooltips) {

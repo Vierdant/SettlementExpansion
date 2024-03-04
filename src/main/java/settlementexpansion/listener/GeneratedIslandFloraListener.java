@@ -11,7 +11,7 @@ public class GeneratedIslandFloraListener extends GameEventListener<GeneratedIsl
 
     @Override
     public void onEvent(GeneratedIslandFloraEvent event) {
-        GenerationTools.generateRandomSmoothVeins(event.level, event.islandGeneration.random,
+        /*GenerationTools.generateRandomSmoothVeins(event.level, event.islandGeneration.random,
                 0.5F, 4, 4, 4, 2, 2, (level, tileX, tileY) -> {
 
             int tile = level.getTileID(tileX, tileY);
@@ -30,6 +30,6 @@ public class GeneratedIslandFloraListener extends GameEventListener<GeneratedIsl
                     grassHole.placeTile(level, tileX, tileY);
                 }
             }
-        });
+        });*/
     }
 }

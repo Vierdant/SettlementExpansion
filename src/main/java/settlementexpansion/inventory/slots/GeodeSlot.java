@@ -11,7 +11,7 @@ public class GeodeSlot extends ContainerSlot {
     }
 
     @Override
-    public boolean isItemValid(InventoryItem item) {
-        return item.item instanceof GeodeItem;
+    public String getItemInvalidError(InventoryItem item) {
+        return item.item instanceof GeodeItem ? null : "";
     }
 }

@@ -1,6 +1,7 @@
 package settlementexpansion.item.fossil;
 
 import necesse.engine.localization.Localization;
+import necesse.engine.util.GameBlackboard;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
@@ -23,8 +24,8 @@ public class FossilItem extends Item {
     }
 
     @Override
-    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
-        ListGameTooltips tooltips = super.getTooltips(item, perspective);
+    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
+        ListGameTooltips tooltips = super.getTooltips(item, perspective, blackboard);
         if (this.tooltipKey != null) {
             tooltips.add(Localization.translate("itemtooltip", this.tooltipKey));
         }

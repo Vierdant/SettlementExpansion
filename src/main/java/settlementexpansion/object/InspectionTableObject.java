@@ -145,8 +145,8 @@ public class InspectionTableObject extends GameObject {
     }
 
     public static void registerInspectionTable() {
-        BlueprintTableObject cb1o = new BlueprintTableObject();
-        BlueprintTable2Object cb2o = new BlueprintTable2Object();
+        InspectionTableObject cb1o = new InspectionTableObject();
+        InspectionTable2Object cb2o = new InspectionTable2Object();
         cb1o.counterID = ObjectRegistry.registerObject("inspectiontable2", cb2o, 0.0F, false);
         cb2o.counterID = ObjectRegistry.registerObject("inspectiontable", cb1o, 20.0F, true);
     }
