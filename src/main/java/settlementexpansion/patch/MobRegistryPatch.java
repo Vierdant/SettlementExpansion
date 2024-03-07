@@ -6,8 +6,6 @@ import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
-import necesse.engine.registries.JobTypeRegistry;
-import necesse.engine.registries.LevelJobRegistry;
 import necesse.engine.registries.MobRegistry;
 import necesse.entity.mobs.ProjectileHitboxMob;
 import necesse.entity.mobs.TrainingDummyMob;
@@ -76,6 +74,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("deepsnowstonecaveling", DeepSnowStoneCaveling.class, true, false, new LocalMessage("mob", "caveling"), (GameMessage)null);
         MobRegistry.registerMob("deepswampstonecaveling", DeepSwampStoneCaveling.class, true, false, new LocalMessage("mob", "caveling"), (GameMessage)null);
         MobRegistry.registerMob("deepsandstonecaveling", DeepSandStoneCaveling.class, true, false, new LocalMessage("mob", "caveling"), (GameMessage)null);
+        MobRegistry.registerMob("flameling", Flameling.class, true, false, new LocalMessage("mob", "flameling"), (GameMessage)null);
         MobRegistry.registerMob("human", GenericHumanMob.class, true);
         MobRegistry.registerMob("farmerhuman", FarmerHumanMob.class, true);
         MobRegistry.registerMob("blacksmithhuman", BlacksmithModHumanMob.class, true);
@@ -177,6 +176,8 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("orbofslimesslime", OrbOfSlimesFollowingMob.class, false);
         MobRegistry.registerMob("babyspiderkinwarrior", BabySpiderkinWarrior.class, false);
         MobRegistry.registerMob("babyspiderkinarcher", BabySpiderkinArcher.class, false);
+        MobRegistry.registerMob("ravenlordfeather", RavenLordFeatherFollowingMob.class, false);
+        MobRegistry.registerMob("duskmoondisc", DuskMoonDiscFollowingMob.class, false);
         MobRegistry.registerMob("evilsprotector", EvilsProtectorMob.class, true, true, new LocalMessage("quests", "evilsprotectortip"));
         MobRegistry.registerMob("evilsportal", EvilsPortalMob.class, true);
         MobRegistry.registerMob("portalminion", PortalMinion.class, true);
@@ -211,6 +212,10 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("nightswarm", NightSwarmStartMob.class, true, true);
         MobRegistry.registerMob("nightswarmbat", NightSwarmBatMob.class, true);
         MobRegistry.registerMob("spiderempress", SpiderEmpressMob.class, true, true);
+        MobRegistry.registerMob("sunlightchampion", SunlightChampionMob.class, true, true);
+        MobRegistry.registerMob("sunlightgauntlet", SunlightChampionMob.SunlightGauntletMob.class, false, false);
+        MobRegistry.registerMob("moonlightdancer", MoonlightDancerMob.class, true, true);
+        MobRegistry.registerMob("incursioncrawlingzombie", IncursionCrawlingZombieMob.class, true);
         MobRegistry.registerMob("woodboat", WoodBoatMob.class, false);
         MobRegistry.registerMob("minecart", MinecartMob.class, false);
         MobRegistry.registerMob("sawblade", SawBladeMob.class, false);
@@ -218,6 +223,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("projectilehitbox", ProjectileHitboxMob.class, false, false, new StaticMessage("PROJECTILE_HITBOX"), (GameMessage)null);
         MobRegistry.registerMob("homeportal", HomePortalMob.class, false);
         MobRegistry.registerMob("returnportal", ReturnPortalMob.class, false);
+        MobRegistry.registerMob("bossspawnportal", BossSpawnPortalMob.class, false);
     }
 
 }
