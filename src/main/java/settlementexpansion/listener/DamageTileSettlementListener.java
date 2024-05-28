@@ -11,7 +11,7 @@ import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.gameObject.*;
 import necesse.level.maps.LevelObject;
-import necesse.level.maps.layers.SettlementLevelLayer;
+import necesse.level.maps.layers.settlement.SettlementLevelLayer;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;

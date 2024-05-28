@@ -20,7 +20,7 @@ public class GeodeLootTable extends LootTable {
     };
     public static final Object[] casual = new Object[]{
             15, new LootItem("alamite"),
-            15, new LootItem("amethyst"),
+            15, new LootItem("impureamethyst"),
             15, new LootItem("calcite"),
             15, new LootItem("celestine"),
             15, new LootItem("jagoite"),

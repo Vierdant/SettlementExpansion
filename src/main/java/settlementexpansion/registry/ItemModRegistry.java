@@ -33,7 +33,7 @@ public class ItemModRegistry {
         ItemRegistry.registerItem("claimingscroll", (new MatItem(5).setItemCategory("misc")), 500F, true);
 
         ItemRegistry.registerItem("alamite", (new MatItem(100, Item.Rarity.UNCOMMON, "alamite").setItemCategory("materials", "minerals", "gems")), 150, true);
-        ItemRegistry.registerItem("amethyst", (new MatItem(100, Item.Rarity.UNCOMMON, "amethyst").setItemCategory("materials", "minerals", "gems")), 100, true);
+        ItemRegistry.registerItem("impureamethyst", (new MatItem(100, Item.Rarity.UNCOMMON, "impureamethyst").setItemCategory("materials", "minerals", "gems")), 100, true);
         ItemRegistry.registerItem("calcite", (new MatItem(100, Item.Rarity.UNCOMMON, "calcite").setItemCategory("materials", "minerals", "gems")), 75, true);
         ItemRegistry.registerItem("celestine", (new MatItem(100, Item.Rarity.UNCOMMON, "celestine").setItemCategory("materials", "minerals", "gems")), 125, true);
         ItemRegistry.registerItem("jagoite", (new MatItem(100, Item.Rarity.UNCOMMON, "jagoite").setItemCategory("materials", "minerals", "gems")), 115, true);

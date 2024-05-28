@@ -2,7 +2,7 @@ package settlementexpansion.listener;
 
 import necesse.engine.GameEventListener;
 import necesse.engine.events.players.ItemPlaceEvent;
-import necesse.level.maps.layers.SettlementLevelLayer;
+import necesse.level.maps.layers.settlement.SettlementLevelLayer;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;

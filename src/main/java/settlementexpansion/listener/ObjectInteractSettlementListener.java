@@ -10,7 +10,7 @@ import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.gameObject.DoorObject;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.furniture.InventoryObject;
-import necesse.level.maps.layers.SettlementLevelLayer;
+import necesse.level.maps.layers.settlement.SettlementLevelLayer;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import settlementexpansion.SettlementExpansion;
 import settlementexpansion.map.settlement.SettlementModData;

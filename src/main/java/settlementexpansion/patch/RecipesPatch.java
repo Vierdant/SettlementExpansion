@@ -1,10 +1,15 @@
 package settlementexpansion.patch;
 
 import necesse.engine.modLoader.annotations.ModMethodPatch;
+import necesse.engine.network.gameNetworkData.GNDItem;
 import necesse.engine.network.gameNetworkData.GNDItemMap;
+import necesse.engine.registries.IncursionBiomeRegistry;
 import necesse.engine.registries.RecipeTechRegistry;
+import necesse.engine.util.GameRandom;
+import necesse.inventory.item.miscItem.GatewayTabletItem;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import necesse.level.maps.incursion.IncursionBiome;
 import net.bytebuddy.asm.Advice;
 
 import java.util.ArrayList;
@@ -25,18 +30,31 @@ public class RecipesPatch {
     }
 
     public static ArrayList<Recipe> getRecipes() {
-        ArrayList<Recipe> out = new ArrayList<>();
+        ArrayList<Recipe> out = new ArrayList();
         out.add(new Recipe("fallenalchemytable", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{anytier1essence, 10}, {alchemyshard, 10}}}")));
         out.add(new Recipe("upgradestation", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{anytier1essence, 10}, {upgradeshard, 10}}}")));
         out.add(new Recipe("salvagestation", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{anytier1essence, 10}, {upgradeshard, 10}}}")));
         out.add(new Recipe("tabletbox", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{anytier1essence, 50}}}")));
-        out.add(new Recipe("shadowgate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{tungstenbar, 4}, {ectoplasm, 8}}")));
-        out.add(new Recipe("icecrown", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{glacialbar, 4}, {glacialshard, 8}}")));
-        out.add(new Recipe("decayingleaf", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{myceliumbar, 4}, {silk, 8}}")));
-        out.add(new Recipe("dragonsouls", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 4}, {wormcarapace, 4}}")));
-        out.add(new Recipe("slimeeggs", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeum, 8}, {slimematter, 8}}")));
-        out.add(new Recipe("swarmsignal", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{nightsteelbar, 4}, {phantomdust, 8}}")));
-        out.add(new Recipe("crownofspiderkin", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spideritebar, 4}, {spidervenom, 8}}}")));
+        out.add((new Recipe("gatewaytablet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{tungstenbar, 10}, {ectoplasm, 10}}}"), false, (new GNDItemMap()).setString("recipeBiome", "forestcave").setInt("displayTier", 1))).onCrafted((event) -> {
+            event.resultItem.getGndData().setItem("recipeBiome", (GNDItem)null);
+            IncursionBiome biome = IncursionBiomeRegistry.getBiome("forestcave");
+            GatewayTabletItem.initializeCustomGateTablet(event.resultItem, GameRandom.globalRandom, 1, biome);
+        }));
+        out.add((new Recipe("gatewaytablet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{glacialbar, 10}, {glacialshard, 10}}}"), false, (new GNDItemMap()).setString("recipeBiome", "snowcave").setInt("displayTier", 1))).onCrafted((event) -> {
+            event.resultItem.getGndData().setItem("recipeBiome", (GNDItem)null);
+            IncursionBiome biome = IncursionBiomeRegistry.getBiome("snowcave");
+            GatewayTabletItem.initializeCustomGateTablet(event.resultItem, GameRandom.globalRandom, 1, biome);
+        }));
+        out.add((new Recipe("gatewaytablet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{myceliumbar, 10}, {silk, 10}}}"), false, (new GNDItemMap()).setString("recipeBiome", "swampcave").setInt("displayTier", 1))).onCrafted((event) -> {
+            event.resultItem.getGndData().setItem("recipeBiome", (GNDItem)null);
+            IncursionBiome biome = IncursionBiomeRegistry.getBiome("swampcave");
+            GatewayTabletItem.initializeCustomGateTablet(event.resultItem, GameRandom.globalRandom, 1, biome);
+        }));
+        out.add((new Recipe("gatewaytablet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 10}, {wormcarapace, 5}}}"), false, (new GNDItemMap()).setString("recipeBiome", "desertcave").setInt("displayTier", 1))).onCrafted((event) -> {
+            event.resultItem.getGndData().setItem("recipeBiome", (GNDItem)null);
+            IncursionBiome biome = IncursionBiomeRegistry.getBiome("desertcave");
+            GatewayTabletItem.initializeCustomGateTablet(event.resultItem, GameRandom.globalRandom, 1, biome);
+        }));
         out.add(new Recipe("shadowessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
         out.add(new Recipe("cryoessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
         out.add(new Recipe("bioessence", 2, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 1}}}")));
@@ -61,7 +79,7 @@ public class RecipesPatch {
         out.add(new Recipe("slimeglaive", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
         out.add(new Recipe("slimestaff", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 20}, {slimeum, 16}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
         out.add(new Recipe("slimegreatbow", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 16}, {slimeum, 20}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
-        out.add(new Recipe("orbofslimes", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 16}, {slimeum, 20}}}")));
+        out.add(new Recipe("orbofslimes", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimeessence, 5}, {slimematter, 16}, {slimeum, 20}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
         out.add(new Recipe("gelatincasings", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 20}, {slimeum, 12}}")));
         out.add(new Recipe("slimehelmet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
         out.add(new Recipe("slimehat", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{slimematter, 24}, {slimeum, 24}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
@@ -92,6 +110,17 @@ public class RecipesPatch {
         out.add(new Recipe("spidercastledoor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spiderstone, 4}}")));
         out.add(new Recipe("spidercastlefloor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{spiderstone, 5}}")));
         out.add(new Recipe("spidercastlecarpet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{silk, 1}}")));
+        out.add(new Recipe("gemstonelongsword", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{amethyst, 15}, {pearlescentdiamond, 15}, {omnicrystal, 15}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("shardcannon", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{sapphire, 15}, {pearlescentdiamond, 15}, {omnicrystal, 15}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("refractor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{emerald, 15}, {pearlescentdiamond, 15}, {omnicrystal, 15}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("crystallizedskull", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ruby, 15}, {pearlescentdiamond, 15}, {omnicrystal, 15}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("amethysthelmet", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{amethyst, 12}, {pearlescentdiamond, 5}, {omnicrystal, 10}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("sapphireeyepatch", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{sapphire, 12}, {pearlescentdiamond, 5}, {omnicrystal, 10}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("emeraldmask", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{emerald, 12}, {pearlescentdiamond, 5}, {omnicrystal, 10}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("rubycrown", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{ruby, 12}, {pearlescentdiamond, 5}, {omnicrystal, 10}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("crystalchestplate", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{pearlescentdiamond, 16}, {omnicrystal, 30}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("crystalboots", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{pearlescentdiamond, 8}, {omnicrystal, 15}}}"), false, (new GNDItemMap()).setInt("upgradeLevel", 100)));
+        out.add(new Recipe("crystalshield", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{pearlescentdiamond, 15}, {omnicrystal, 15}}}")));
         out.add(new Recipe("scryingmirror", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("diggingclaw", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
         out.add(new Recipe("antiquerifle", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{primordialessence, 20}}}")));
@@ -122,6 +151,8 @@ public class RecipesPatch {
         out.add(new Recipe("reaperscall", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{shadowessence, 20}}}")));
         out.add(new Recipe("deathripper", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{shadowessence, 20}}}")));
         out.add(new Recipe("reaperscythe", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{shadowessence, 20}}}")));
+        out.add(new Recipe("dawndoor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{dawnwall, 5}}")));
+        out.add(new Recipe("duskdoor", 1, RecipeTechRegistry.FALLEN_WORKSTATION, ingredientsFromScript("{{duskwall, 5}}")));
         out.add(new Recipe("superiorhealthpotion", 1, RecipeTechRegistry.FALLEN_ALCHEMY, ingredientsFromScript("{{greaterhealthpotion, 1}, {alchemyshard, 1}}")));
         out.add(new Recipe("superiormanapotion", 1, RecipeTechRegistry.FALLEN_ALCHEMY, ingredientsFromScript("{{greatermanapotion, 1}, {alchemyshard, 1}}")));
         out.add(new Recipe("greaterspeedpotion", 1, RecipeTechRegistry.FALLEN_ALCHEMY, ingredientsFromScript("{{speedpotion, 1}, {alchemyshard, 4}}")));
@@ -137,7 +168,7 @@ public class RecipesPatch {
         out.add(new Recipe("greaterbuildingpotion", 1, RecipeTechRegistry.FALLEN_ALCHEMY, ingredientsFromScript("{{buildingpotion, 1}, {alchemyshard, 4}}")));
         out.add(new Recipe("lifeelixir", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{lifequartz, 10}, {sunflower, 10}, {glassbottle, 1}}}")));
         out.add(new Recipe("fallenaltar", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{gatewaytablet, 0}, {tungstenbar, 10}, {glacialbar, 10}, {myceliumbar, 10}, {ancientfossilbar, 10}}}")));
-        out.add(new Recipe("fallenworkstation", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{anytier1essence, 20}}}")));
+        out.add(new Recipe("fallenworkstation", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{upgradeshard, 15}, {alchemyshard, 15}}}")));
         out.add(new Recipe("shadowgate", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 4}, {ectoplasm, 8}, {bone, 8}}")));
         out.add(new Recipe("icecrown", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{glacialbar, 4}, {glacialshard, 8}, {bone, 8}}")));
         out.add(new Recipe("decayingleaf", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{myceliumbar, 4}, {silk, 8}, {bone, 8}}")));
@@ -177,6 +208,7 @@ public class RecipesPatch {
         out.add(new Recipe("shadowhood", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ectoplasm, 12}, {bone, 10}}")));
         out.add(new Recipe("shadowmantle", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ectoplasm, 16}, {bone, 14}}")));
         out.add(new Recipe("shadowboots", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ectoplasm, 8}, {bone, 8}}")));
+        out.add(new Recipe("reinforcedkatana", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{katana, 1}, {tungstenbar, 15}}")));
         out.add(new Recipe("iciclestaff", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{glacialbar, 12}, {glacialshard, 6}}")));
         out.add(new Recipe("cryostaff", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{glacialbar, 14}, {glacialshard, 15}}")));
         out.add(new Recipe("glacialpickaxe", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{glacialbar, 16}}")));
@@ -211,6 +243,8 @@ public class RecipesPatch {
         out.add(new Recipe("ancientfossilhelmet", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 12}, {wormcarapace, 3}}"), true));
         out.add(new Recipe("ancientfossilchestplate", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 16}, {wormcarapace, 4}}"), true));
         out.add(new Recipe("ancientfossilboots", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ancientfossilbar, 8}, {wormcarapace, 2}}"), true));
+        out.add(new Recipe("emeraldwand", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{emerald, 15}, {goldbar, 2}}"), true));
+        out.add(new Recipe("rubyshields", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ruby, 18}}"), true));
         out.add(new Recipe("bonearrow", 10, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{bone, 1, true}}")));
         out.add(new Recipe("bonehilt", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{bone, 40}, {tungstenbar, 4}}")));
         out.add(new Recipe("frenzyorb", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{ectoplasm, 15}, {voidshard, 5}}")));
@@ -225,6 +259,10 @@ public class RecipesPatch {
         out.add(new Recipe("hysteriatablet", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{mesmertablet, 1}, {inducingamulet, 1}}"), true));
         out.add(new Recipe("frozensoul", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{lifeline, 1}, {frozenheart, 1}}"), true));
         out.add(new Recipe("toolbox", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{constructionhammer, 1}, {telescopicladder, 1}, {toolextender, 1}, {itemattractor, 1}}"), true));
+        out.add(new Recipe("lantern", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 1}}")));
+        out.add(new Recipe("walllantern", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{lantern, 1}, {anylog, 1}}")));
+        out.add(new Recipe("tungstenstreetlamp", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 5}, {torch, 1}}")));
+        out.add(new Recipe("tungstendoublestreetlamp", 1, RecipeTechRegistry.ADVANCED_WORKSTATION, ingredientsFromScript("{{tungstenbar, 7}, {torch, 2}}")));
         out.add(new Recipe("piratemap", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{mapfragment, 4}, {coin, 50}}")));
         out.add(new Recipe("demonicbar", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{copperbar, 3}}")));
         out.add(new Recipe("demonicbar", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{ironbar, 2}}")));
@@ -275,6 +313,9 @@ public class RecipesPatch {
         out.add(new Recipe("bannerofdamage", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{wool, 30}, {battlepotion, 10}}")));
         out.add(new Recipe("bannerofdefense", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{wool, 30}, {resistancepotion, 10}}")));
         out.add(new Recipe("bannerofsummonspeed", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{wool, 30}, {voidshard, 20}}")));
+        out.add(new Recipe("amethystsword", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{amethyst, 15}, {goldbar, 2}}"), true));
+        out.add(new Recipe("sapphirerevolver", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{sapphire, 15}, {goldbar, 2}}"), true));
+        out.add(new Recipe("arcanearmory", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{demonicbar, 10}, {voidshard, 10}, {ivybar, 10}, {quartz, 10}}")));
         out.add(new Recipe("balancedfoci", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{meleefoci, 1}, {rangefoci, 1}, {magicfoci, 1}, {summonfoci, 1}}")));
         out.add(new Recipe("zephyrboots", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{leatherdashers, 1}, {zephyrcharm, 1}}"), true));
         out.add(new Recipe("explorersatchel", 1, RecipeTechRegistry.DEMONIC, ingredientsFromScript("{{leatherglove, 1}, {trackerboot, 1}, {shinebelt, 1}}"), true));
@@ -385,6 +426,13 @@ public class RecipesPatch {
         out.add(new Recipe("shears", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{ironbar, 10}, {anylog, 1}}")));
         out.add(new Recipe("bucket", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{ironbar, 3}}")));
         out.add(new Recipe("cannonball", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{ironbar, 1}, {handcannon, 0, true}}")));
+        out.add(new Recipe("oillantern", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{copperbar, 1}}")));
+        out.add(new Recipe("copperstreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{copperbar, 5}, {torch, 1}}")));
+        out.add(new Recipe("copperdoublestreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{copperbar, 7}, {torch, 2}}")));
+        out.add(new Recipe("ironstreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{ironbar, 5}, {torch, 1}}")));
+        out.add(new Recipe("irondoublestreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{ironbar, 7}, {torch, 2}}")));
+        out.add(new Recipe("goldstreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{goldbar, 5}, {torch, 1}}")));
+        out.add(new Recipe("golddoublestreetlamp", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{goldbar, 7}, {torch, 2}}")));
         out.add(new Recipe("frosthelmet", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{frostshard, 12}}")));
         out.add(new Recipe("frosthood", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{frostshard, 12}}")));
         out.add(new Recipe("frosthat", 1, RecipeTechRegistry.IRON_ANVIL, ingredientsFromScript("{{frostshard, 12}}")));
@@ -426,6 +474,7 @@ public class RecipesPatch {
         out.add(new Recipe("feedingtrough", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 20}, {ironbar, 5}}")));
         out.add(new Recipe("incinerator", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{ironbar, 10}, {clay, 10}}")));
         out.add(new Recipe("sign", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 10}}")));
+        out.add(new Recipe("tikitorch", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{torch, 1}, {anylog, 1}}")));
         out.add(new Recipe("landfill", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anystone, 2}}")));
         out.add(new Recipe("woodwall", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 2}}")));
         out.add(new Recipe("wooddoor", 1, RecipeTechRegistry.WORKSTATION, ingredientsFromScript("{{anylog, 4}}")));
@@ -548,6 +597,7 @@ public class RecipesPatch {
         out.add(new Recipe("woolcarpet", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{wool, 10}}")));
         out.add(new Recipe("leathercarpet", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{leather, 10}}")));
         out.add(new Recipe("firechalice", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{stone, 50}, {torch, 10}}")));
+        out.add(new Recipe("wallcandle", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{anylog, 1}, {honey, 1}}")));
         out.add(new Recipe("flowerpot", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{clay, 5}}")));
         out.add(new Recipe("barrel", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{anylog, 8}}")));
         out.add(new Recipe("demonchest", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{demonicbar, 3}}"), true));
@@ -564,6 +614,10 @@ public class RecipesPatch {
         out.add(new Recipe("deepsnowstonecolumn", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{deepsnowstone, 20}}"), true));
         out.add(new Recipe("deepswampstonecolumn", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{deepswampstone, 20}}"), true));
         out.add(new Recipe("deepsandstonecolumn", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{deepsandstone, 20}}"), true));
+        out.add(new Recipe("stonecandlepedestal", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{stone, 20}, {honey, 1}}")));
+        out.add(new Recipe("snowcandlepedestal", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{snowstone, 20}, {honey, 1}}")));
+        out.add(new Recipe("swampcandlepedestal", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{swampstone, 20}, {honey, 1}}")));
+        out.add(new Recipe("desertcandlepedestal", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{sandstone, 20}, {honey, 1}}")));
         out.add(new Recipe("armorstand", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{anylog, 10}}")));
         out.add(new Recipe("trainingdummy", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{anylog, 10}, {wool, 10}}")));
         out.add(new Recipe("oakchest", 1, RecipeTechRegistry.CARPENTER, ingredientsFromScript("{{oaklog, 8}}"), true));

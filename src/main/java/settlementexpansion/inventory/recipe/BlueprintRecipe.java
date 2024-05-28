@@ -22,7 +22,7 @@ public class BlueprintRecipe {
 
     public boolean canBuild(PlayerMob player) {
         for (Ingredient ingredient : ingredients) {
-            int amount = player.getInv().getAmount(ingredient.getDisplayItem(), false, false, false, "craftcheck");
+            int amount = player.getInv().getAmount(ingredient.getDisplayItem(), false, false, false, false, "craftcheck");
             if (ingredient.getIngredientAmount() > amount) {
                 return false;
             }
@@ -32,14 +32,14 @@ public class BlueprintRecipe {
 
     public void consumeBuildMaterials(PlayerInventoryManager inventory) {
         for (Ingredient ingredient : ingredients) {
-            inventory.removeItems(ingredient.getDisplayItem(), ingredient.getIngredientAmount(), false, false, false, "buildblueprint");
+            inventory.removeItems(ingredient.getDisplayItem(), ingredient.getIngredientAmount(), false, false, false, false, "buildblueprint");
         }
     }
 
     public GameTooltips getTooltip(PlayerMob player) {
         ListGameTooltips tooltips = new ListGameTooltips();
         for (Ingredient ingredient : this.ingredients) {
-            int amount = player.getInv().getAmount(ingredient.getDisplayItem(), false, false, false, "craftcheck");
+            int amount = player.getInv().getAmount(ingredient.getDisplayItem(), false, false, false, false, "craftcheck");
             tooltips.add(ingredient.getTooltips(amount, true));
         }
 

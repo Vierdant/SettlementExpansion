@@ -11,8 +11,8 @@ public class CustomBrushToolItem extends BrushToolItem {
 
     public CustomBrushToolItem(int toolDps, int toolTier) {
         super(100);
-        this.toolDps = toolDps;
-        this.toolTier = toolTier;
+        //this.toolDps = toolDps;
+        //this.toolTier = toolTier;
     }
 
     public CustomBrushToolItem(int toolDps, int toolTier, int enchantCost, Item.Rarity rarity) {
