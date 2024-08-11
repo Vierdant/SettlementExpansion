@@ -1,11 +1,13 @@
 package settlementexpansion.inventory.form;
 
-import necesse.engine.Screen;
 import necesse.engine.Settings;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.gameTool.GameToolManager;
 import necesse.engine.util.GameMath;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.FormSwitcher;
@@ -70,7 +72,8 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
 
         this.updateMenuBar();
         this.privateForm = this.contentSwitcher.addComponent(new Form(400, 40));
-        this.onWindowResized();
+        GameWindow window = WindowManager.getWindow();
+        this.onWindowResized(window);
     }
 
     protected void init() {
@@ -114,8 +117,9 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
 
     private void updateMenuBar() {
         if (this.menus == null) return;
+        GameWindow window = WindowManager.getWindow();
         int minWidth = Math.min(50 * this.menus.size(), 200);
-        int maxWidth = Screen.getHudWidth() - 200;
+        int maxWidth = window.getHudWidth() - 200;
         this.menuBar.setWidth(GameMath.limit(200 * this.menus.size(), minWidth, Math.max(maxWidth, minWidth)));
         this.menuBar.clearComponents();
         int usedWidth = 4;
@@ -147,7 +151,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
             usedWidth += width;
         }
 
-        this.menuBar.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() - this.menuBar.getHeight() / 2 - Settings.UI.formSpacing - 28);
+        this.menuBar.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() - this.menuBar.getHeight() / 2 - Settings.UI.formSpacing - 28);
     }
 
     public void draw(TickManager tickManager, PlayerMob perspective, Rectangle renderBox) {
@@ -194,7 +198,7 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
                 }
 
                 if (this.tool != null) {
-                    Screen.clearGameTool(this.tool);
+                    GameToolManager.clearGameTool(this.tool);
                 }
 
                 this.tool = null;
@@ -209,10 +213,10 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
                 this.settlerBasicsSubscription = this.container.subscribeSettlerBasics.subscribe();
                 this.container.requestSettlerBasics.runAndSend();
                 if (this.tool != null) {
-                    Screen.clearGameTool(this.tool);
+                    GameToolManager.clearGameTool(this.tool);
                 }
 
-                Screen.setGameTool(this.tool = new SettlementContainerGameTool(this.client, this.selectedSettlers, (SettlementContainer)this.container, this));
+                GameToolManager.setGameTool(this.tool = new SettlementContainerGameTool(this.client, this.selectedSettlers, (SettlementContainer)this.container, this));
             }
         }
 
@@ -249,17 +253,17 @@ public class SettlementModContainerForm<T extends SettlementModContainer> extend
         }
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         this.updateMenuBar();
         if (this.privateForm != null) {
-            this.privateForm.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+            this.privateForm.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
         }
     }
 
     public void dispose() {
         this.selectedSettlers.dispose();
-        Screen.clearGameTool(this.tool);
+        GameToolManager.clearGameTool(this.tool);
         super.dispose();
     }
 

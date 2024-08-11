@@ -1,6 +1,5 @@
 package settlementexpansion.object.entity;
 
-import necesse.engine.Screen;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.PacketWriter;
 import necesse.engine.network.server.ServerClient;
@@ -8,13 +7,14 @@ import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.registries.TileRegistry;
 import necesse.engine.save.LoadData;
 import necesse.engine.save.SaveData;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.pickup.ItemPickupEntity;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.texture.TextureDrawOptionsEnd;
 import necesse.gfx.drawables.SortedDrawable;
+import necesse.gfx.Renderer;
 import necesse.level.gameObject.GameObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.hudManager.HudDrawElement;
@@ -66,7 +66,7 @@ public class BlueprintObjectEntity extends ObjectEntity {
                     if (preset.canApplyToLevel(this.getLevel(), placeTile.x, placeTile.y)) {
                         canApplyOptions = null;
                     } else {
-                        canApplyOptions = Screen.initQuadDraw(preset.width * 32, preset.height * 32).color(1.0F, 0.0F, 0.0F, 0.2F).pos(camera.getTileDrawX(placeTile.x), camera.getTileDrawY(placeTile.y));
+                        canApplyOptions = Renderer.initQuadDraw(preset.width * 32, preset.height * 32).color(1.0F, 0.0F, 0.0F, 0.2F).pos(camera.getTileDrawX(placeTile.x), camera.getTileDrawY(placeTile.y));
                     }
 
                     list.add(new SortedDrawable() {

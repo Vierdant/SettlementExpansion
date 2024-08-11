@@ -1,6 +1,5 @@
 package settlementexpansion.object.entity;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.Localization;
 import necesse.engine.network.Packet;
 import necesse.engine.network.PacketReader;
@@ -13,6 +12,7 @@ import necesse.entity.objectEntity.InventoryObjectEntity;
 import necesse.entity.objectEntity.interfaces.OEInventory;
 import necesse.gfx.gameTooltips.StringTooltips;
 import necesse.gfx.gameTooltips.TooltipLocation;
+import necesse.gfx.gameTooltips.GameTooltipManager;
 import necesse.level.maps.Level;
 import settlementexpansion.packet.PacketLockedInventory;
 
@@ -52,7 +52,7 @@ public class LockedInventoryObjectEntity extends InventoryObjectEntity implement
         StringTooltips tooltips = new StringTooltips(this.getObject().getDisplayName());
         String lockedMessage = this.locked ? "Locked" : "Unlocked";
         tooltips.add(Localization.translate("ui", "lockedinventory").replace("<state>", lockedMessage));
-        Screen.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
+        GameTooltipManager.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
     }
 
     public void markLoadDirty() {

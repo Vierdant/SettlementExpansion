@@ -1,12 +1,13 @@
 package settlementexpansion.inventory.form;
 
 import necesse.engine.GameAuth;
-import necesse.engine.Screen;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.Form;
@@ -198,8 +199,9 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
         flow.next(10);
         this.settings.addComponent(new FormLocalLabel(new LocalMessage("ui", "settlementowner", "owner", this.container.basics.ownerName), new FontOptions(16), -1, 5, flow.next(20)));
         this.settings.setHeight(flow.next());
-        this.onWindowResized();
-        Screen.submitNextMoveEvent();
+        GameWindow window = WindowManager.getWindow();
+        this.onWindowResized(window);
+        window.submitNextMoveEvent();
     }
 
     protected void submitName() {
@@ -218,13 +220,13 @@ public class SettlementModSettingsForm<T extends SettlementModContainer> extends
 
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         ContainerComponent.setPosInventory(this.settings);
-        this.name.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
-        this.unclaim.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
-        this.destroy.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
-        this.pvp.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        this.name.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
+        this.unclaim.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
+        this.destroy.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
+        this.pvp.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
     }
 
     public boolean determinePvpSafetyCondition() {

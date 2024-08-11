@@ -1,9 +1,9 @@
 package settlementexpansion.inventory.form;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.forms.ContainerComponent;
@@ -85,8 +85,8 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
         return true;
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         ContainerComponent.setPosFocus(this.buildForm);
         this.settlementObjectFormManager.onWindowResized();
     }
@@ -99,7 +99,7 @@ public class BlueprintContainerForm<T extends BlueprintContainer> extends Contai
             ListGameTooltips tooltips = new ListGameTooltips();
             tooltips.add(new LocalMessage("ui", "blueprintrecipeheader"));
             tooltips.add(this.container.objectEntity.getPreset().getRecipe().getTooltip(this.client.getPlayer()));
-            Screen.addTooltip(tooltips, GameBackground.getItemTooltipBackground(), TooltipLocation.FORM_FOCUS);
+            GameTooltipManager.addTooltip(tooltips, GameBackground.getItemTooltipBackground(), TooltipLocation.FORM_FOCUS);
         }
     }
 

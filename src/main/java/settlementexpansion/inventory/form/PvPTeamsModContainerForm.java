@@ -2,7 +2,6 @@ package settlementexpansion.inventory.form;
 
 import necesse.engine.GameAuth;
 import necesse.engine.GlobalData;
-import necesse.engine.Screen;
 import necesse.engine.Settings;
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.localization.message.LocalMessage;
@@ -13,6 +12,8 @@ import necesse.engine.network.packet.PacketPlayerTeamInviteReply;
 import necesse.engine.network.packet.PacketPlayerTeamRequestReply;
 import necesse.engine.state.MainGame;
 import necesse.engine.state.State;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.gfx.forms.Form;
 import necesse.gfx.forms.components.*;
 import necesse.gfx.forms.components.localComponents.FormLocalLabel;
@@ -187,7 +188,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
 
         });
         this.main.setHeight(flow.next());
-        this.main.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        GameWindow window = WindowManager.getWindow();
+        this.main.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
     }
 
     public void updateInvitesContent() {
@@ -339,7 +341,8 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
             this.removeComponent(this.invites);
             this.invites = null;
         });
-        this.invites.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        GameWindow window = WindowManager.getWindow();
+        this.invites.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
         this.makeCurrent(this.invites);
     }
 
@@ -386,15 +389,15 @@ public class PvPTeamsModContainerForm extends ContainerFormSwitcher<PvPTeamsModC
 
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
-        this.main.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
+        this.main.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
         if (this.invites != null) {
-            this.invites.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+            this.invites.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
         }
 
-        this.changeName.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
-        this.joinTeam.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        this.changeName.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
+        this.joinTeam.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
     }
 
     public boolean shouldOpenInventory() {

@@ -1,9 +1,10 @@
 package settlementexpansion.inventory.form;
 
-import necesse.engine.Screen;
-import necesse.engine.control.InputEvent;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.input.InputEvent;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameMath;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.GameColor;
@@ -25,9 +26,10 @@ public abstract class CurrentBlueprintRecipeForm extends Form {
     public CurrentBlueprintRecipeForm(BlueprintObjectEntity objectEntity) {
         super("currentblueprintrecipe", 200, 300);
         this.objectEntity = objectEntity;
+        GameWindow window = WindowManager.getWindow();
         this.onDragged((e) -> {
-            e.x = GameMath.limit(e.x, -this.getWidth() + 20, Screen.getHudWidth() - 20);
-            e.y = GameMath.limit(e.y, -this.getHeight() + 20, Screen.getHudHeight() - 20);
+            e.x = GameMath.limit(e.x, -this.getWidth() + 20, window.getHudWidth() - 20);
+            e.y = GameMath.limit(e.y, -this.getHeight() + 20, window.getHudHeight() - 20);
         });
     }
 
@@ -84,10 +86,10 @@ public abstract class CurrentBlueprintRecipeForm extends Form {
         this.setDraggingBox(new Rectangle(this.getWidth(), this.getHeight()));
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
-        this.setX(GameMath.limit(this.getX(), -this.getWidth() + 20, Screen.getHudWidth() - 20));
-        this.setY(GameMath.limit(this.getY(), -this.getHeight() + 20, Screen.getHudHeight() - 20));
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
+        this.setX(GameMath.limit(this.getX(), -this.getWidth() + 20, window.getHudWidth() - 20));
+        this.setY(GameMath.limit(this.getY(), -this.getHeight() + 20, window.getHudHeight() - 20));
     }
 
     public void drawBase(TickManager tickManager) {

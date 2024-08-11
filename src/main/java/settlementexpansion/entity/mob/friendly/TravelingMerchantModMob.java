@@ -6,7 +6,7 @@ import necesse.engine.seasons.GameSeasons;
 import necesse.engine.util.GameRandom;
 import necesse.engine.util.TicketSystemList;
 import necesse.entity.mobs.friendly.human.humanShop.TravelingMerchantMob;
-import necesse.gfx.GameMusic;
+import necesse.engine.sound.GameMusic;
 import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import necesse.level.maps.levelData.settlementData.settlementQuestTiers.SettlementQuestTier;
 import necesse.level.maps.levelData.villageShops.ShopItem;

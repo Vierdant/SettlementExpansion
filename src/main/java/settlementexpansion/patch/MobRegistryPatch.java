@@ -52,6 +52,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("queenbee", QueenBeeMob.class, true, false, new LocalMessage("item", "queenbee"), (GameMessage)null);
         MobRegistry.registerMob("penguin", PenguinMob.class, true);
         MobRegistry.registerMob("polarbear", PolarBearMob.class, true);
+        MobRegistry.registerMob("crocodile", CrocodileMob.class, true);
         MobRegistry.registerMob("rabbit", RabbitMob.class, true);
         MobRegistry.registerMob("squirrel", SquirrelMob.class, true);
         MobRegistry.registerMob("snowhare", SnowHareMob.class, true);
@@ -116,8 +117,10 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("mummymage", MummyMageMob.class, true);
         MobRegistry.registerMob("sandspirit", SandSpiritMob.class, true);
         MobRegistry.registerMob("jackal", JackalMob.class, true);
+        MobRegistry.registerMob("giantscorpion", GiantScorpionMob.class, true);
         MobRegistry.registerMob("skeleton", SkeletonMob.class, true);
         MobRegistry.registerMob("skeletonthrower", SkeletonThrowerMob.class, true);
+        MobRegistry.registerMob("skeletonmage", SkeletonMageMob.class, true);
         MobRegistry.registerMob("deepcavespirit", DeepCaveSpiritMob.class, true);
         MobRegistry.registerMob("skeletonminer", SkeletonMinerMob.class, true);
         MobRegistry.registerMob("ninja", NinjaMob.class, true);
@@ -153,6 +156,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("crystalgolem", CrystalGolemMob.class, true);
         MobRegistry.registerMob("crystalarmadillo", CrystalArmadillo.class, true);
         MobRegistry.registerMob("humanraider", HumanRaiderMob.class, true);
+        MobRegistry.registerMob("stabbybush", StabbyBushMob.class, true);
         MobRegistry.registerMob("tameostrich", TameOstrichMob.class, false);
         MobRegistry.registerMob("petpenguin", PetPenguinMob.class, false);
         MobRegistry.registerMob("petparrot", PetParrotMob.class, false);
@@ -169,6 +173,7 @@ public class MobRegistryPatch {
         MobRegistry.registerMob("frostpiercer", FrostPiercerFollowingMob.class, false);
         MobRegistry.registerMob("babysnowman", BabySnowmanMob.class, false);
         MobRegistry.registerMob("playerpoisonslime", PoisonSlimeFollowingMob.class, false);
+        MobRegistry.registerMob("stabbybushfollowingmob", StabbyBushFollowingMob.class, false);
         MobRegistry.registerMob("playervulturehatchling", VultureHatchlingFollowingMob.class, false);
         MobRegistry.registerMob("playerreaperspirit", ReaperSpiritFollowingMob.class, false);
         MobRegistry.registerMob("playercryoflake", CryoFlakeFollowingMob.class, false);

@@ -7,7 +7,8 @@ import necesse.engine.localization.LocalizationChangeListener;
 import necesse.engine.localization.message.GameMessageBuilder;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.fairType.FairType;
 import necesse.gfx.forms.ContainerComponent;
@@ -109,8 +110,8 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
         super.draw(tickManager, perspective, renderBox);
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         ContainerComponent.setPosFocus(this.breakForm);
     }
 }

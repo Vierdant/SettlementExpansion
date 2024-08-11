@@ -1,11 +1,11 @@
 package settlementexpansion.object.entity;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.Localization;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ProcessingTechInventoryObjectEntity;
 import necesse.gfx.gameTooltips.StringTooltips;
 import necesse.gfx.gameTooltips.TooltipLocation;
+import necesse.gfx.gameTooltips.GameTooltipManager;
 import necesse.level.maps.Level;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
@@ -30,6 +30,6 @@ public class DryingRackObjectEntity extends ProcessingTechInventoryObjectEntity 
             tooltips.add(Localization.translate("ui", "needdrymaterial"));
         }
 
-        Screen.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
+        GameTooltipManager.addTooltip(tooltips, TooltipLocation.INTERACT_FOCUS);
     }
 }

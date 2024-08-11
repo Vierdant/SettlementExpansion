@@ -2,7 +2,8 @@ package settlementexpansion;
 
 import necesse.engine.network.client.Client;
 import necesse.engine.state.MainGame;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
 import settlementexpansion.manager.ExpandedGameFormManager;
 
 public class ExpandedGame {
@@ -30,9 +31,9 @@ public class ExpandedGame {
         this.formManager.setup();
     }
 
-    public void onWindowResized() {
+    public void onWindowResized(GameWindow window) {
         if (this.formManager != null) {
-            this.formManager.onWindowResized();
+            this.formManager.onWindowResized(window);
         }
     }
 

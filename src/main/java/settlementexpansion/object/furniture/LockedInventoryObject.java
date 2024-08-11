@@ -1,8 +1,8 @@
 package settlementexpansion.object.furniture;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.Localization;
 import necesse.engine.sound.SoundEffect;
+import necesse.engine.sound.SoundManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.inventory.item.toolItem.ToolType;
@@ -41,7 +41,7 @@ public class LockedInventoryObject extends InventoryObject {
     @Override
     public void playOpenSound(Level level, int tileX, int tileY) {
         if (this.openTexture != null) {
-            Screen.playSound(ModResources.safe_open, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
+            SoundManager.playSound(ModResources.safe_open, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
         }
 
     }
@@ -49,7 +49,7 @@ public class LockedInventoryObject extends InventoryObject {
     @Override
     public void playCloseSound(Level level, int tileX, int tileY) {
         if (this.openTexture != null) {
-            Screen.playSound(ModResources.safe_close, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
+            SoundManager.playSound(ModResources.safe_close, SoundEffect.effect((float)(tileX * 32 + 16), (float)(tileY * 32 + 16)));
         }
 
     }

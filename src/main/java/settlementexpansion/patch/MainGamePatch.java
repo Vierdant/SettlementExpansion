@@ -4,7 +4,8 @@ import necesse.engine.modLoader.annotations.ModConstructorPatch;
 import necesse.engine.modLoader.annotations.ModMethodPatch;
 import necesse.engine.network.client.Client;
 import necesse.engine.state.MainGame;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
 import necesse.gfx.forms.MainGameFormManager;
 import net.bytebuddy.asm.Advice;
 import settlementexpansion.ExpandedGame;
@@ -32,14 +33,14 @@ public class MainGamePatch {
         }
     }
 
-    @ModMethodPatch(target = MainGame.class, name = "onWindowResized", arguments = {})
+    @ModMethodPatch(target = MainGame.class, name = "onWindowResized", arguments = {GameWindow.class})
     public static class MainGameWindowResizePatch {
 
         @Advice.OnMethodExit
-        static void onExit(@Advice.This MainGame main) {
+        static void onExit(@Advice.This MainGame main, @Advice.Argument(0) GameWindow window) {
             ExpandedGame game = GlobalModData.getExpandedGame(main);
             if (game != null) {
-                game.onWindowResized();
+                game.onWindowResized(window);
             }
         }
     }

@@ -1,10 +1,12 @@
 package settlementexpansion.object;
 
-import necesse.engine.Screen;
 import necesse.engine.Settings;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.sound.SoundEffect;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.sound.SoundManager;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameResources;
 import necesse.gfx.camera.GameCamera;
@@ -125,6 +127,7 @@ public class WallSecureDoorObject extends SecureDoorObject {
         int rotation = level.getObjectRotation(tileX, tileY);
         final DrawOptionsList options = new DrawOptionsList();
         float alpha = 1.0F;
+        GameWindow window = WindowManager.getWindow();
         if (perspective != null && !Settings.hideUI) {
             Rectangle alphaRec = new Rectangle(tileX * 32 - 16, tileY * 32 - 48, 64, 80);
             if (rotation == 0) {
@@ -136,7 +139,7 @@ public class WallSecureDoorObject extends SecureDoorObject {
 
             if (perspective.getCollision().intersects(alphaRec)) {
                 alpha = 0.5F;
-            } else if (alphaRec.contains(camera.getX() + Screen.mousePos().sceneX, camera.getY() + Screen.mousePos().sceneY)) {
+            } else if (alphaRec.contains(camera.getX() + window.mousePos().sceneX, camera.getY() + window.mousePos().sceneY)) {
                 alpha = 0.5F;
             }
         }
@@ -246,7 +249,7 @@ public class WallSecureDoorObject extends SecureDoorObject {
     @Override
     public void playSwitchSound(Level level, int x, int y) {
         if (level.isClient()) {
-            Screen.playSound(this.isSwitched ? GameResources.doorclose : GameResources.dooropen, SoundEffect.effect((float)(x * 32 + 16), (float)(y * 32 + 16)));
+            SoundManager.playSound(this.isSwitched ? GameResources.doorclose : GameResources.dooropen, SoundEffect.effect((float)(x * 32 + 16), (float)(y * 32 + 16)));
         }
     }
 
@@ -272,11 +275,12 @@ public class WallSecureDoorObject extends SecureDoorObject {
             int rotation = level.getObjectRotation(tileX, tileY);
             final DrawOptionsList options = new DrawOptionsList();
             float alpha = 1.0F;
+            GameWindow window = WindowManager.getWindow();
             if (perspective != null) {
                 Rectangle alphaRec = new Rectangle(tileX * 32 - 16, tileY * 32 - 48, 64, 80);
                 if (perspective.getCollision().intersects(alphaRec)) {
                     alpha = 0.5F;
-                } else if (alphaRec.contains(camera.getX() + Screen.mousePos().sceneX, camera.getY() + Screen.mousePos().sceneY)) {
+                } else if (alphaRec.contains(camera.getX() + window.mousePos().sceneX, camera.getY() + window.mousePos().sceneY)) {
                     alpha = 0.5F;
                 }
             }

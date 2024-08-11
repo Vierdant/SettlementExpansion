@@ -1,8 +1,9 @@
 package settlementexpansion.inventory.form;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.components.FormFlow;
 import necesse.gfx.forms.components.localComponents.FormLocalLabel;
@@ -42,14 +43,15 @@ public class SettlementClaimForm extends ContainerForm<SettlementClaimContainer>
         this.addComponent(new FormLocalTextButton("controls", "closetip", this.getWidth() / 2 + 2, 120, this.getWidth() / 2 - 6)).onClicked((e) ->
                 this.client.closeContainer(true));
 
-        this.onWindowResized();
+        GameWindow window = WindowManager.getWindow();
+        this.onWindowResized(window);
     }
 
     @Override
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         ContainerComponent.setPosInventory(this);
-        this.setPosMiddle(Screen.getHudWidth() / 2, Screen.getHudHeight() / 2);
+        this.setPosMiddle(window.getHudWidth() / 2, window.getHudHeight() / 2);
     }
 
     public boolean shouldOpenInventory() {
