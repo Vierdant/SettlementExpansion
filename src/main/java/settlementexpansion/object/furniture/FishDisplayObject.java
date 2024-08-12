@@ -1,10 +1,10 @@
 package settlementexpansion.object.furniture;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ContainerRegistry;
 import necesse.engine.sound.SoundEffect;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.sound.SoundManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.objectEntity.interfaces.OEInventory;
@@ -193,7 +193,7 @@ public class FishDisplayObject extends FurnitureObject {
     }
 
     @Override
-    public String canPlace(Level level, int x, int y, int rotation) {
+    public String canPlace(Level level, int x, int y, int rotation, boolean byPlayer) {
         if (level.getObjectID(x, y) != 0 && !level.getObject(x, y).isGrass) {
             return "occupied";
         } else {
@@ -261,6 +261,6 @@ public class FishDisplayObject extends FurnitureObject {
     }
 
     public void playSwitchSound(int x, int y) {
-        Screen.playSound(GameResources.tick, SoundEffect.effect((float)(x * 32 + 16), (float)(y * 32 + 16)).pitch(0.8F));
+        SoundManager.playSound(GameResources.tick, SoundEffect.effect((float)(x * 32 + 16), (float)(y * 32 + 16)).pitch(0.8F));
     }
 }

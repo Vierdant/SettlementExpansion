@@ -4,7 +4,7 @@ import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.MobRegistry;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameLootUtils;
 import necesse.engine.util.GameRandom;
 import necesse.engine.util.LevelIdentifier;
@@ -20,6 +20,7 @@ import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawOptions.human.HumanDrawOptions;
 import necesse.gfx.drawables.OrderableDrawables;
+import necesse.gfx.HumanGender;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.lootTable.lootItem.CountOfTicketLootItems;
@@ -65,8 +66,8 @@ public class ArchitectHumanMob extends HumanShop {
         GameLight light = level.getLightLevel(x / 32, y / 32);
         int drawX = camera.getDrawX(x) - 22 - 10;
         int drawY = camera.getDrawY(y) - 44 - 7;
-        Point sprite = this.getAnimSprite(x, y, this.dir);
-        HumanDrawOptions humanOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (String)null)).chestplate(this.getDisplayArmor(1, "businesssuit")).boots(this.getDisplayArmor(2, "businesssuitshoes")).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.dir).light(light);
+        Point sprite = this.getAnimSprite(x, y, this.getDir());
+        HumanDrawOptions humanOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (InventoryItem)null)).chestplate(this.getDisplayArmor(1, new InventoryItem("businesssuit"))).boots(this.getDisplayArmor(2, new InventoryItem("businesssuitshoes"))).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.getDir()).light(light);
         humanDrawOptionsModifier.accept(humanOptions);
         DrawOptions drawOptions = humanOptions.pos(drawX, drawY);
         DrawOptions markerOptions = this.getMarkerDrawOptions(x, y, light, camera, 0, -45, perspective);
@@ -78,15 +79,15 @@ public class ArchitectHumanMob extends HumanShop {
 
     public void addDrawables(List<MobDrawable> list, OrderableDrawables tileList, OrderableDrawables topList, Level level, int x, int y, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
         super.addDrawables(list, tileList, topList, level, x, y, tickManager, camera, perspective);
-        if (this.objectUser == null || this.objectUser.object.drawsUsers()) {
+        if (this.objectUser == null || this.objectUser.drawsUser()) {
             if (this.isVisible()) {
                 GameLight light = level.getLightLevel(x / 32, y / 32);
                 int drawX = camera.getDrawX(x) - 22 - 10;
                 int drawY = camera.getDrawY(y) - 44 - 7;
-                Point sprite = this.getAnimSprite(x, y, this.dir);
+                Point sprite = this.getAnimSprite(x, y, this.getDir());
                 drawY += this.getBobbing(x, y);
                 drawY += this.getLevel().getTile(x / 32, y / 32).getMobSinkingAmount(this);
-                HumanDrawOptions humanDrawOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (String)null)).chestplate(this.getDisplayArmor(1, "businesssuit")).boots(this.getDisplayArmor(2, "businesssuitshoes")).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.dir).light(light);
+                HumanDrawOptions humanDrawOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (InventoryItem)null)).chestplate(this.getDisplayArmor(1, new InventoryItem("businesssuit"))).boots(this.getDisplayArmor(2, new InventoryItem("businesssuitshoes"))).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.getDir()).light(light);
                 if (this.inLiquid(x, y)) {
                     drawY -= 10;
                     humanDrawOptions.armSprite(2);
@@ -95,7 +96,7 @@ public class ArchitectHumanMob extends HumanShop {
 
                 humanDrawOptions = this.setCustomItemAttackOptions(humanDrawOptions);
                 final DrawOptions drawOptions = humanDrawOptions.pos(drawX, drawY);
-                final DrawOptions boat = this.inLiquid(x, y) ? MobRegistry.Textures.woodBoat.initDraw().sprite(0, this.dir % 4, 64).light(light).pos(drawX, drawY + 7) : null;
+                final DrawOptions boat = this.inLiquid(x, y) ? MobRegistry.Textures.woodBoat.initDraw().sprite(0, this.getDir() % 4, 64).light(light).pos(drawX, drawY + 7) : null;
                 final DrawOptions markerOptions = this.getMarkerDrawOptions(x, y, light, camera, 0, -45, perspective);
                 list.add(new MobDrawable() {
                     public void draw(TickManager tickManager) {
@@ -116,7 +117,7 @@ public class ArchitectHumanMob extends HumanShop {
         return this.isTravelingHuman() ? new QuestMarkerOptions('?', QuestMarkerOptions.orangeColor) : super.getMarkerOptions(perspective);
     }
 
-    public HumanMob.HumanGender getHumanGender() {
+    public HumanGender getHumanGender() {
         return HumanGender.MALE;
     }
 

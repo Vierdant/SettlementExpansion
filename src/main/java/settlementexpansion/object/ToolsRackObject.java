@@ -2,7 +2,7 @@ package settlementexpansion.object;
 
 import necesse.engine.localization.Localization;
 import necesse.engine.registries.ObjectRegistry;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.gfx.camera.GameCamera;

@@ -3,7 +3,7 @@ package settlementexpansion;
 import necesse.engine.Settings;
 import necesse.engine.registries.MobRegistry;
 import necesse.entity.mobs.HumanTextureFull;
-import necesse.gfx.gameSound.GameSound;
+import necesse.engine.sound.gameSound.GameSound;
 import necesse.gfx.ui.ButtonIcon;
 
 public class ModResources {

@@ -1,7 +1,7 @@
 package settlementexpansion.object;
 
 import necesse.engine.network.server.ServerClient;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.camera.GameCamera;

@@ -1,6 +1,6 @@
 package settlementexpansion.entity.projectile;
 
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.entity.levelEvent.explosionEvent.CannonBallExplosionEvent;
 import necesse.entity.mobs.DeathMessageTable;
 import necesse.entity.mobs.GameDamage;

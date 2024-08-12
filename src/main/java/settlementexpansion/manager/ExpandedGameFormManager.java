@@ -1,9 +1,10 @@
 package settlementexpansion.manager;
 
-import necesse.engine.Screen;
-import necesse.engine.control.InputPosition;
+import necesse.engine.input.InputPosition;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
+import necesse.engine.window.GameWindow;
+import necesse.engine.window.WindowManager;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.GameBackground;
 import necesse.gfx.forms.ContainerComponent;
@@ -97,22 +98,23 @@ public class ExpandedGameFormManager {
                 this.currentBlueprintForm.update(this.client.getPlayer());
                 ControllerFocus currentFocus = this.expanded.mainGame.formManager.getCurrentFocus();
                 Point pos;
+                GameWindow window = WindowManager.getWindow();
                 if (currentFocus != null) {
                     pos = new Point(currentFocus.boundingBox.x, currentFocus.boundingBox.y);
                 } else {
-                    InputPosition mousePos = Screen.mousePos();
+                    InputPosition mousePos = window.mousePos();
                     pos = new Point(mousePos.hudX, mousePos.hudY);
                 }
 
                 GameBackground background = GameBackground.itemTooltip;
-                this.currentBlueprintForm.setPosition(Math.min(pos.x + background.getContentPadding() + 1, Screen.getHudWidth() - this.currentBlueprintForm.getWidth() - background.getContentPadding() - 4), pos.y - this.currentBlueprintForm.getHeight() - 11 - 20);
+                this.currentBlueprintForm.setPosition(Math.min(pos.x + background.getContentPadding() + 1, window.getHudWidth() - this.currentBlueprintForm.getWidth() - background.getContentPadding() - 4), pos.y - this.currentBlueprintForm.getHeight() - 11 - 20);
             }
         });
 
         return button;
     }
 
-    public void onWindowResized() {}
+    public void onWindowResized(GameWindow window) {}
 
     public void dispose() {
         if (this.currentBlueprintForm != null && !this.currentBlueprintForm.isDisposed()) {

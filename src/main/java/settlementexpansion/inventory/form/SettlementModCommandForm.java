@@ -1,12 +1,13 @@
 package settlementexpansion.inventory.form;
 
-import necesse.engine.control.ControllerEvent;
-import necesse.engine.control.ControllerInput;
-import necesse.engine.control.InputEvent;
+import necesse.engine.input.controller.ControllerEvent;
+import necesse.engine.input.controller.ControllerInput;
+import necesse.engine.input.InputEvent;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.client.Client;
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.window.GameWindow;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.forms.ContainerComponent;
@@ -180,8 +181,8 @@ public class SettlementModCommandForm<T extends SettlementModContainer> extends 
         this.updateCurrentForm();
     }
 
-    public void onWindowResized() {
-        super.onWindowResized();
+    public void onWindowResized(GameWindow window) {
+        super.onWindowResized(window);
         ContainerComponent.setPosInventory(this.noneSelectedForm);
         ContainerComponent.setPosInventory(this.selectedForm);
     }

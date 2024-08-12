@@ -1,6 +1,5 @@
 package settlementexpansion.inventory.container;
 
-import necesse.engine.Screen;
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.Packet;
 import necesse.engine.network.PacketReader;
@@ -8,6 +7,7 @@ import necesse.engine.network.PacketWriter;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ItemRegistry;
 import necesse.engine.sound.SoundEffect;
+import necesse.engine.sound.SoundManager;
 import necesse.engine.util.GameRandom;
 import necesse.gfx.GameResources;
 import necesse.inventory.InventoryItem;
@@ -84,7 +84,7 @@ public class BlacksmithContainer extends ShopContainer {
                 if (client.isClient()) {
                     InventoryItem resultItem = InventoryItem.fromContentPacket(content);
                     client.playerMob.getLevel().hudManager.addElement(new ItemPickupText(client.playerMob, resultItem));
-                    Screen.playSound(GameResources.pop, SoundEffect.effect(client.playerMob));
+                    SoundManager.playSound(GameResources.pop, SoundEffect.effect(client.playerMob));
                 }
             }
         });
