@@ -10,6 +10,7 @@ import necesse.inventory.item.matItem.MatItem;
 import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
+import settlementexpansion.item.armor.cosmetic.ArchitectHatArmorItem;
 import settlementexpansion.item.fossil.FossilItem;
 import settlementexpansion.item.geode.GeodeItem;
 import settlementexpansion.item.tool.CustomBrushToolItem;
@@ -49,6 +50,7 @@ public class ItemModRegistry {
 
         ItemRegistry.registerItem("businesssuit", new ChestArmorItem(0, 0, Item.Rarity.COMMON, "businesssuit", "businesssuitarms"), 50.0F, false);
         ItemRegistry.registerItem("businesssuitshoes", new BootsArmorItem(0, 0, Item.Rarity.COMMON, "businesssuitshoes"), 50.0F, false);
+        ItemRegistry.registerItem("architecthat", new ArchitectHatArmorItem(), 50.0F, false);
 
         //ItemRegistry.registerItem("brush", new CustomBrushToolItem(40, 0), 10, true);
     }

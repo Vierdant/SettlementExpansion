@@ -42,7 +42,7 @@ public class CannonTrapObjectEntity extends TrapObjectEntity {
                 float x = (float)xPos;
                 float y = (float)yPos;
                 float target = (float)(xPos + targetDir.x);
-                this.getLevel().entityManager.projectiles.add(new TrapCannonBallProjectile(x, y, target, (float)(yPos + targetDir.y), damage, (Mob)null));
+                this.getLevel().entityManager.projectiles.add(new TrapCannonBallProjectile(x, y, target, (float)(yPos + targetDir.y), 50f, 100, damage, null));
                 this.startCooldown();
             }
         }

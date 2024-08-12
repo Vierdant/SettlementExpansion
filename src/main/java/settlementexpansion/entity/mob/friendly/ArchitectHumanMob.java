@@ -16,6 +16,8 @@ import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
 import necesse.entity.particle.FleshParticle;
 import necesse.entity.particle.Particle;
+import necesse.gfx.GameSkin;
+import necesse.gfx.HumanLook;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawOptions.human.HumanDrawOptions;
@@ -30,6 +32,7 @@ import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import necesse.level.maps.levelData.villageShops.ShopItem;
 import necesse.level.maps.levelData.villageShops.VillageShopsData;
 import necesse.level.maps.light.GameLight;
+import org.jetbrains.annotations.NotNull;
 import settlementexpansion.ModResources;
 
 import java.awt.*;
@@ -43,12 +46,10 @@ public class ArchitectHumanMob extends HumanShop {
 
     public ArchitectHumanMob() {
         super(500, 200, "architect");
+        this.look = new HumanLook();
         this.attackCooldown = 500;
         this.attackAnimTime = 500;
         this.setSwimSpeed(1.0F);
-        this.collision = new Rectangle(-10, -7, 20, 14);
-        this.hitBox = new Rectangle(-14, -12, 28, 24);
-        this.selectBox = new Rectangle(-14, -41, 28, 48);
         this.equipmentInventory.setItem(6, new InventoryItem("handgun"));
     }
 
@@ -57,68 +58,21 @@ public class ArchitectHumanMob extends HumanShop {
     }
 
     public void spawnDeathParticles(float knockbackX, float knockbackY) {
+        GameSkin gameSkin = this.look.getGameSkin(true);
+
         for(int i = 0; i < 4; ++i) {
-            this.getLevel().entityManager.addParticle(new FleshParticle(this.getLevel(), ModResources.architect.body, GameRandom.globalRandom.nextInt(5), 8, 32, this.x, this.y, 10.0F, knockbackX, knockbackY), Particle.GType.IMPORTANT_COSMETIC);
+            this.getLevel().entityManager.addParticle(new FleshParticle(this.getLevel(), gameSkin.getBodyTexture(), GameRandom.globalRandom.nextInt(5), 8, 32, this.x, this.y, 10.0F, knockbackX, knockbackY), Particle.GType.IMPORTANT_COSMETIC);
         }
     }
 
-    public DrawOptions getUserDrawOptions(Level level, int x, int y, TickManager tickManager, GameCamera camera, PlayerMob perspective, Consumer<HumanDrawOptions> humanDrawOptionsModifier) {
-        GameLight light = level.getLightLevel(x / 32, y / 32);
-        int drawX = camera.getDrawX(x) - 22 - 10;
-        int drawY = camera.getDrawY(y) - 44 - 7;
-        Point sprite = this.getAnimSprite(x, y, this.getDir());
-        HumanDrawOptions humanOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (InventoryItem)null)).chestplate(this.getDisplayArmor(1, new InventoryItem("businesssuit"))).boots(this.getDisplayArmor(2, new InventoryItem("businesssuitshoes"))).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.getDir()).light(light);
-        humanDrawOptionsModifier.accept(humanOptions);
-        DrawOptions drawOptions = humanOptions.pos(drawX, drawY);
-        DrawOptions markerOptions = this.getMarkerDrawOptions(x, y, light, camera, 0, -45, perspective);
-        return () -> {
-            drawOptions.draw();
-            markerOptions.draw();
-        };
-    }
-
-    public void addDrawables(List<MobDrawable> list, OrderableDrawables tileList, OrderableDrawables topList, Level level, int x, int y, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
-        super.addDrawables(list, tileList, topList, level, x, y, tickManager, camera, perspective);
-        if (this.objectUser == null || this.objectUser.drawsUser()) {
-            if (this.isVisible()) {
-                GameLight light = level.getLightLevel(x / 32, y / 32);
-                int drawX = camera.getDrawX(x) - 22 - 10;
-                int drawY = camera.getDrawY(y) - 44 - 7;
-                Point sprite = this.getAnimSprite(x, y, this.getDir());
-                drawY += this.getBobbing(x, y);
-                drawY += this.getLevel().getTile(x / 32, y / 32).getMobSinkingAmount(this);
-                HumanDrawOptions humanDrawOptions = (new HumanDrawOptions(level, ModResources.architect)).helmet(this.getDisplayArmor(0, (InventoryItem)null)).chestplate(this.getDisplayArmor(1, new InventoryItem("businesssuit"))).boots(this.getDisplayArmor(2, new InventoryItem("businesssuitshoes"))).invis(this.buffManager.getModifier(BuffModifiers.INVISIBILITY)).sprite(sprite).dir(this.getDir()).light(light);
-                if (this.inLiquid(x, y)) {
-                    drawY -= 10;
-                    humanDrawOptions.armSprite(2);
-                    humanDrawOptions.mask(MobRegistry.Textures.boat_mask[sprite.y % 4], 0, -7);
-                }
-
-                humanDrawOptions = this.setCustomItemAttackOptions(humanDrawOptions);
-                final DrawOptions drawOptions = humanDrawOptions.pos(drawX, drawY);
-                final DrawOptions boat = this.inLiquid(x, y) ? MobRegistry.Textures.woodBoat.initDraw().sprite(0, this.getDir() % 4, 64).light(light).pos(drawX, drawY + 7) : null;
-                final DrawOptions markerOptions = this.getMarkerDrawOptions(x, y, light, camera, 0, -45, perspective);
-                list.add(new MobDrawable() {
-                    public void draw(TickManager tickManager) {
-                        if (boat != null) {
-                            boat.draw();
-                        }
-
-                        drawOptions.draw();
-                        markerOptions.draw();
-                    }
-                });
-                this.addShadowDrawables(tileList, x, y, light, camera);
-            }
-        }
+    public void setDefaultArmor(HumanDrawOptions drawOptions) {
+        drawOptions.helmet(new InventoryItem("architecthat"));
+        drawOptions.chestplate(new InventoryItem("businesssuit"));
+        drawOptions.boots(new InventoryItem("businesssuitshoes"));
     }
 
     public QuestMarkerOptions getMarkerOptions(PlayerMob perspective) {
         return this.isTravelingHuman() ? new QuestMarkerOptions('?', QuestMarkerOptions.orangeColor) : super.getMarkerOptions(perspective);
-    }
-
-    public HumanGender getHumanGender() {
-        return HumanGender.MALE;
     }
 
     protected ArrayList<GameMessage> getMessages(ServerClient client) {
