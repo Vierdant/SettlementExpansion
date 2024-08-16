@@ -23,8 +23,7 @@ public class ExpandedGame {
         this.setupFormManager();
     }
 
-    public void frameTick(TickManager tickManager) {
-    }
+    public void frameTick(TickManager tickManager) {}
 
     public void setupFormManager() {
         this.formManager = new ExpandedGameFormManager(this, this.client);

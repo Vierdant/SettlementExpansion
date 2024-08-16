@@ -8,50 +8,18 @@ import settlementexpansion.SettlementExpansion;
 
 public class SettlementModData extends LevelData {
 
-    public boolean isPvpFlagged;
-    public boolean doExplosionDamage;
     public SettlementModRoomsManager rooms;
 
     public SettlementModData() {
-        this.isPvpFlagged = false;
-        this.doExplosionDamage = true;
         this.rooms = new SettlementModRoomsManager(this);
     }
 
     public void addSaveData(SaveData save) {
         super.addSaveData(save);
-        save.addBoolean("settlementPvpFlagged", this.isPvpFlagged);
-        save.addBoolean("settlementExplosionDamage", this.doExplosionDamage);
     }
 
     public void applyLoadData(LoadData save) {
         super.applyLoadData(save);
-        this.isPvpFlagged = save.getBoolean("settlementPvpFlagged", false);
-        if (this.level.getWorldSettings().forcedPvP) {
-            this.isPvpFlagged = SettlementExpansion.getSettings().enableSettlementLevelModification;
-        }
-        this.doExplosionDamage = save.getBoolean("settlementExplosionDamage", true);
-    }
-
-
-    public void togglePvpFlag() {
-        if (!this.level.getWorldSettings().forcedPvP) {
-            this.isPvpFlagged = !this.isPvpFlagged;
-        } else {
-            this.isPvpFlagged = this.level.getWorldSettings().forcedPvP;
-        }
-    }
-
-    public void setPvpFlagged(boolean state) {
-        if (!this.level.getWorldSettings().forcedPvP) {
-            this.isPvpFlagged = state;
-        } else {
-            this.isPvpFlagged = this.level.getWorldSettings().forcedPvP;
-        }
-    }
-
-    public void setExplosionDamage(boolean doExplosionDamage) {
-        this.doExplosionDamage = doExplosionDamage;
     }
 
     public static void createSettlementModDataCreateIfNonExist(Level level) {

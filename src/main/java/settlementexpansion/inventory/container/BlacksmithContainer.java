@@ -9,6 +9,7 @@ import necesse.engine.registries.ItemRegistry;
 import necesse.engine.sound.SoundEffect;
 import necesse.engine.sound.SoundManager;
 import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
 import necesse.gfx.GameResources;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.PlayerTempInventory;
@@ -27,7 +28,7 @@ public class BlacksmithContainer extends ShopContainer {
     public final BooleanCustomAction breakGeodeButton;
     public final ContentCustomAction breakGeodeButtonResponse;
     public final BooleanCustomAction setIsBreakingGeode;
-    public BlacksmithModHumanMob blacksmithMob;
+    public HumanShop blacksmithMob;
     public final int RESULT_SLOT;
     public final int GEODE_SLOT;
     public boolean isBreakingGeode;
@@ -35,7 +36,7 @@ public class BlacksmithContainer extends ShopContainer {
     public final PlayerTempInventory geodeBreakInv;
     public boolean quickTransferToggled;
 
-    public BlacksmithContainer(final NetworkClient client, int uniqueSeed, BlacksmithModHumanMob mob, PacketReader contentReader) {
+    public BlacksmithContainer(final NetworkClient client, int uniqueSeed, HumanShop mob, PacketReader contentReader) {
         super(client, uniqueSeed, mob, contentReader.getNextContentPacket());
         this.geodeBreakInv = client.playerMob.getInv().applyTempInventoryPacket(contentReader.getNextContentPacket(),
                 (m) -> this.isClosed());
@@ -133,7 +134,7 @@ public class BlacksmithContainer extends ShopContainer {
         this.quickTransferToggled = toggled;
     }
 
-    public static Packet getBlacksmithContainerContent(BlacksmithModHumanMob mob, ServerClient client) {
+    public static Packet getBlacksmithContainerContent(HumanShop mob, ServerClient client) {
         Packet packet = new Packet();
         PacketWriter writer = new PacketWriter(packet);
         writer.putNextContentPacket(mob.getShopItemsContentPacket(client));

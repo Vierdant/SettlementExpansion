@@ -3,18 +3,12 @@ package settlementexpansion;
 import necesse.engine.GameEvents;
 import necesse.engine.events.ServerClientConnectedEvent;
 import necesse.engine.events.players.DamageTileEvent;
-import necesse.engine.events.players.ItemPlaceEvent;
-import necesse.engine.events.players.MobInteractEvent;
 import necesse.engine.events.players.ObjectInteractEvent;
 import necesse.engine.events.worldGeneration.GeneratedIslandFloraEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
-import settlementexpansion.bridge.Bridge;
 import settlementexpansion.listener.*;
 import settlementexpansion.registry.*;
 import settlementexpansion.updater.UpdaterControlListener;
-
-import java.util.HashMap;
-import java.util.function.Supplier;
 
 @ModEntry
 public class SettlementExpansion {
@@ -24,17 +18,12 @@ public class SettlementExpansion {
     public void init() {
         System.out.println("Settlement Expansion was enabled!");
 
-        registerCustomRegistries();
-        ModBridgeRegistry.instance.loadBridges();
-
         addListeners();
 
         LevelDataModRegistry.registerLevelData();
-        ContainerEventModRegistry.registerContainerEvents();
 
         RecipeTechModRegistry.registerModdedTech();
 
-        ObjectModRegistry.replaceObjects();
         ObjectModRegistry.registerObjects();
 
         BuffModRegistry.registerBuffs();
@@ -79,16 +68,10 @@ public class SettlementExpansion {
         return settings;
     }
 
-    private void registerCustomRegistries() {
-        ModBridgeRegistry.instance.registerCore();
-    }
-
     private void addListeners() {
         GameEvents.addListener(ServerClientConnectedEvent.class, new UpdaterControlListener());
         GameEvents.addListener(DamageTileEvent.class, new DamageTileSettlementListener());
-        GameEvents.addListener(ItemPlaceEvent.class, new ItemPlaceSettlementListener());
         GameEvents.addListener(ObjectInteractEvent.class, new ObjectInteractSettlementListener());
-        GameEvents.addListener(MobInteractEvent.class, new MobInteractSettlementListener());
         GameEvents.addListener(GeneratedIslandFloraEvent.class, new GeneratedIslandFloraListener());
     }
 }

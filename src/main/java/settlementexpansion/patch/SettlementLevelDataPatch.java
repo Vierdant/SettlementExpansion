@@ -11,24 +11,10 @@ public class SettlementLevelDataPatch {
     @ModMethodPatch(target = SettlementLevelData.class, name = "getSettlementDataCreateIfNonExist", arguments = {Level.class})
     public static class SettlementLevelDataCreatePatch {
 
-        @Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
-        static boolean onEnter() {
-            return true;
-        }
-
         @Advice.OnMethodExit
-        static SettlementLevelData onExit(@Advice.Argument(0) Level level, @Advice.Return(readOnly = false) SettlementLevelData out) {
-            if (!level.isServer()) {
-                throw new IllegalArgumentException("Level must be server level");
-            } else {
+        static void onExit(@Advice.Argument(0) Level level, @Advice.Return(readOnly = false) SettlementLevelData out) {
+            if (out != null) {
                 SettlementModData.createSettlementModDataCreateIfNonExist(level);
-                out = SettlementLevelData.getSettlementData(level);
-                if (out == null) {
-                    out = new SettlementLevelData();
-                    level.addLevelData("settlement", out);
-                }
-
-                return out;
             }
         }
     }

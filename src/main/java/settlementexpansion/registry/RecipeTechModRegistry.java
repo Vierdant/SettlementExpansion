@@ -11,9 +11,9 @@ public class RecipeTechModRegistry {
     public static Tech BLUEPRINTTABLE;
 
     public static void registerModdedTech() {
-        DRYINGRACK = RecipeTechRegistry.registerTech("dryingrack", new LocalMessage("object", "dryingrack"));
-        SEEDLINGTABLE = RecipeTechRegistry.registerTech("seedlingtable", new LocalMessage("object", "seedlingtable"));
-        BLUEPRINTTABLE = RecipeTechRegistry.registerTech("blueprinttable", new LocalMessage("object", "blueprinttable"));
+        DRYINGRACK = RecipeTechRegistry.registerTech("dryingrack", new LocalMessage("object", "dryingrack").translate());
+        SEEDLINGTABLE = RecipeTechRegistry.registerTech("seedlingtable", new LocalMessage("object", "seedlingtable").translate());
+        BLUEPRINTTABLE = RecipeTechRegistry.registerTech("blueprinttable", new LocalMessage("object", "blueprinttable").translate());
 
     }
 }

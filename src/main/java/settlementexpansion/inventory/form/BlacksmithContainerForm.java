@@ -10,6 +10,7 @@ import necesse.engine.network.client.Client;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.window.GameWindow;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.friendly.human.humanShop.BlacksmithHumanMob;
 import necesse.gfx.fairType.FairType;
 import necesse.gfx.forms.ContainerComponent;
 import necesse.gfx.forms.Form;
@@ -91,7 +92,7 @@ public class BlacksmithContainerForm<T extends BlacksmithContainer> extends Shop
 
     public void setupExtraDialogueOptions() {
         super.setupExtraDialogueOptions();
-        if (this.container.humanShop instanceof BlacksmithModHumanMob && this.container.items != null) {
+        if (this.container.humanShop instanceof BlacksmithHumanMob && this.container.items != null) {
             this.dialogueForm.addDialogueOption(new LocalMessage("ui", "blacksmithwantbreakgeode"), () ->
                     this.makeCurrent(this.breakForm));
         }

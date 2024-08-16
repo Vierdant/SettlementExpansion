@@ -11,25 +11,13 @@ import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.level.gameObject.*;
 import necesse.level.maps.LevelObject;
-import necesse.level.maps.layers.settlement.SettlementLevelLayer;
-import necesse.level.maps.levelData.settlementData.SettlementLevelData;
 import settlementexpansion.SettlementExpansion;
-import settlementexpansion.map.settlement.SettlementModData;
 
 public class DamageTileSettlementListener extends GameEventListener<DamageTileEvent> {
 
     @Override
     public void onEvent(DamageTileEvent event) {
-        if (event.client != null && event.client.isServer() && SettlementExpansion.getSettings().enableSettlementLevelModification) {
-            SettlementLevelData data = SettlementLevelData.getSettlementData(event.level);
-            if (event.level.settlementLayer.isActive() && data != null) {
-                SettlementLevelLayer layer = event.level.settlementLayer;
-                SettlementModData layerData = SettlementModData.getSettlementModDataCreateIfNonExist(event.level);
-                if (!layer.doesClientHaveAccess(event.client) && !layerData.isPvpFlagged) {
-                    event.preventDefault();
-                }
-            }
-
+        if (event.client != null && event.client.isServer()) {
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
                 if (!event.isPrevented() && player != null && !event.level.isCave && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive()) && event.type == TileDamageType.Object) {
