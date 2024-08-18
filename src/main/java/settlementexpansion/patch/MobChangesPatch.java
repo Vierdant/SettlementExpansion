@@ -23,7 +23,7 @@ public class MobChangesPatch {
 
         @Advice.OnMethodExit()
         static void onExit(@Advice.This HumanShop mob, @Advice.Argument(0) Server server, @Advice.Argument(1) ServerClient client, @Advice.Return(readOnly = false) PacketOpenContainer container) {
-            if (mob.settlerStringID.equals("blacksmith")) {
+            if (mob.settlerStringID != null && mob.settlerStringID.equals("blacksmith")) {
                 container = PacketOpenContainer.Mob(ContainerModRegistry.BLACKSMITH_CONTAINER, mob, BlacksmithContainer.getBlacksmithContainerContent(mob, client));
             } else {
                 container = PacketOpenContainer.Mob(ContainerRegistry.SHOP_CONTAINER, mob, mob.getShopItemsContentPacket(client));
