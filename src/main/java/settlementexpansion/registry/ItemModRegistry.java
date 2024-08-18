@@ -31,7 +31,6 @@ public class ItemModRegistry {
 
         ItemRegistry.registerItem("glass", (new MatItem(100).setItemCategory("materials")), 5, true);
         ItemRegistry.registerItem("blueprintempty", (new MatItem(100).setItemCategory("misc")), 5, true);
-        ItemRegistry.registerItem("claimingscroll", (new MatItem(5).setItemCategory("misc")), 500F, true);
 
         ItemRegistry.registerItem("alamite", (new MatItem(100, Item.Rarity.UNCOMMON, "alamite").setItemCategory("materials", "minerals", "gems")), 150, true);
         ItemRegistry.registerItem("impureamethyst", (new MatItem(100, Item.Rarity.UNCOMMON, "impureamethyst").setItemCategory("materials", "minerals", "gems")), 100, true);
