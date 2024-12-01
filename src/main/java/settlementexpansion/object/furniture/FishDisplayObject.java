@@ -192,14 +192,14 @@ public class FishDisplayObject extends FurnitureObject {
         return list;
     }
 
-    @Override
+    /* @Override
     public String canPlace(Level level, int x, int y, int rotation, boolean byPlayer) {
         if (level.getObjectID(x, y) != 0 && !level.getObject(x, y).isGrass) {
             return "occupied";
         } else {
             return !isValid(level, x, y) ? "nowall" : null;
         }
-    }
+    } */
 
     @Override
     public boolean isValid(Level level, int x, int y) {
