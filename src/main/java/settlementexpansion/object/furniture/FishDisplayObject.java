@@ -21,12 +21,15 @@ import necesse.inventory.container.object.OEInventoryContainer;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.GameObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
+import necesse.level.gameObject.ObjectPlaceOption;
 import necesse.level.gameObject.furniture.FurnitureObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 import settlementexpansion.object.entity.FishDisplayObjectEntity;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -170,39 +173,44 @@ public class FishDisplayObject extends FurnitureObject {
     }
 
     @Override
-    public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
+    public ArrayList<ObjectPlaceOption> getPlaceOptions(Level level, int levelX, int levelY, PlayerMob playerMob, int playerDir, boolean offsetMultiTile) {
+        Point offset = offsetMultiTile ? this.getPlaceOffset(playerDir) : null;
+        int tileX = (levelX + (offset == null ? 0 : offset.x)) / 32;
+        int tileY = (levelY + (offset == null ? 0 : offset.y)) / 32;
         if (playerDir == 1) {
-            return 3;
+            return new ArrayList<>(Collections.singleton(new ObjectPlaceOption(tileX, tileY, this, 3, false)));
         } else {
-            return playerDir == 3 ? 1 : super.getPlaceRotation(level, levelX, levelY, player, playerDir);
+            return playerDir == 3 ?
+                    new ArrayList<>(Collections.singleton(new ObjectPlaceOption(tileX, tileY, this, 1, false)))
+                    : new ArrayList<>(Collections.singleton(new ObjectPlaceOption(tileX, tileY, this, playerDir, false)));
         }
     }
 
     @Override
-    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
         int sprite = this.getSprite(level, tileX, tileY, rotation);
         if (sprite == 0) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -32, 32, 32, 0));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -32, 32, 32, 0));
         } else if (sprite == 1 || sprite == 3) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16, 0));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16, 0));
         }
 
         return list;
     }
 
     @Override
-    public String canPlace(Level level, int x, int y, int rotation, boolean byPlayer) {
+    public String canPlace(Level level, int layerID, int x, int y, int rotation, boolean byPlayer, boolean ignoreOtherLayers) {
         if (level.getObjectID(x, y) != 0 && !level.getObject(x, y).isGrass) {
             return "occupied";
         } else {
-            return !isValid(level, x, y) ? "nowall" : null;
+            return !isValid(level, layerID, x, y) ? "nowall" : null;
         }
     }
 
     @Override
-    public boolean isValid(Level level, int x, int y) {
+    public boolean isValid(Level level, int layerID, int x, int y) {
         boolean hasWall = false;
         if (level.getObject(x - 1, y).isWall && !level.getObject(x - 1, y).isDoor) {
             hasWall = true;
@@ -254,9 +262,9 @@ public class FishDisplayObject extends FurnitureObject {
     }
 
     @Override
-    public void onWireUpdate(Level level, int x, int y, int wireID, boolean active) {
+    public void onWireUpdate(Level level, int layerID, int tileX, int tileY, int wireID, boolean active) {
         if (level.isClient()) {
-            playSwitchSound(x, y);
+            playSwitchSound(tileX, tileY);
         }
     }
 

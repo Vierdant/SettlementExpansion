@@ -27,7 +27,7 @@ public class CustomBrushToolItem extends BrushToolItem {
     }
 
     @Override
-    public boolean canDamageTile(Level level, int tileX, int tileY, PlayerMob player, InventoryItem item) {
+    public boolean canDamageTile(Level level, int layerID, int tileX, int tileY, PlayerMob player, InventoryItem item) {
         GameTile tile = level.getTile(tileX, tileY);
         return tile instanceof MudFossilTile;
     }

@@ -1,11 +1,10 @@
 package settlementexpansion.listener;
 
 import necesse.engine.GameEventListener;
-import necesse.engine.events.players.DamageTileEvent;
+import necesse.engine.events.players.ObjectDamageEvent;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.network.packet.PacketMobChat;
 import necesse.entity.DamagedObjectEntity;
-import necesse.entity.TileDamageType;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.mobs.ai.behaviourTree.leaves.HumanAngerTargetAINode;
 import necesse.entity.mobs.friendly.human.HumanMob;
@@ -13,14 +12,16 @@ import necesse.level.gameObject.*;
 import necesse.level.maps.LevelObject;
 import settlementexpansion.SettlementExpansion;
 
-public class DamageTileSettlementListener extends GameEventListener<DamageTileEvent> {
+import java.util.Arrays;
+
+public class ObjectDamageSettlementListener extends GameEventListener<ObjectDamageEvent> {
 
     @Override
-    public void onEvent(DamageTileEvent event) {
+    public void onEvent(ObjectDamageEvent event) {
         if (event.client != null && event.client.isServer()) {
             if (SettlementExpansion.getSettings().enableHumansGetAngryOnBreakOrSteal) {
                 PlayerMob player = event.client.playerMob;
-                if (!event.isPrevented() && player != null && !event.level.isCave && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive()) && event.type == TileDamageType.Object) {
+                if (!event.isPrevented() && player != null && !event.level.isCave && (event.level.biome.hasVillage() || event.level.settlementLayer.isActive())) {
                     if (event.level.settlementLayer.isActive() && event.level.settlementLayer.doesClientHaveAccess(player.getServerClient())) {
                         return;
                     }
@@ -30,7 +31,7 @@ public class DamageTileSettlementListener extends GameEventListener<DamageTileEv
 
                     if (objectDamage != null && master == null) {
                         if (!(object instanceof TreeObject) && !(object instanceof SingleRockObject) && !(object instanceof SingleRockSmall) && !(object instanceof GrassObject)) {
-                            int damage = objectDamage.objectDamage + event.damage;
+                            int damage = Arrays.stream(objectDamage.objectDamage).sum() + event.damage;
                             if (damage >= object.objectHealth) {
                                 player.getLevel().entityManager.mobs.getInRegionByTileRange(player.getX() / 32, player.getY() / 32, 25).stream().filter((m) ->
                                         m instanceof HumanMob && !m.isSameTeam(player)).forEach((m) -> {

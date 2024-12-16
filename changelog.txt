@@ -1,9 +1,4 @@
-[Version 1.3.22 Major]
-
-Changed:
-- Villagers will now not attack you by default if you break or steal from them. You can change this in the mod settings
-- Removed Combat features. They are now included in a separate mod; Settlement Multiplayer
-- Updated some textures
+[Version 1.3.3 Minor]
 
 Fixed:
-- 0.26.1 crashes
+- 0.28.1 crashes

@@ -2,7 +2,7 @@ package settlementexpansion;
 
 import necesse.engine.GameEvents;
 import necesse.engine.events.ServerClientConnectedEvent;
-import necesse.engine.events.players.DamageTileEvent;
+import necesse.engine.events.players.ObjectDamageEvent;
 import necesse.engine.events.players.ObjectInteractEvent;
 import necesse.engine.events.worldGeneration.GeneratedIslandFloraEvent;
 import necesse.engine.modLoader.annotations.ModEntry;
@@ -70,7 +70,7 @@ public class SettlementExpansion {
 
     private void addListeners() {
         GameEvents.addListener(ServerClientConnectedEvent.class, new UpdaterControlListener());
-        GameEvents.addListener(DamageTileEvent.class, new DamageTileSettlementListener());
+        GameEvents.addListener(ObjectDamageEvent.class, new ObjectDamageSettlementListener());
         GameEvents.addListener(ObjectInteractEvent.class, new ObjectInteractSettlementListener());
         GameEvents.addListener(GeneratedIslandFloraEvent.class, new GeneratedIslandFloraListener());
     }

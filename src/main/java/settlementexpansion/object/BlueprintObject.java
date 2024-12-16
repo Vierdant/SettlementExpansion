@@ -8,6 +8,7 @@ import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.entity.pickup.ItemPickupEntity;
@@ -118,9 +119,9 @@ public class BlueprintObject extends GameObject {
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
-        list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
+        list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         return list;
     }
 
@@ -146,11 +147,11 @@ public class BlueprintObject extends GameObject {
     }
 
     @Override
-    public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
+    public void onDestroyed(Level level, int layerID, int x, int y, Attacker attacker, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
         ObjectLootTableDropsEvent dropsEvent;
         if (itemsDropped != null && client != null) {
-            ArrayList<InventoryItem> drops = this.getDroppedItems(level, x, y);
-            GameEvents.triggerEvent(dropsEvent = new ObjectLootTableDropsEvent(new LevelObject(level, x, y), new Point(x * 32 + 16, y * 32 + 16), drops));
+            ArrayList<InventoryItem> drops = this.getDroppedItems(level, layerID, x, y);
+            GameEvents.triggerEvent(dropsEvent = new ObjectLootTableDropsEvent(level, layerID, x, y, new Point(x * 32 + 16, y * 32 + 16), drops));
             if (dropsEvent.dropPos != null && dropsEvent.drops != null) {
                 for (InventoryItem item : dropsEvent.drops) {
                     ItemPickupEntity droppedItem = item.getPickupEntity(level, (float) dropsEvent.dropPos.x, (float) dropsEvent.dropPos.y);

@@ -86,17 +86,17 @@ public class DryingRackObject extends GameObject implements SettlementWorkstatio
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
         if (rotation == 0) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -12, 32, 12));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -12, 32, 12));
         } else if (rotation == 1) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 22, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 22, 16));
         } else if (rotation == 2) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         } else {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 10, -16, 22, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 10, -16, 22, 16));
         }
 
         return list;

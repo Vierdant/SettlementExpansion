@@ -16,14 +16,13 @@ import necesse.gfx.drawables.LevelSortedDrawable;
 import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.inventory.lootTable.LootTable;
-import necesse.level.gameObject.GameObject;
-import necesse.level.gameObject.ObjectHoverHitbox;
-import necesse.level.gameObject.WallDoorObject;
-import necesse.level.gameObject.WallObject;
+import necesse.level.gameObject.*;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WallSecureDoorObject extends SecureDoorObject {
@@ -95,28 +94,33 @@ public class WallSecureDoorObject extends SecureDoorObject {
     }
 
     @Override
-    public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
+    public ArrayList<ObjectPlaceOption> getPlaceOptions(Level level, int levelX, int levelY, PlayerMob playerMob, int playerDir, boolean offsetMultiTile) {
+        Point offset = offsetMultiTile ? this.getPlaceOffset(playerDir) : null;
+        int tileX = (levelX + (offset == null ? 0 : offset.x)) / 32;
+        int tileY = (levelY + (offset == null ? 0 : offset.y)) / 32;
+
         boolean forcedHorizontal = this.isWall(level, levelX, levelY - 1) || this.isWall(level, levelX, levelY + 1);
         boolean forcedVertical = !forcedHorizontal && (this.isWall(level, levelX - 1, levelY) || this.isWall(level, levelX + 1, levelY));
+        int value = playerDir;
         if (forcedHorizontal) {
             if (playerDir == 0) {
-                return 1;
+                value = 1;
             }
 
             if (playerDir == 2) {
-                return 3;
+                value = 3;
             }
         } else if (forcedVertical) {
             if (playerDir == 1) {
-                return 0;
+                value = 0;
             }
 
             if (playerDir == 3) {
-                return 2;
+                value = 2;
             }
         }
 
-        return super.getPlaceRotation(level, levelX, levelY, player, playerDir);
+        return new ArrayList<>(Collections.singleton(new ObjectPlaceOption(tileX, tileY, this, value, false)));
     }
 
     @Override
@@ -208,19 +212,19 @@ public class WallSecureDoorObject extends SecureDoorObject {
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         int rotation = level.getObjectRotation(tileX, tileY);
         if (rotation == 0) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         } else if (rotation == 1) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -24, 32, 24));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -24, 32, 24));
         } else {
             if (rotation == 2) {
                 return list;
             }
 
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -24, 32, 24));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -24, 32, 24));
         }
 
         return list;
@@ -264,8 +268,9 @@ public class WallSecureDoorObject extends SecureDoorObject {
             super(texturePath, wallObject, counterID, true);
         }
 
-        public LootTable getLootTable(Level level, int tileX, int tileY) {
-            return ObjectRegistry.getObject(this.counterID).getLootTable(level, tileX, tileY);
+        @Override
+        public LootTable getLootTable(Level level, int layerID, int tileX, int tileY) {
+            return ObjectRegistry.getObject(this.counterID).getLootTable(level, layerID, tileX, tileY);
         }
 
         public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, Level level, int tileX, int tileY, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
@@ -353,11 +358,12 @@ public class WallSecureDoorObject extends SecureDoorObject {
             }
         }
 
-        public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-            List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+        @Override
+        public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+            List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
             int rotation = level.getObjectRotation(tileX, tileY);
             if (rotation == 2) {
-                list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+                list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
             }
 
             return list;

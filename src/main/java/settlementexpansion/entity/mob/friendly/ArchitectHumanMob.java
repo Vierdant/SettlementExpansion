@@ -72,7 +72,7 @@ public class ArchitectHumanMob extends HumanShop {
     }
 
     public QuestMarkerOptions getMarkerOptions(PlayerMob perspective) {
-        return this.isTravelingHuman() ? new QuestMarkerOptions('?', QuestMarkerOptions.orangeColor) : super.getMarkerOptions(perspective);
+        return this.isVisitor() ? new QuestMarkerOptions('?', QuestMarkerOptions.orangeColor) : super.getMarkerOptions(perspective);
     }
 
     protected ArrayList<GameMessage> getMessages(ServerClient client) {
@@ -91,7 +91,7 @@ public class ArchitectHumanMob extends HumanShop {
     }
 
     public LevelIdentifier getRecruitedToLevel(ServerClient client) {
-        return this.isTravelingHuman() && SettlementLevelData.getSettlementData(this.getLevel()) != null ? this.getLevel().getIdentifier() : null;
+        return this.isVisitor() && SettlementLevelData.getSettlementData(this.getLevel()) != null ? this.getLevel().getIdentifier() : null;
     }
 
     public List<InventoryItem> getRecruitItems(ServerClient client) {
@@ -99,7 +99,7 @@ public class ArchitectHumanMob extends HumanShop {
             return null;
         } else {
             GameRandom random = new GameRandom((this.getSettlerSeed() * 29L));
-            if (this.isTravelingHuman()) {
+            if (this.isVisitor()) {
                 return Collections.singletonList(new InventoryItem("coin", random.getIntBetween(300, 500)));
             } else {
                 LootTable secondItems = new LootTable(new CountOfTicketLootItems(random.getIntBetween(1, 2), 100, new LootItem("blueprintempty", Integer.MAX_VALUE), 100, new LootItem("goldbar", Integer.MAX_VALUE), 100, new LootItem("apple", Integer.MAX_VALUE)));
@@ -112,7 +112,7 @@ public class ArchitectHumanMob extends HumanShop {
     }
 
     public ArrayList<ShopItem> getShopItems(VillageShopsData data, ServerClient client) {
-        if (this.isTravelingHuman()) {
+        if (this.isVisitor()) {
             return null;
         } else {
             ArrayList<ShopItem> out = new ArrayList<>();

@@ -79,9 +79,9 @@ public class TallMirrorObject extends FurnitureObject {
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
-        list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
+        list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         return list;
     }
 }

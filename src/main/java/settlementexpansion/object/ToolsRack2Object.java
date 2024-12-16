@@ -55,11 +55,11 @@ public class ToolsRack2Object extends GameObject {
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
         if (rotation == 1 || rotation == 3) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         }
 
         return list;

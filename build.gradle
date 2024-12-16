@@ -7,8 +7,8 @@ plugins {
 
 project.ext.modID = "settlementexpansion" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Settlement Expansion" // The display name of your mod.
-project.ext.modVersion = "1.3.22" // Your current builds version. Must follow the xx.xx... format.
-project.ext.gameVersion = "0.26.1" // The target game version.
+project.ext.modVersion = "1.3.3" // Your current builds version. Must follow the xx.xx... format.
+project.ext.gameVersion = "0.28.1" // The target game version.
 project.ext.modDescription = "Mod Discord: https://discord.com/invite/FWAhHZxcpM\n\nAims to expand on the functionality of settlements, especially settlers related things." // Short description of what your mod is.
 project.ext.author = "Vierdant" // Your name
 

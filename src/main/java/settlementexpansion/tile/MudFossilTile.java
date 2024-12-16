@@ -5,6 +5,7 @@ import necesse.engine.events.loot.TileLootTableDropsEvent;
 import necesse.engine.modifiers.ModifierValue;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.pickup.ItemPickupEntity;
@@ -61,7 +62,7 @@ public class MudFossilTile extends TerrainSplatterTile {
     }
 
     @Override
-    public void onDestroyed(Level level, int x, int y, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
+    public void onDestroyed(Level level, int x, int y, Attacker attacker, ServerClient client, ArrayList<ItemPickupEntity> itemsDropped) {
         boolean isBrush = false;
 
         if (client != null) {

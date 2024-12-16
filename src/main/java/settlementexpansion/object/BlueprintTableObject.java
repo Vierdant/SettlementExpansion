@@ -12,6 +12,7 @@ import necesse.inventory.item.toolItem.ToolType;
 import necesse.inventory.recipe.Tech;
 import necesse.level.gameObject.CraftingStationObject;
 import necesse.level.gameObject.ObjectHoverHitbox;
+import necesse.level.gameObject.ObjectPlaceOption;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 import necesse.level.maps.multiTile.MultiTile;
@@ -19,6 +20,8 @@ import necesse.level.maps.multiTile.SideMultiTile;
 import settlementexpansion.registry.RecipeTechModRegistry;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BlueprintTableObject extends CraftingStationObject {
@@ -39,8 +42,11 @@ public class BlueprintTableObject extends CraftingStationObject {
     }
 
     @Override
-    public int getPlaceRotation(Level level, int levelX, int levelY, PlayerMob player, int playerDir) {
-        return Math.floorMod(super.getPlaceRotation(level, levelX, levelY, player, playerDir) - 1, 4);
+    public ArrayList<ObjectPlaceOption> getPlaceOptions(Level level, int levelX, int levelY, PlayerMob playerMob, int playerDir, boolean offsetMultiTile) {
+        Point offset = offsetMultiTile ? this.getPlaceOffset(playerDir) : null;
+        int tileX = (levelX + (offset == null ? 0 : offset.x)) / 32;
+        int tileY = (levelY + (offset == null ? 0 : offset.y)) / 32;
+        return new ArrayList<>(Collections.singleton(new ObjectPlaceOption(tileX, tileY, this, Math.floorMod(playerDir -1, 4), false)));
     }
 
     @Override
@@ -61,11 +67,11 @@ public class BlueprintTableObject extends CraftingStationObject {
     }
 
     @Override
-    public java.util.List<ObjectHoverHitbox> getHoverHitboxes(Level level, int tileX, int tileY) {
-        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, tileX, tileY);
+    public List<ObjectHoverHitbox> getHoverHitboxes(Level level, int layerID, int tileX, int tileY) {
+        java.util.List<ObjectHoverHitbox> list = super.getHoverHitboxes(level, layerID, tileX, tileY);
         byte rotation = level.getObjectRotation(tileX, tileY);
         if (rotation == 1 || rotation == 3) {
-            list.add(new ObjectHoverHitbox(tileX, tileY, 0, -16, 32, 16));
+            list.add(new ObjectHoverHitbox(layerID, tileX, tileY, 0, -16, 32, 16));
         }
 
         return list;

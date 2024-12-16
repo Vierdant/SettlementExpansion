@@ -3,6 +3,7 @@ package settlementexpansion.map.preset;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.registries.TileRegistry;
 import necesse.engine.save.LoadData;
+import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameMath;
 import necesse.inventory.recipe.Ingredient;
 import necesse.level.gameObject.GameObject;
@@ -14,7 +15,9 @@ import settlementexpansion.inventory.recipe.BlueprintRecipe;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 public class BlueprintPreset extends Preset {
     private BlueprintRecipe recipe;
@@ -74,13 +77,15 @@ public class BlueprintPreset extends Preset {
 
     public void setFurnitureType(String type) {
         this.furnitureType = type;
-        for (int i = 0; i < this.objects.length; i++) {
-            if (this.objects[i] == -1) continue;
-            GameObject object = ObjectRegistry.getObject(this.objects[i]);
-            if (BlueprintHelper.isObjectWoodFurniture(object.getStringID())) {
-                String modelType = BlueprintHelper.getTrueFurnitureType(object.getStringID());
-                if (ObjectRegistry.validStringID(type + modelType)) {
-                    this.objects[i] = ObjectRegistry.getObjectID(type + modelType);
+        for(int layer = 0; layer < this.objects.length; ++layer) {
+            for (int i = 0; i < this.objects[layer].length; i++) {
+                if (this.objects[layer][i] == -1) continue;
+                GameObject object = ObjectRegistry.getObject(this.objects[layer][i]);
+                if (BlueprintHelper.isObjectWoodFurniture(object.getStringID())) {
+                    String modelType = BlueprintHelper.getTrueFurnitureType(object.getStringID());
+                    if (ObjectRegistry.validStringID(type + modelType)) {
+                        this.objects[layer][i] = ObjectRegistry.getObjectID(type + modelType);
+                    }
                 }
             }
         }
@@ -90,9 +95,11 @@ public class BlueprintPreset extends Preset {
         int currentId = this.currentWallId;
         int newId = ObjectRegistry.getObjectID(type);
         this.currentWallId = newId;
-        for (int i = 0; i < this.objects.length; i++) {
-            if (this.objects[i] == currentId) {
-                this.objects[i] = newId;
+        for(int layer = 0; layer < this.objects.length; ++layer) {
+            for (int i = 0; i < this.objects[layer].length; i++) {
+                if (this.objects[layer][i] == currentId) {
+                    this.objects[layer][i] = newId;
+                }
             }
         }
     }
@@ -115,10 +122,13 @@ public class BlueprintPreset extends Preset {
             recipe.addIngredient(new Ingredient(TileRegistry.getTile(id).getStringID(),
                     Arrays.stream(this.tiles).filter((i) -> i == id).boxed().toArray().length));
         }
-        for (int id : Arrays.stream(this.objects).distinct().filter((i) -> i != 0).filter((id)
-                -> ObjectRegistry.getObject(id).isMultiTileMaster()).toArray()) {
-            recipe.addIngredient(new Ingredient(ObjectRegistry.getObject(id).getStringID(),
-                    Arrays.stream(this.objects).filter((i) -> i == id).boxed().toArray().length));
+
+        for (int[] object : this.objects) {
+            for (int id : Arrays.stream(object).distinct().filter((i) -> i != 0).filter((id)
+                    -> ObjectRegistry.getObject(id).isMultiTileMaster()).toArray()) {
+                recipe.addIngredient(new Ingredient(ObjectRegistry.getObject(id).getStringID(),
+                        Arrays.stream(object).filter((i) -> i == id).boxed().toArray().length));
+            }
         }
     }
 
@@ -191,13 +201,17 @@ public class BlueprintPreset extends Preset {
     }
 
     @Override
-    public LinkedList<UndoLogic> applyToLevel(Level level, int levelX, int levelY) {
+    public LinkedList<UndoLogic> applyToLevel(Level level, int levelX, int levelY, GameBlackboard blackboard) {
+        for (Consumer<GameBlackboard> blackboardSetup : this.blackboardSetups) {
+            blackboardSetup.accept(blackboard);
+        }
+
         LinkedList<UndoLogic> undoLogics = new LinkedList<>();
 
         UndoLogic undoLogic;
 
         for (CustomApply custom : this.customPreApplies) {
-            undoLogic = custom.applyToLevel(level, levelX, levelY);
+            undoLogic = custom.applyToLevel(level, levelX, levelY, blackboard);
             if (undoLogic != null) {
                 undoLogics.add(undoLogic);
             }
@@ -214,37 +228,37 @@ public class BlueprintPreset extends Preset {
                             level.setTile(tileX, tileY, tile);
                             level.sendTileUpdatePacket(tileX, tileY);
                             for (TileApplyListener listener : this.tileApplyListeners) {
-                                listener.onTileApply(level, tileX, tileY, tile);
+                                listener.onTileApply(level, tileX, tileY, tile, blackboard);
                             }
                         }
 
                         byte wireData = getByte(this.wires, this.width, i, j);
 
-                        int object;
-                        for(object = 0; object < 4; ++object) {
-                            if (GameMath.getBit(wireData, object * 2)) {
-                                boolean isThere = GameMath.getBit(wireData, object * 2 + 1);
-                                level.wireManager.setWire(tileX, tileY, object, isThere);
-                                level.sendWireUpdatePacket(tileX, tileY);
+                        int layer;
+                        for(layer = 0; layer < 4; ++layer) {
+                            if (GameMath.getBit(wireData, layer * 2)) {
+                                boolean isThere = GameMath.getBit(wireData, layer * 2 + 1);
+                                level.wireManager.setWire(tileX, tileY, layer, isThere);
 
                                 for (WireApplyListener listener : this.wireApplyListeners) {
-                                    listener.onWireApply(level, tileX, tileY, tile, isThere);
+                                    listener.onWireApply(level, tileX, tileY, layer, isThere, blackboard);
                                 }
                             }
                         }
 
                         level.logicLayer.clearLogicGate(tileX, tileY);
-                        object = getInt(this.objects, this.width, i, j);
-                        if (object != -1) {
-                            byte objectRotation = getByte(this.objectRotations, this.width, i, j);
-                            level.setObject(tileX, tileY, object, objectRotation);
-                            level.sendObjectUpdatePacket(tileX, tileY);
 
-                            for (ObjectApplyListener listener : this.objectApplyListeners) {
-                                listener.onObjectApply(level, tileX, tileY, object, objectRotation);
+                        for(layer = 0; layer < this.objects.length; ++layer) {
+                            int object = getInt(this.objects[layer], this.width, i, j);
+                            if (object != -1) {
+                                byte objectRotation = getByte(this.objectRotations[layer], this.width, i, j);
+                                level.objectLayer.setObject(layer, tileX, tileY, object);
+                                level.objectLayer.setObjectRotation(layer, tileX, tileY, objectRotation);
+
+                                for (ObjectApplyListener listener : this.objectApplyListeners) {
+                                    listener.onObjectApply(level, layer, tileX, tileY, object, objectRotation, blackboard);
+                                }
                             }
-
-
                         }
                     }
                 }
@@ -255,13 +269,13 @@ public class BlueprintPreset extends Preset {
             int tileX = levelX + tilex.x;
             int tileY = levelY + tilex.y;
             if (tileX >= 0 && tileX < level.width && tileY >= 0 && tileY < level.height) {
-                presetLogicGate.applyToLevel(level, tileX, tileY);
+                presetLogicGate.applyToLevel(level, tileX, tileY, blackboard);
             }
 
         });
 
         for (CustomApply custom : this.customApplies) {
-            undoLogic = custom.applyToLevel(level, levelX, levelY);
+            undoLogic = custom.applyToLevel(level, levelX, levelY, blackboard);
             if (undoLogic != null) {
                 undoLogics.add(undoLogic);
             }
@@ -324,25 +338,28 @@ public class BlueprintPreset extends Preset {
             for(int y = 0; y < from.height; ++y) {
                 Point rp = PresetUtils.getRotatedPointInSpace(x, y, from.width, from.height, rotation);
                 setInt(this.tiles, this.width, rp.x, rp.y, getInt(from.tiles, from.width, x, y));
-                int objectID = getInt(from.objects, from.width, x, y);
-                if (objectID != -1) {
-                    GameObject obj = ObjectRegistry.getObject(objectID);
-                    if (obj != null) {
-                        byte objectRotation = getByte(from.objectRotations, from.width, x, y);
-                        MultiTile multiTile = obj.getMultiTile(objectRotation);
-                        Point posOffset = multiTile.getPresetRotationOffset(rotation);
-                        if (posOffset == null) {
-                            throw new PresetRotateException(obj.getDisplayName() + " could not be rotated");
-                        }
 
-                        setInt(this.objects, this.width, rp.x + posOffset.x, rp.y + posOffset.y, objectID);
-                        setByte(this.objectRotations, this.width, rp.x, rp.y, (byte)multiTile.getPresetRotation(rotation));
-                        setBoolean(computed, this.width, rp.x, rp.y, true);
-                    } else {
-                        setInt(this.objects, this.width, rp.x, rp.y, objectID);
+                for(int layer = 0; layer < from.objects.length; ++layer) {
+                    int objectID = getInt(from.objects[layer], from.width, x, y);
+                    if (objectID != -1) {
+                        GameObject obj = ObjectRegistry.getObject(objectID);
+                        if (obj != null) {
+                            byte objectRotation = getByte(from.objectRotations[layer], from.width, x, y);
+                            MultiTile multiTile = obj.getMultiTile(objectRotation);
+                            Point posOffset = multiTile.getPresetRotationOffset(rotation);
+                            if (posOffset == null) {
+                                throw new PresetRotateException(obj.getDisplayName() + " could not be rotated");
+                            }
+
+                            setInt(this.objects[layer], this.width, rp.x + posOffset.x, rp.y + posOffset.y, objectID);
+                            setByte(this.objectRotations[layer], this.width, rp.x, rp.y, (byte)multiTile.getPresetRotation(rotation));
+                            setBoolean(computed, this.width, rp.x, rp.y, true);
+                        } else {
+                            setInt(this.objects[layer], this.width, rp.x, rp.y, objectID);
+                        }
+                    } else if (!getBoolean(computed, this.width, rp.x, rp.y)) {
+                        setInt(this.objects[layer], this.width, rp.x, rp.y, -1);
                     }
-                } else if (!getBoolean(computed, this.width, rp.x, rp.y)) {
-                    setInt(this.objects, this.width, rp.x, rp.y, -1);
                 }
 
                 setByte(this.wires, this.width, rp.x, rp.y, getByte(from.wires, from.width, x, y));
@@ -350,18 +367,30 @@ public class BlueprintPreset extends Preset {
         }
 
         from.logicGates.forEach((p, lg) -> {
-            this.logicGates.put(PresetUtils.getRotatedPointInSpace(p.x, p.y, from.width, from.height, rotation), lg);
+            this.logicGates.put(PresetUtils.getRotatedPointInSpace(p.x, p.y, from.width, from.height, rotation), new PresetLogicGate(lg.logicGateID, lg.data, false, false, PresetRotation.addRotations(lg.rotation, rotation)));
         });
+        from.objectEntities.forEach((p, lg) -> {
+            this.objectEntities.put(PresetUtils.getRotatedPointInSpace(p.x, p.y, from.width, from.height, rotation), new PresetObjectEntity(lg.data, false, false, PresetRotation.addRotations(lg.rotation, rotation)));
+        });
+        Iterator var13 = from.applyPredicates.iterator();
 
-        for (ApplyPredicate predicate : from.applyPredicates) {
-            this.applyPredicates.add(predicate.rotate(rotation, from.width, from.height));
+        while(var13.hasNext()) {
+            ApplyPredicate applyPredicate = (ApplyPredicate)var13.next();
+            this.applyPredicates.add(applyPredicate.rotate(rotation, from.width, from.height));
         }
 
-        for (CustomApply customApply : from.customPreApplies) {
+        var13 = from.customPreApplies.iterator();
+
+        CustomApply customApply;
+        while(var13.hasNext()) {
+            customApply = (CustomApply)var13.next();
             this.customPreApplies.add(customApply.rotate(rotation, from.width, from.height));
         }
 
-        for (CustomApply customApply : from.customApplies) {
+        var13 = from.customApplies.iterator();
+
+        while(var13.hasNext()) {
+            customApply = (CustomApply)var13.next();
             this.customApplies.add(customApply.rotate(rotation, from.width, from.height));
         }
 
@@ -385,25 +414,28 @@ public class BlueprintPreset extends Preset {
 
             for(int y = 0; y < this.height; ++y) {
                 setInt(this.tiles, this.width, mirrorX, y, getInt(from.tiles, this.width, x, y));
-                int objectID = getInt(from.objects, this.width, x, y);
-                if (objectID != -1) {
-                    GameObject obj = ObjectRegistry.getObject(objectID);
-                    if (obj != null) {
-                        byte objectRotation = getByte(from.objectRotations, this.width, x, y);
-                        MultiTile multiTile = obj.getMultiTile(objectRotation);
-                        Point posOffset = multiTile.getMirrorXPosOffset();
-                        if (posOffset == null) {
-                            throw new PresetMirrorException(obj.getDisplayName() + " could not be mirrored");
-                        }
 
-                        setInt(this.objects, this.width, mirrorX + posOffset.x, y + posOffset.y, objectID);
-                        setByte(this.objectRotations, this.width, mirrorX, y, (byte)multiTile.getXMirrorRotation());
-                        setBoolean(computed, this.width, mirrorX, y, true);
-                    } else {
-                        setInt(this.objects, this.width, mirrorX, y, objectID);
+                for(int layer = 0; layer < from.objects.length; ++layer) {
+                    int objectID = getInt(from.objects[layer], this.width, x, y);
+                    if (objectID != -1) {
+                        GameObject obj = ObjectRegistry.getObject(objectID);
+                        if (obj != null) {
+                            byte objectRotation = getByte(from.objectRotations[layer], this.width, x, y);
+                            MultiTile multiTile = obj.getMultiTile(objectRotation);
+                            Point posOffset = multiTile.getMirrorXPosOffset();
+                            if (posOffset == null) {
+                                throw new PresetMirrorException(obj.getDisplayName() + " could not be mirrored");
+                            }
+
+                            setInt(this.objects[layer], this.width, mirrorX + posOffset.x, y + posOffset.y, objectID);
+                            setByte(this.objectRotations[layer], this.width, mirrorX, y, (byte)multiTile.getXMirrorRotation());
+                            setBoolean(computed, this.width, mirrorX, y, true);
+                        } else {
+                            setInt(this.objects[layer], this.width, mirrorX, y, objectID);
+                        }
+                    } else if (!getBoolean(computed, this.width, mirrorX, y)) {
+                        setInt(this.objects[layer], this.width, mirrorX, y, objectID);
                     }
-                } else if (!getBoolean(computed, this.width, mirrorX, y)) {
-                    setInt(this.objects, this.width, mirrorX, y, objectID);
                 }
 
                 setByte(this.wires, this.width, mirrorX, y, getByte(from.wires, this.width, x, y));
@@ -411,18 +443,30 @@ public class BlueprintPreset extends Preset {
         }
 
         from.logicGates.forEach((p, lg) -> {
-            this.logicGates.put(new Point(this.getMirroredX(p.x), p.y), lg);
+            this.logicGates.put(new Point(this.getMirroredX(p.x), p.y), new PresetLogicGate(lg.logicGateID, lg.data, !lg.mirrorX, lg.mirrorY, lg.rotation));
         });
+        from.objectEntities.forEach((p, lg) -> {
+            this.objectEntities.put(new Point(this.getMirroredX(p.x), p.y), new PresetObjectEntity(lg.data, !lg.mirrorX, lg.mirrorY, lg.rotation));
+        });
+        Iterator var12 = from.applyPredicates.iterator();
 
-        for (ApplyPredicate predicate : from.applyPredicates) {
-            this.applyPredicates.add(predicate.mirrorX(this.width));
+        while(var12.hasNext()) {
+            ApplyPredicate applyPredicate = (ApplyPredicate)var12.next();
+            this.applyPredicates.add(applyPredicate.mirrorX(this.width));
         }
 
-        for (CustomApply customApply : from.customPreApplies) {
+        var12 = from.customPreApplies.iterator();
+
+        CustomApply customApply;
+        while(var12.hasNext()) {
+            customApply = (CustomApply)var12.next();
             this.customPreApplies.add(customApply.mirrorX(this.width));
         }
 
-        for (CustomApply customApply : from.customApplies) {
+        var12 = from.customApplies.iterator();
+
+        while(var12.hasNext()) {
+            customApply = (CustomApply)var12.next();
             this.customApplies.add(customApply.mirrorX(this.width));
         }
 
@@ -446,25 +490,28 @@ public class BlueprintPreset extends Preset {
 
             for(int x = 0; x < this.width; ++x) {
                 setInt(this.tiles, this.width, x, mirrorY, getInt(from.tiles, this.width, x, y));
-                int objectID = getInt(from.objects, this.width, x, y);
-                if (objectID != -1) {
-                    GameObject obj = ObjectRegistry.getObject(objectID);
-                    if (obj != null) {
-                        byte objectRotation = getByte(from.objectRotations, this.width, x, y);
-                        MultiTile multiTile = obj.getMultiTile(objectRotation);
-                        Point posOffset = multiTile.getMirrorYPosOffset();
-                        if (posOffset == null) {
-                            throw new PresetMirrorException(obj.getDisplayName() + " could not be mirrored");
-                        }
 
-                        setInt(this.objects, this.width, x + posOffset.x, mirrorY + posOffset.y, objectID);
-                        setByte(this.objectRotations, this.width, x, mirrorY, (byte)multiTile.getYMirrorRotation());
-                        setBoolean(computed, this.width, x, mirrorY, true);
-                    } else {
-                        setInt(this.objects, this.width, x, mirrorY, objectID);
+                for(int layer = 0; layer < from.objects.length; ++layer) {
+                    int objectID = getInt(from.objects[layer], this.width, x, y);
+                    if (objectID != -1) {
+                        GameObject obj = ObjectRegistry.getObject(objectID);
+                        if (obj != null) {
+                            byte objectRotation = getByte(from.objectRotations[layer], this.width, x, y);
+                            MultiTile multiTile = obj.getMultiTile(objectRotation);
+                            Point posOffset = multiTile.getMirrorYPosOffset();
+                            if (posOffset == null) {
+                                throw new PresetMirrorException(obj.getDisplayName() + " could not be mirrored");
+                            }
+
+                            setInt(this.objects[layer], this.width, x + posOffset.x, mirrorY + posOffset.y, objectID);
+                            setByte(this.objectRotations[layer], this.width, x, mirrorY, (byte)multiTile.getYMirrorRotation());
+                            setBoolean(computed, this.width, x, mirrorY, true);
+                        } else {
+                            setInt(this.objects[layer], this.width, x, mirrorY, objectID);
+                        }
+                    } else if (!getBoolean(computed, this.width, x, mirrorY)) {
+                        setInt(this.objects[layer], this.width, x, mirrorY, -1);
                     }
-                } else if (!getBoolean(computed, this.width, x, mirrorY)) {
-                    setInt(this.objects, this.width, x, mirrorY, -1);
                 }
 
                 setByte(this.wires, this.width, x, mirrorY, getByte(from.wires, this.width, x, y));
@@ -472,18 +519,30 @@ public class BlueprintPreset extends Preset {
         }
 
         from.logicGates.forEach((p, lg) -> {
-            this.logicGates.put(new Point(p.x, this.getMirroredY(p.y)), lg);
+            this.logicGates.put(new Point(p.x, this.getMirroredY(p.y)), new PresetLogicGate(lg.logicGateID, lg.data, lg.mirrorX, !lg.mirrorY, lg.rotation));
         });
+        from.objectEntities.forEach((p, lg) -> {
+            this.objectEntities.put(new Point(p.x, this.getMirroredY(p.y)), new PresetObjectEntity(lg.data, lg.mirrorX, !lg.mirrorY, lg.rotation));
+        });
+        Iterator var12 = from.applyPredicates.iterator();
 
-        for (ApplyPredicate predicate : from.applyPredicates) {
-            this.applyPredicates.add(predicate.mirrorY(this.height));
+        while(var12.hasNext()) {
+            ApplyPredicate applyPredicate = (ApplyPredicate)var12.next();
+            this.applyPredicates.add(applyPredicate.mirrorY(this.height));
         }
 
-        for (CustomApply customApply : from.customPreApplies) {
+        var12 = from.customPreApplies.iterator();
+
+        CustomApply customApply;
+        while(var12.hasNext()) {
+            customApply = (CustomApply)var12.next();
             this.customPreApplies.add(customApply.mirrorY(this.height));
         }
 
-        for (CustomApply customApply : from.customApplies) {
+        var12 = from.customApplies.iterator();
+
+        while(var12.hasNext()) {
+            customApply = (CustomApply)var12.next();
             this.customApplies.add(customApply.mirrorY(this.height));
         }
 

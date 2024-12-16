@@ -3,7 +3,7 @@ package settlementexpansion.inventory.container;
 import necesse.engine.network.NetworkClient;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.server.ServerClient;
-import necesse.entity.TileDamageType;
+import necesse.engine.registries.ObjectLayerRegistry;
 import necesse.inventory.container.customAction.EmptyCustomAction;
 import necesse.inventory.container.customAction.StringCustomAction;
 import necesse.inventory.container.settlement.SettlementContainerObjectStatusManager;
@@ -58,7 +58,7 @@ public class BlueprintContainer extends SettlementDependantContainer {
                 Point placeTile = objectEntity.getPlaceTile(rotation);
                 objectEntity.getPreset().applyToLevel(getLevel(), placeTile.x, placeTile.y);
                 objectEntity.getPreset().getRecipe().consumeBuildMaterials(getClientInventory());
-                getLevel().entityManager.doDamage(x, y, 100, TileDamageType.Object, -1, null);
+                getLevel().entityManager.doObjectDamage(objectEntity.getLevelObject().layerID, x, y, 100, -1, null, null);
                 close();
             }
         });

@@ -2,7 +2,8 @@ package settlementexpansion.object;
 
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.gameLoop.tickManager.TickManager;
-import necesse.entity.TileDamageType;
+import necesse.engine.registries.ObjectLayerRegistry;
+import necesse.entity.mobs.Attacker;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptionsList;
@@ -136,12 +137,12 @@ public class ReinforcedOuterWallObject extends GameObject {
     }
 
     @Override
-    public boolean onDamaged(Level level, int x, int y, int damage, ServerClient client, boolean showEffect, int mouseX, int mouseY) {
+    public boolean onDamaged(Level level, int layerID, int x, int y, int damage, Attacker attacker, ServerClient client, boolean showEffect, int mouseX, int mouseY) {
         if (client != null) {
             int rotation = level.getLevelObject(x, y).rotation;
             boolean canDamage = canApplyDamage(rotation, new Point(x, y), client);
             if (!canDamage) {
-                level.entityManager.doDamageOverride(x, y, damage / 4, TileDamageType.Object);
+                level.entityManager.doObjectDamageOverride(layerID, x, y, damage / 4);
                 return false;
             }
         }
