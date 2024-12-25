@@ -23,7 +23,7 @@ public class HumanMobData {
     }
 
     public void setPreferredFurnitureSet() {
-        this.preferredFurnitureWoodType = FurnitureWoodType.weightedSelection(humanMob.settlerStringID);
+        this.preferredFurnitureWoodType = FurnitureWoodType.weightedSelection(humanMob.settlerStringID == null ? humanMob.getStringID() : humanMob.settlerStringID);
     }
 
 

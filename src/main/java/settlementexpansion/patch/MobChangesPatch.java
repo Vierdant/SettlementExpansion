@@ -6,6 +6,7 @@ import necesse.engine.network.packet.PacketOpenContainer;
 import necesse.engine.network.server.Server;
 import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.ContainerRegistry;
+import necesse.entity.mobs.friendly.human.humanShop.FriendlyWitchHumanMob;
 import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
 import necesse.entity.mobs.friendly.human.humanShop.MageHumanMob;
 import net.bytebuddy.asm.Advice;

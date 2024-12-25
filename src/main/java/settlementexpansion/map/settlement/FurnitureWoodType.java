@@ -52,6 +52,7 @@ public enum FurnitureWoodType {
         ANIMALKEEPER(new double[]{0.75, 0.25, 0.25, 0.25, 0.0, 0.0}),
         MINER(new double[]{0.25, 0.25, 0.25, 0.25, 0.0, 0.0}),
         GUNSMITH(new double[]{0.25, 0.75, 0.0, 0.0, 0.0, 0.0}),
+        WITCH(new double[]{0.25, 0.0, 0.0, 0.0, 0.0, 0.75}),
         STYLIST(new double[]{0.0, 0.0, 0.10, 1.0, 0.0, 0.0}),
         ARCHITECT(new double[]{0.25, 0.25, 0.25, 0.25, 0.0, 0.10}),
         GENERIC(new double[]{0.25, 0.25, 0.25, 0.25, 0.0, 0.0});
@@ -82,6 +83,7 @@ public enum FurnitureWoodType {
                 case "miner": return MINER;
                 case "stylist": return STYLIST;
                 case "gunsmith": return GUNSMITH;
+                case "friendlywitchhuman": return WITCH;
                 case "architect": return ARCHITECT;
                 default: return GENERIC;
             }
